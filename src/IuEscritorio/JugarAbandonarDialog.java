@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
 package IuEscritorio;
 
 import Controlador.ControladorJugarYAbandonar;
@@ -1936,7 +1932,8 @@ public class JugarAbandonarDialog extends javax.swing.JDialog implements VistaJu
     private javax.swing.JTextArea txtNombreCompleto;
     // End of variables declaration//GEN-END:variables
 
-    @Override
+
+      @Override
     public void mostrarSaldoJugador() {
         double saldo = controlador.getSaldoJugador(); 
         

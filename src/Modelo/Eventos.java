@@ -20,10 +20,11 @@ public enum Eventos {
 
     NUEVA_APUESTA,
     NUEVA_RONDA,
+    SORTEO_REALIZADO, 
     
     JUGADOR_SE_UNIO_A_MESA,
     JUGADOR_DEJO_MESA,
-    SORTEO_REALIZADO, 
+    
     
 
 }

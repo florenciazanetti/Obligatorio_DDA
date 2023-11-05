@@ -57,5 +57,3 @@ public class ControladorJugarYAbandonar implements Observador {
         return 0;
     }
 }
-
-
