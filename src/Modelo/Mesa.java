@@ -23,17 +23,19 @@ public class Mesa extends Observable{
     private EstadoMesa estado;
     private final ArrayList<Integer> ultimosNumerosGanadores;
     private ArrayList<Ronda> rondas;
-    private ArrayList<Apuesta> apuestas;
-    private ArrayList<TipoApuesta> tiposApuesta;
+    private ArrayList<Apuesta> apuestasActivas;
+    private Map<UniversalCellCode, Integer> apuestasTotalesPorCelda; 
+    private Map<Integer, TipoApuesta> tiposApuesta;//ara asociar cada TipoApuesta con un el universalCellCode
     private ArrayList<Jugador> jugadores;
     private Map<Integer, UniversalCellCode> casilleroAUccMap;
     private int MAX_JUGADORES;
 
     public Mesa() {
-        this.tiposApuesta = new ArrayList<>();
+        this.tiposApuesta = new HashMap<>();
         this.jugadores = new ArrayList<>();
         this.iniciada = false;
         this.balance = 0;
+        this.apuestasTotalesPorCelda = new HashMap<>();
         this.ultimosNumerosGanadores = new ArrayList<>();
         this.casilleroAUccMap = new HashMap<>();
     }
@@ -169,8 +171,15 @@ public class Mesa extends Observable{
         return rondas.size() + 1;
     }
       
-    public void agregarApuesta(Apuesta apuesta) {
-        apuestas.add(apuesta);
+       public void aceptarApuesta(Apuesta apuesta) {
+        if (apuesta.getTipoApuesta().esApuestaValida(apuesta.getCodigo())) {
+            apuestasActivas.add(apuesta);
+
+            // Actualiza el monto total apostado en la celda correspondiente
+            apuestasTotalesPorCelda.merge(apuesta.getCodigo(), apuesta.getMonto(), Integer::sum);
+        } else {
+            throw new IllegalArgumentException("Apuesta no válida para el tipo seleccionado.");
+        }
     }
     
     public void iniciarMesa(ArrayList<TipoApuesta> tiposApuestaSeleccionados) {
@@ -182,4 +191,10 @@ public class Mesa extends Observable{
     public boolean esIniciada(){
         return iniciada;
     }
+    public void agregarTipoApuesta(TipoApuesta tipo) {
+        tiposApuesta.put(tipo.getUniversalCellCode(), tipo);
+    }
+    
+    
+    /**En este diseño, cuando un jugador hace una apuesta, se verifica si es válida y luego se añade a la lista apuestasActivas. También se actualiza el mapa apuestasTotalesPorCelda usando el método merge, que añadirá el monto de la apuesta al total ya registrado para esa celda o lo inicializará si es la primera apuesta en esa celda. Esto te permite rastrear el total de dinero apostado en cada celda, lo cual es útil para el cálculo de pagos y para mostrar la información agregada de apuestas en la mesa.**/
 }

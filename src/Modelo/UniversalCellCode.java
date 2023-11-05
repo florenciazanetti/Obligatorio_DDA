@@ -35,5 +35,18 @@ import java.util.Map;
     public static boolean esNegro(int numeroSorteado) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UniversalCellCode that = (UniversalCellCode) o;
+        return code == that.code;
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(code);
+    }
 }
 

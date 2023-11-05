@@ -11,16 +11,26 @@ package Modelo;
 public class Apuesta {
     
     private TipoApuesta tipoApuesta;
-    private UniversalCellCode ucc;
+    private UniversalCellCode codigo;
     private Jugador jugador;
     private double montoApostado;
    
 
-    public Apuesta(TipoApuesta tipoApuesta, double montoApostado, Jugador jugador) {
+     public Apuesta(TipoApuesta tipoApuesta, int monto, UniversalCellCode codigo) {
         this.tipoApuesta = tipoApuesta;
-        this.jugador = jugador;
-        this.montoApostado = montoApostado;
+        this.montoApostado = monto;
+        this.codigo = codigo;
     }
+
+    public UniversalCellCode getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(UniversalCellCode codigo) {
+        this.codigo = codigo;
+    }
+
+   
 
 
     public TipoApuesta getTipoApuesta() {
