@@ -22,7 +22,7 @@ public class Mesa extends Observable{
     private Ronda rondaActual;
     private EstadoMesa estado;
     private final ArrayList<Integer> ultimosNumerosGanadores;
-    private ArrayList<Ronda> rondas;
+    private ArrayList<Ronda> historialRondas;
     private ArrayList<Apuesta> apuestasActivas;
     private Map<UniversalCellCode, Integer> apuestasTotalesPorCelda; 
     private Map<Integer, TipoApuesta> tiposApuesta;//ara asociar cada TipoApuesta con un el universalCellCode
@@ -96,21 +96,46 @@ public class Mesa extends Observable{
 
    
     public ArrayList<Ronda> getRondas() {
-        return rondas;
+        return historialRondas;
     }
 
     public void setRondas(ArrayList<Ronda> rondas) {
-        this.rondas = rondas;
+        this.historialRondas = rondas;
     }
 
-    public ArrayList<Apuesta> getApuestas() {
-        return apuestas;
+    public ArrayList<Apuesta> getApuestasActivas() {
+        return apuestasActivas;
     }
 
+    public void setApuestasActivas(ArrayList<Apuesta> apuestasActivas) {
+        this.apuestasActivas = apuestasActivas;
+    }
 
-    public ArrayList<TipoApuesta> getTiposApuesta() {
+    public Map<UniversalCellCode, Integer> getApuestasTotalesPorCelda() {
+        return apuestasTotalesPorCelda;
+    }
+
+    public void setApuestasTotalesPorCelda(Map<UniversalCellCode, Integer> apuestasTotalesPorCelda) {
+        this.apuestasTotalesPorCelda = apuestasTotalesPorCelda;
+    }
+
+    public Map<Integer, TipoApuesta> getTiposApuesta() {
         return tiposApuesta;
     }
+
+    public void setTiposApuesta(Map<Integer, TipoApuesta> tiposApuesta) {
+        this.tiposApuesta = tiposApuesta;
+    }
+
+    public int getMAX_JUGADORES() {
+        return MAX_JUGADORES;
+    }
+
+    public void setMAX_JUGADORES(int MAX_JUGADORES) {
+        this.MAX_JUGADORES = MAX_JUGADORES;
+    }
+
+    
 
     public ArrayList<Jugador> getJugadores() {
         return jugadores;
@@ -168,7 +193,7 @@ public class Mesa extends Observable{
      
       private int obtenerSiguienteNumeroRonda() {
         // Lógica para obtener el número de la siguiente ronda
-        return rondas.size() + 1;
+        return historialRondas.size() + 1;
     }
       
        public void aceptarApuesta(Apuesta apuesta) {
@@ -195,6 +220,35 @@ public class Mesa extends Observable{
         tiposApuesta.put(tipo.getUniversalCellCode(), tipo);
     }
     
+    public boolean validarApuesta(TipoApuesta tipoApuesta, int monto, int universalCellCode) {
+        // Ejemplo de validación para apuesta Rojo/Negro
+        if (tipoApuesta.esRojoNegro()) {
+            // Obtener el monto máximo permitido basado en el historial
+            int maxPermitido = obtenerMaximoPermitidoRojoNegro(tipoApuesta, universalCellCode);
+            return monto <= maxPermitido;
+        }
+        
+        // Ejemplo de validación para apuesta de Docena
+        if (tipoApuesta.esDocena()) {
+            // Verificar si ya se ha apostado a otra docena en esta ronda
+            return !seHaApostadoOtraDocena(universalCellCode);
+        }
+
+        // Para apuestas directas o cualquier otro tipo sin restricciones específicas
+        return true;
+    }
     
+      private int obtenerMaximoPermitidoRojoNegro(TipoApuesta tipoApuesta, int universalCellCode) {
+        // Implementar la lógica para obtener el monto máximo permitido
+        // basándose en el historial de apuestas y las reglas del juego
+        // ...
+        return 0; // Valor de ejemplo
+    }
+
+    private boolean seHaApostadoOtraDocena(int universalCellCode) {
+        // Implementar la lógica para verificar si se ha apostado a otra docena
+        // ...
+        return false; // Valor de ejemplo
+    }
     /**En este diseño, cuando un jugador hace una apuesta, se verifica si es válida y luego se añade a la lista apuestasActivas. También se actualiza el mapa apuestasTotalesPorCelda usando el método merge, que añadirá el monto de la apuesta al total ya registrado para esa celda o lo inicializará si es la primera apuesta en esa celda. Esto te permite rastrear el total de dinero apostado en cada celda, lo cual es útil para el cálculo de pagos y para mostrar la información agregada de apuestas en la mesa.**/
 }
