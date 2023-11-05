@@ -12,7 +12,7 @@ public class SistemaMesa {
     private ArrayList<Mesa> mesas;
 
     public SistemaMesa() {
-        tipos = new ArrayList();
+        tiposDeApuestas = new ArrayList();
         apuestas = new ArrayList();
         mesas = new ArrayList();
     }

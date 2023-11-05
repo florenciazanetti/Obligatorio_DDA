@@ -15,5 +15,4 @@ public interface Observador {
     
     public void actualizar(Object evento, Observable origen);
     
-    public void mostrarMesasAbiertas(ArrayList<Mesa> mesasAbiertas);
 }

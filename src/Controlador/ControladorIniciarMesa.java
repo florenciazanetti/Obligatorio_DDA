@@ -76,5 +76,7 @@ public class ControladorIniciarMesa implements Observador  {
         vista.volverALaPantallaDeLogin();
         Fachada.getInstancia().logout(crupier);   
     }
+
+
     
 }

@@ -118,13 +118,7 @@ public class Mesa extends Observable{
         this.jugadores = jugadores;
     }
     
-    public void agregarJugador(Jugador jugador){
-        if(jugadores.size() < MAX_JUGADORES){
-            jugadores.add(jugador);
-        }else{
-            System.out.println("La mesa esta llena");
-        }
-    }
+   
 
     public Map<Integer, UniversalCellCode> getCasilleroAUccMap() {
         return casilleroAUccMap;
@@ -135,8 +129,12 @@ public class Mesa extends Observable{
     }
   //----------------------------------------//
     
-    public void agregarJugador(Jugador jugador) {
-        this.jugadores.add(jugador);
+   public void agregarJugador(Jugador jugador){
+        if(jugadores.size() < MAX_JUGADORES){
+            jugadores.add(jugador);
+        }else{
+            System.out.println("La mesa esta llena");
+        }
     }
 
     public void eliminarJugador(Jugador jugador) {
