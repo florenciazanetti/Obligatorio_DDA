@@ -67,15 +67,15 @@ public class TipoApuesta {
     }
 
 
-     public boolean esRojoNegro() {
-        // Devuelve verdadero si el nombre del tipo de apuesta es "Rojo" o "Negro"
-        return nombre.equalsIgnoreCase("Rojo") || nombre.equalsIgnoreCase("Negro");
+       public boolean esDirecta() {
+        return "Directa".equalsIgnoreCase(this.tipo);
+    }
+
+    public boolean esRojoNegro() {
+        return "Rojo/Negro".equalsIgnoreCase(this.tipo);
     }
 
     public boolean esDocena() {
-        // Devuelve verdadero si el nombre del tipo de apuesta es alguna de las docenas
-        return nombre.equalsIgnoreCase("Primera docena") ||
-               nombre.equalsIgnoreCase("Segunda docena") ||
-               nombre.equalsIgnoreCase("Tercera docena");
+        return "Docena".equalsIgnoreCase(this.tipo);
     }
 }
