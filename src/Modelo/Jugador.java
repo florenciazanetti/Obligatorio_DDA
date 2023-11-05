@@ -20,7 +20,9 @@ public class Jugador extends Usuario{
     private double monto;
     private Mesa mesaActual;
     private ArrayList<Apuesta> apuestas;
-     private ArrayList<Notificacion> notificaciones = new ArrayList();
+    private ArrayList<Notificacion> notificaciones = new ArrayList();
+    private ArrayList<Ronda> rondasPariticipadas;
+     
     
     public Jugador(String cedula, String password, String nombreCompleto, double saldoInicial, double monto){
         super(cedula, password, nombreCompleto);
@@ -74,6 +76,9 @@ public class Jugador extends Usuario{
      public ArrayList<Notificacion> getNotificaciones() {
         return notificaciones;
     }
+      public ArrayList<Ronda> getRondasParticipadas() {
+        return rondasPariticipadas;
+    }
 
     public Apuesta realizarApuesta(double monto, TipoApuesta tipo) {
         Apuesta apuesta = null; 
@@ -93,6 +98,9 @@ public class Jugador extends Usuario{
 
     public void actualizarSaldo(double monto) {
         this.saldoInicial += monto;
+    }
+    public void registrarRonda(Ronda ronda){
+       rondasPariticipadas.add(ronda);
     }
     
     //  void actualizar() {
