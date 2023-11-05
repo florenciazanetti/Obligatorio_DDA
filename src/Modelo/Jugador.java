@@ -87,7 +87,7 @@ public class Jugador extends Usuario{
         return apuesta; 
     }
     
-     public void recibirGanancias(double monto) {
+    public void recibirGanancias(double monto) {
          this.saldoInicial += monto;
     }
 

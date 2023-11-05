@@ -6,6 +6,7 @@ package Controlador;
 
 import Common.Observable;
 import Common.Observador;
+import Modelo.Apuesta;
 import Modelo.Jugador;
 import Modelo.Mesa;
 import Vista.VistaJugarAbandonar;
@@ -26,6 +27,14 @@ public class ControladorJugarYAbandonar implements Observador {
         this.vista = vista;
        
     }
+    public double calcularTotalDeApuestas(ArrayList <Apuesta> apuestas){
+      double total = 0.0;
+      
+      for(Apuesta apuesta: apuestas){
+          total += apuesta.getMontoApostado();
+      }
+      return total;
+    }
     
     public void unirseAmesa() {
     }
@@ -38,7 +47,7 @@ public class ControladorJugarYAbandonar implements Observador {
     public void actualizar(Object evento, Observable origen) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    
     @Override
     public void mostrarMesasAbiertas(ArrayList<Mesa> mesasAbiertas) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -47,6 +56,6 @@ public class ControladorJugarYAbandonar implements Observador {
     public double getSaldoJugador() {
         return 0;
     }
-    
-    
 }
+
+

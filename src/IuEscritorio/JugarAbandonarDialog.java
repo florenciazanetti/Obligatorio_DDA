@@ -43,6 +43,13 @@ public class JugarAbandonarDialog extends javax.swing.JDialog implements VistaJu
                     jugador.getNombreCompleto()));
         }
     }
+    public void actualizarNumeroDeRonda(int numeroRonda){
+       labelNumeroRonda.setText("Ronda #" + numeroRonda); 
+    }
+    
+    public void actualizarNumeroMesaRuleta(int numeroMesaRuleta){
+       labelNumeroMesaRuleta.setText("Ruleta #" + numeroMesaRuleta); 
+    }
     
     public interface Escuchador {
 
@@ -186,6 +193,8 @@ public class JugarAbandonarDialog extends javax.swing.JDialog implements VistaJu
         nombreJugador = new java.awt.Label();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtNombreCompleto = new javax.swing.JTextArea();
+        labelNumeroRonda = new javax.swing.JLabel();
+        labelNumeroMesaRuleta = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -200,7 +209,6 @@ public class JugarAbandonarDialog extends javax.swing.JDialog implements VistaJu
         jLabel2.setText("Ruleta");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setText("#");
 
         jTable2.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
@@ -241,7 +249,6 @@ public class JugarAbandonarDialog extends javax.swing.JDialog implements VistaJu
         jLabel10.setText("Ronda");
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel11.setText("#");
 
         btnAbandonar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnAbandonar.setText("Abandonar");
@@ -1440,6 +1447,10 @@ public class JugarAbandonarDialog extends javax.swing.JDialog implements VistaJu
         txtNombreCompleto.setRows(5);
         jScrollPane1.setViewportView(txtNombreCompleto);
 
+        labelNumeroRonda.setText("jLabel6");
+
+        labelNumeroMesaRuleta.setText("jLabel6");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -1467,12 +1478,16 @@ public class JugarAbandonarDialog extends javax.swing.JDialog implements VistaJu
                         .addGap(182, 182, 182)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(56, 56, 56)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelNumeroMesaRuleta, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(26, 26, 26)
                         .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelNumeroRonda, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(nombreJugador, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -1491,7 +1506,9 @@ public class JugarAbandonarDialog extends javax.swing.JDialog implements VistaJu
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel1)
                                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel11))
+                                .addComponent(jLabel11)
+                                .addComponent(labelNumeroRonda)
+                                .addComponent(labelNumeroMesaRuleta))
                             .addComponent(saldoJugador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 47, Short.MAX_VALUE))
@@ -1912,6 +1929,8 @@ public class JugarAbandonarDialog extends javax.swing.JDialog implements VistaJu
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
+    private javax.swing.JLabel labelNumeroMesaRuleta;
+    private javax.swing.JLabel labelNumeroRonda;
     private java.awt.Label nombreJugador;
     private java.awt.Label saldoJugador;
     private javax.swing.JTextArea txtNombreCompleto;

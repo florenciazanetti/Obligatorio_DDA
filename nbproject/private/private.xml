@@ -2,6 +2,15 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/flore/Desktop/DemoPanelRuleta/src/Modelo/Jugador.java</file>
+            <file>file:/C:/Users/flore/Desktop/DemoPanelRuleta/src/Modelo/Ronda.java</file>
+            <file>file:/C:/Users/flore/Desktop/DemoPanelRuleta/src/Controlador/ControladorUnirseAMesa.java</file>
+            <file>file:/C:/Users/flore/Desktop/DemoPanelRuleta/src/IuEscritorio/JugarAbandonarDialog.java</file>
+            <file>file:/C:/Users/flore/Desktop/DemoPanelRuleta/src/Controlador/ControladorJugarYAbandonar.java</file>
+            <file>file:/C:/Users/flore/Desktop/DemoPanelRuleta/src/Vista/VistaJugarAbandonar.java</file>
+            <file>file:/C:/Users/flore/Desktop/DemoPanelRuleta/src/Modelo/Usuario.java</file>
+            <file>file:/C:/Users/flore/Desktop/DemoPanelRuleta/src/IuEscritorio/UnirseAMesaDialog.java</file>
+        </group>
     </open-files>
 </project-private>
