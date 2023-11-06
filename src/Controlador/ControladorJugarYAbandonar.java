@@ -30,7 +30,11 @@ public class ControladorJugarYAbandonar implements Observador {
     }
     public void iniciarNuevaRonda(){
         Ronda ronda = new Ronda();
+        double montoGanado = 0;
         //logica para gestionar la ronda, calcular montos, etc.
+        ronda.calcularMontoTotalGanado( montoGanado);
+        double montoPerdido = 0;
+        ronda.calcularMontoTotalPerdido(montoPerdido);
         jugador.registrarRonda(ronda);
         vista.mostrarRondasParticipadas(jugador.getRondasParticipadas());
     }
