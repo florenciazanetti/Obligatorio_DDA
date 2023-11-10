@@ -4,6 +4,8 @@
  */
 package Modelo;
 
+import java.util.HashMap;
+
 /**
  *
  * @author sabrina
@@ -11,34 +13,15 @@ package Modelo;
 public class Apuesta {
     
     private TipoApuesta tipoApuesta;
-    private UniversalCellCode codigo;
+    private HashMap <String, UniversalCellCode> casilleros;
     private Jugador jugador;
     private double montoApostado;
    
 
-     public Apuesta(TipoApuesta tipoApuesta, int monto, UniversalCellCode codigo) {
+     public Apuesta(TipoApuesta tipoApuesta, int monto) {
         this.tipoApuesta = tipoApuesta;
         this.montoApostado = monto;
-        this.codigo = codigo;
-    }
-
-    public UniversalCellCode getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(UniversalCellCode codigo) {
-        this.codigo = codigo;
-    }
-
-   
-
-
-    public TipoApuesta getTipoApuesta() {
-        return tipoApuesta;
-    }
-
-    public void setTipoApuesta(TipoApuesta tipoApuesta) {
-        this.tipoApuesta = tipoApuesta;
+        this.casilleros = new HashMap<> ();
     }
 
     public Jugador getJugador() {
@@ -49,16 +32,16 @@ public class Apuesta {
         this.jugador = jugador;
     }
 
-    public double getMontoApostado() {
-        return montoApostado;
+     public HashMap<String, UniversalCellCode> getCasilleros() {
+        return casilleros;
     }
-
-    public void setMontoApostado(double montoApostado) {
-        this.montoApostado = montoApostado;
+    
+    public void setCasilleros(HashMap<String, UniversalCellCode> casilleros) {
+        this.casilleros = casilleros;
     }
-
-   public boolean esGanadora(int numeroSorteado) {
-        return tipoApuesta.esGanadora(numeroSorteado);
+  
+    public void apostar(int monto, int code, TipoApuesta tp){//, TipoApuesta tp???
+        this.casilleros.put(String.valueOf(code), new UniversallCellCode(tipoApuesta.getTipo(), code))
     }
     
 }

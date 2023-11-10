@@ -4,6 +4,7 @@
  */
 package Vista;
 
+import Modelo.EnumTipoApuesta;
 import Modelo.Jugador;
 import Modelo.Mesa;
 import Modelo.Ronda;
@@ -15,7 +16,9 @@ import java.util.ArrayList;
  */
 public interface VistaJugarAbandonar {
     
-     public void mostrarSaldoJugador();
+    public void mostrarTiposDeApuesta(ArrayList<EnumTipoApuesta> listarTiposApuestaSeleccionados);
+    
+    public void mostrarSaldoJugador();
     
     public void mostrarNumeroMesayRonda(); //FALTA MANDARLE POR PARAMETRO
     

@@ -16,14 +16,16 @@ public enum Eventos {
     
     MESA_CERRADA, 
     MESA_INICIADA, 
-    ESTADO_MESA_CAMBIADO, 
+    MESA_AGREGADA,
+    LANZAR_PAGAR,
 
     NUEVA_APUESTA,
     NUEVA_RONDA,
     SORTEO_REALIZADO, 
     
     JUGADOR_SE_UNIO_A_MESA,
-    JUGADOR_DEJO_MESA,
+    JUGADOR_DEJO_MESA, 
+  
     
     
 

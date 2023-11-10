@@ -8,7 +8,7 @@ package Modelo;
  *
  * @author sabrina
  */
-public abstract class Usuario extends Observable {
+public abstract class Usuario {
     private String cedula;
     private String password;
     private String nombreCompleto;
@@ -19,6 +19,12 @@ public abstract class Usuario extends Observable {
         this.password = password;   
     }
 
+       public Usuario( String cedula,String password) {
+       
+        this.cedula = cedula;
+        this.password = password;
+    }
+    
     public String getCedula() {
         return cedula;
     }
@@ -43,5 +49,12 @@ public abstract class Usuario extends Observable {
         this.nombreCompleto = nombreCompleto;
     }
     
-    public abstract boolean validar();
+      public  boolean validarUsuario() throws AccesoException {
+           if (!this.cedula.isEmpty() || !this.password.isEmpty()) {
+            throw new AccesoException("Credenciales incorrectas");
+        } 
+      }
+      
+     
+    
 }

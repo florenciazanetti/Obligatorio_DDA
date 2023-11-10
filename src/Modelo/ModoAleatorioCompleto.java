@@ -12,14 +12,17 @@ import java.util.Random;
  * @author sabrina
  */
 public class ModoAleatorioCompleto extends EfectoSorteo {
+    private Random random;
     
     public ModoAleatorioCompleto(String nombre) {
         super(nombre);
     }
 
     @Override
-    public int realizarSorteo(ArrayList<Integer> numerosAnteriores, ArrayList<Integer> numerosApostadosDirectamente) {
-        return new Random().nextInt(37);
+    public int realizarSorteo(Ronda ronda) {
+      random = new Random();
+      return random.nextInt(37);
+
     }
     
 }

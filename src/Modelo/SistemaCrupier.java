@@ -23,7 +23,7 @@ public class SistemaCrupier {
     }
     
     // Método para obtener todos los crupieres
-    public ArrayList<Crupier> getCrupieres() {
+    public ArrayList<Crupier> getCrupiers() {
         return crupieres;
     }
     
@@ -32,5 +32,5 @@ public class SistemaCrupier {
         // Aquí puedes agregar la lógica para buscar un crupier por su ID
         return null;
     }
- 
+
 }

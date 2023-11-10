@@ -4,10 +4,14 @@
  */
 package Vista;
 
+import Modelo.Usuario;
+
 /**
  *
  * @author sabrina
  */
 public interface VistaLogin {
-    
+    public Usuario loginUsuario(String cedula, String password);
+   
+   public void mostrarMensajeError(String mensaje);
 }

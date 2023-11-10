@@ -10,7 +10,6 @@ package Modelo;
  */
 public class AccesoException extends Exception {
 
-    public AccesoException(String mensaje) {
-    }
+    public AccesoException(String mensaje) {    }
     
 }

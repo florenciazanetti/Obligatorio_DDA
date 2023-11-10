@@ -40,43 +40,46 @@ public class ControladorOperarCerrarMesa implements Observador {
          this.mesa = mesa;
         this.vista = vista;  
     }
-
-       public void operarMesa(int idMesa, EfectoSorteo efecto) {
-           var fachada = Fachada.getInstancia();
-           fachada.prepararParaSorteo(idMesa);
-           int numeroGanador = fachada.lanzarBola(idMesa, efecto);
-           fachada.pagarApuestas(idMesa, numeroGanador);
-           fachada.actualizarEstadoMesa(idMesa);
-           fachada.prepararParaNuevaRonda(idMesa);
+    
+    public void iniciarRonda(){
+        mesa.iniciarRonda();
+        vista.mostrarBalanceDeMesa(mesa.getBalance());
+        inicializar();
     }
+    
+     public void inicializar() {
+        vista.mostrarNumeroDeRuleta(mesa.getMesaId()); //va Fachada???
+        vista.mostrarMontoTotalApostado(mesa.getTotalApostado());
+        vista.mostrarNumeroDeRonda(mesa.getRondaActual().getRondaId());
+        vista.mostrarCantidadApuestas(mesa.getApuestas().size());//?
+        vista.mostrarMontoTotalApostado(mesa.getBalance());
+        vista.mostrarListaDeEfectos(Fachada.getInstancia().getEfectosSorteo());
+        vista.mostrarListaUltimosLanzamientos(mesa.getRondaActual().ultimosResultados(5));
+        vista.mostrarJugadoresEnLaMesa(mesa.getJugadores());
+     }
+
 
     public void cerrarMesa(int mesaId) {
         Fachada fachada = Fachada.getInstancia();
-        if(fachada.estaMesaBloqueada(mesaId)){
-            // Notificar a los jugadores que la mesa se cerrará
-            
-            // Expulsar a los jugadores de la mesa
-            fachada.expulsarJugadoresDeMesa(mesaId);
-            // Ejecutar la liquidación de apuestas como en el caso de uso de "Operar mesa"
-            fachada.liquidarApuestas(mesaId);
-            // Cerrar la mesa
-            fachada.cerrarMesa(mesaId);
-            mesa.remover(this);
-        }
+      
     }
     
-    public void lanzarBola(){}
+    public void lanzar(){}
     
-    public void pagarApuestas(){}
+    public void pagar(){}
     
     @Override
     public void actualizar(Object evento, Observable origen) {
+        if(Eventos.LOGIN_JUGADOR.equals(evento) || (Eventos.NUEVA_RONDA.equals(evento)) ){
+         //   vista.mostrarJugadoresEnLaMesa(jugadoresMesa);
+            vista.saldoDeJugadores();
+        }
         if(Eventos.NUEVA_RONDA.equals(evento)){
-            vista.mostrarRondas(mesa);
+            vista.mostrarListaUltimosLanzamientos(mesa.getRondaActual().ultimosResultados(5));
             vista.mostrarJugadoresEnLaMesa(mesa.getJugadores());
-            vista.mostrarCantidadApuestas(mesa.getApuestas().size);
+            vista.mostrarCantidadApuestas(mesa.getApuestas().size());
             vista.mostrarBalanceDeMesa(mesa.getBalance());
-            //vista.mostrarMontoTotalApostado(mesa.getApuestas());
+            vista.mostrarMontoTotalApostado(mesa.getBalance());
         }else if(Eventos.MESA_CERRADA.equals(evento)){
             //vista.notificarCierreMesa();
             //mesa.expulsarJugadores();

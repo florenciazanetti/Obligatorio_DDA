@@ -13,8 +13,9 @@ public class AppEjemplo {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-       new VentanaMesa().setVisible(true);
+    public static void main(String[] args) throws Exception {
+       DatosPrueba.cargar();
+        new VentanaMesa().setVisible(true);
     }
     
 }

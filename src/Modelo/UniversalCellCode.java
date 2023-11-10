@@ -11,42 +11,46 @@ import java.util.Map;
  */
     public class UniversalCellCode {
         
-    private final int code;
-    private final String description;
+    private final int codigo;
+    private int[] numerosAsociados;
+    private TipoApuesta tipoApuesta;
     
 
-    public UniversalCellCode(int code, String description) {
-        this.code = code;
-        this.description = description;
+    public UniversalCellCode(int codigo, int[] numerosAsociados, TipoApuesta tipo) {
+        this.codigo = codigo;
+        this.numerosAsociados = numerosAsociados;
+        this.tipoApuesta = tipo;
     }
 
-    public int getCode() {
-        return code;
+    public int getCodigo() {
+        return codigo;
     }
 
-    public String getDescription() {
-        return description;
-    }
-    
-    public  static boolean esRojo(int numeroSorteado) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public int[] getNumerosAsociados() {
+        return numerosAsociados;
     }
 
-    public static boolean esNegro(int numeroSorteado) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public TipoApuesta getTipoApuesta() {
+        return tipoApuesta;
     }
+
+  
+    public boolean esDirecto(){
+        return this.tipoApuesta.getNombre().equals("Directa");
+    }
+
     
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UniversalCellCode that = (UniversalCellCode) o;
-        return code == that.code;
+        return codigo == that.codigo;
     }
 
     @Override
     public int hashCode() {
-        return Integer.hashCode(code);
+        return Integer.hashCode(codigo);
     }
 }
 

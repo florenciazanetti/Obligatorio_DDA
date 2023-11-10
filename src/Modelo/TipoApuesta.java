@@ -11,16 +11,15 @@ import java.util.HashMap;
  *
  * @author sabrina
  */
-public class TipoApuesta {
+public abstract class TipoApuesta {
+    private int ratioPago;
     private String nombre;
-    private double ratioPago;
-    ¿private String tipo; // Puede ser "Directa", "Rojo/Negro", "Docena", etc.
+    private HashMap <String, UniversalCellCode> casilleros;
 
-    private ArrayList<UniversalCellCode> codigosValidos;
-
-    public TipoApuesta(String nombre, double ratioPago) {
+    public TipoApuesta(String nombre, int ratioPago) {
         this.nombre = nombre;
         this.ratioPago = ratioPago;
+        this.casilleros = new HashMap<>();
     }
 
     public String getNombre() {
@@ -31,51 +30,13 @@ public class TipoApuesta {
         this.nombre = nombre;
     }
 
-    public double getRatioPago() {
+    public int getRatioPago() {
         return ratioPago;
     }
 
-    public void setRatioPago(double ratioPago) {
-        this.ratioPago = ratioPago;
+    public UniversalCellCode getUniversalCellCode(String nombreCasillero) {
+        return this.casilleros.get(nombreCasillero);
     }
 
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
-    public ArrayList<UniversalCellCode> getCodigosValidos() {
-        return codigosValidos;
-    }
-
-    public void setCodigosValidos(ArrayList<UniversalCellCode> codigosValidos) {
-        this.codigosValidos = codigosValidos;
-    }
-
-    
-     public void addCodigoValido(UniversalCellCode codigo) {
-        if (!codigosValidos.contains(codigo)) {
-            codigosValidos.add(codigo);
-        }
-     }
-
-      public boolean esApuestaValida(UniversalCellCode codigo) {
-        return codigosValidos.contains(codigo);
-    }
-
-
-       public boolean esDirecta() {
-        return "Directa".equalsIgnoreCase(this.tipo);
-    }
-
-    public boolean esRojoNegro() {
-        return "Rojo/Negro".equalsIgnoreCase(this.tipo);
-    }
-
-    public boolean esDocena() {
-        return "Docena".equalsIgnoreCase(this.tipo);
-    }
+    public abstract int calcularFactorPago(int monto);
 }

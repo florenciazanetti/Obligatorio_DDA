@@ -25,5 +25,17 @@ public class ModoAleatorioParcial extends EfectoSorteo{
         } while (numerosAnteriores.contains(numero));
         return numero;
     }
+
+    @Override
+    public int realizarSorteo(Ronda ronda) {
+        //ArrayList<Integer> ultimos3numerosSorteados = ronda.;
+        Random nAleatorio = new Random();
+        int numero = nAleatorio.nextInt(37);
+        int numeroAleatorio;
+          do {
+            numero = new Random().nextInt(37);
+        } while (ultimos3numerosSorteados.contains(numero));
+        return numero;
+    }
     
 }

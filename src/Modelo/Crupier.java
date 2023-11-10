@@ -4,6 +4,8 @@
  */
 package Modelo;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author sabrina
@@ -11,26 +13,18 @@ package Modelo;
 public class Crupier extends Usuario {
     private Mesa mesa;
 
-    public Crupier(String cedula, String password, String nombreCompleto, Mesa mesaAsignada) {
+    public Crupier(String cedula, String password, String nombreCompleto) {
         super(cedula, password, nombreCompleto);
-        this.mesa = mesaAsignada;
-    }
-
-    public Mesa getMesa() {
-        return mesa;
-    }
-
-    public void setMesa(Mesa mesa) {
         this.mesa = mesa;
     }
-    
-    @Override
-    public boolean validar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
+       public Crupier(  String cedula, String password) {//para logueo
+        super( cedula, password);
+     
     }
-    
-   
 
-
-    
+    @Override
+    public boolean validarUsuario() {
+    }
+  
 }

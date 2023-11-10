@@ -26,19 +26,17 @@ public class SistemaAcceso {
         return usuariosConectados;
     }
 
-    public void agregarCrupier(String cedula, String password, String nombreCompleto, Mesa mesaAsignada) throws AccesoException{
-        Crupier c = new Crupier(cedula, password, nombreCompleto, mesaAsignada);
-        if (c.validar()){
-            croupiers.add(c);
+    public void agregarCrupier(Crupier crupier) throws AccesoException{
+        if (!croupiers.contains(crupier)){
+            croupiers.add(crupier);
         } else {
             throw new AccesoException("No se ha podido agregar el Croupier");
         }
     }
     
-    public void agregarUsuarioJugador(String cedula, String password, String nombreCompleto, double saldoInicial, double monto) throws AccesoException{
-        Jugador j = new Jugador(cedula, password, nombreCompleto, saldoInicial, monto);
-        if(j.validar()){
-            jugadores.add(j);
+    public void agregarUsuarioJugador(Jugador jugador) throws AccesoException{
+       if (!jugadores.contains(jugador)){
+            jugadores.add(jugador);
         } else {
              throw new AccesoException("No se ha podido agregar el jugador");
         }

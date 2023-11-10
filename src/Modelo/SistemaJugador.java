@@ -23,7 +23,7 @@ public class SistemaJugador {
     }
     
     // Método para obtener todos los jugadores
-    public ArrayList<Jugador> getJugadores() {
+    public ArrayList<Jugador> getJugadoresEnMesa() {
         return jugadores;
     }
     
@@ -33,5 +33,7 @@ public class SistemaJugador {
         return null;
     }
     
-
+    public ArrayList<Jugador> getJugadores() {
+        return jugadores;
+    }
 }

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import Common.Observable;
+import java.util.List;
 
 /**
  *
@@ -18,25 +19,22 @@ public class Mesa extends Observable{
     private int mesaId;
     private static int nextId = 0;
     private boolean bloqueada;
-    private double balance;
+    private int balance;
     private Ronda rondaActual;
     private Crupier crupier;
     private EstadoMesa estado;
+    private ArrayList<Apuesta> apuestas;
     private ArrayList<Jugador> jugadores;
-    private final ArrayList<Integer> ultimosNumerosGanadores;
-    private ArrayList<Ronda> historialRondas;//rondas
-    private ArrayList<EnumTipoApuesta> tiposApuesta;
+    private List<Ronda> rondas;
+    private ArrayList<TipoApuesta> tiposApuesta;
 
-
-    public Mesa(ArrayList<EnumTipoApuesta> tiposApuesta, Crupier crupier) {
+    public Mesa(ArrayList<TipoApuesta> tiposApuesta, Crupier crupier) {
         this.mesaId = nextId;
         this.balance = 0;
         this.bloqueada = false;
-        this.rondaActual=new Ronda(this);
-        this.tiposApuesta = tiposApuesta;
+        this.rondaActual = new Ronda(rondaActual.getRondaId());
+        this.tiposApuesta = new ArrayList<>();
         this.jugadores = new ArrayList<>();
-        this.ultimosNumerosGanadores = new ArrayList<>();
-        this.tiposApuesta.add(EnumTipoApuesta.Apuesta_Directa);
         this.nextId++;
     }
     
@@ -51,6 +49,10 @@ public class Mesa extends Observable{
      public EstadoMesa getEstado() {
         return estado;
     }
+
+    public ArrayList<Apuesta> getApuestas() {
+        return apuestas;
+    }
      
     public int getMesaId() {
         return mesaId;
@@ -64,26 +66,23 @@ public class Mesa extends Observable{
         return crupier;
     }
 
-    public double getBalance() {
+    public int getBalance() {
         return balance;
     }
 
-    public void setBalance(double balance) {
+    public void setBalance(int balance) {
         this.balance = balance;
     }
 
     public Ronda getRondaActual() {
-        return rondaActual;
+       for(Ronda r: rondas){
+           if(r.getRondaId() == (rondaActual.getRondaId())){
+               return r;
+           }
+       }
+       return null;
     }
     
-    public Ronda getRondaAnteriorAActual(){
-        return this.historialRondas.get(this.historialRondas.size() - 1);
-    }
-   
-    public ArrayList<Ronda> getRondas() {
-        return historialRondas;
-    }
-
     public ArrayList<Jugador> getJugadores() {
         return jugadores;
     }
@@ -100,19 +99,18 @@ public class Mesa extends Observable{
         return bloqueada;
     }
 
-    public ArrayList<Ronda> getHistorialRondas() {
-        return historialRondas;
-    }
-
-    public ArrayList<EnumTipoApuesta> getTiposApuesta() {
+    public ArrayList<TipoApuesta> getTiposApuesta() {
         return tiposApuesta;
     }
 
-    public void setTiposApuesta(ArrayList<EnumTipoApuesta> tiposApuesta) {
+    public void setTiposApuesta(ArrayList<TipoApuesta> tiposApuesta) {
         this.tiposApuesta = tiposApuesta;
     }
+
+    public List<Ronda> getRondas() {
+        return rondas;
+    }
     
-   
   //----------------------------------------//
     
     public void agregarJugador(Jugador jugador) throws MesaRuletaException {
@@ -130,5 +128,34 @@ public class Mesa extends Observable{
         }
     }
 
+    ArrayList<Jugador> getJugadoresEnMesa() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    List<Integer> ultimosNumerosSorteados(int utlimosNNumeros) {
+        List<Ronda> ultimasRondas = null;
+        List<Integer> ultimosNum = new ArrayList<Integer>();
+        if(this.rondas.size() > utlimosNNumeros){
+             ultimasRondas = this.rondas.subList(this.rondas.size() - utlimosNNumeros, rondas.size());
+        } 
+        for (Ronda r: ultimasRondas){
+            ultimosNum.add(r.getNumeroGanador());
+        }
+        return ultimosNum;
+    }
+    
+   private void finalizarRonda(){
+    }
+    
+    private void liquidarRonda(){
+    }
+
+    public void iniciarRonda(){
+    
+    }
+
+    public int getTotalApostado() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
      
 }

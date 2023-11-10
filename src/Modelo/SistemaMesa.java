@@ -5,9 +5,11 @@
 package Modelo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SistemaMesa {
     private  ArrayList<TipoApuesta> tiposDeApuestas;
+    private  ArrayList<EfectoSorteo> efectosSorteo;
     private ArrayList<Apuesta> apuestas;
     private ArrayList<Mesa> mesas;
 
@@ -91,5 +93,13 @@ public class SistemaMesa {
                 mesa.setEstado(nuevoEstado);
             }
         }
+
+    ArrayList<Jugador> getJugadoresEnMesa(Mesa mesa) {
+
+    }
+
+    public ArrayList<EfectoSorteo> getEfectosSorteo() {
+        return efectosSorteo;
+    }
    
 }

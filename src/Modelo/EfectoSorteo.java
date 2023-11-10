@@ -14,17 +14,16 @@ import java.util.Random;
 public abstract class EfectoSorteo {
     
     private String nombre;
-    private Random random;
+
     
     public EfectoSorteo(String nombre) {
         this.nombre = nombre;
-        this.random = random;
     }
     
     public String getNombre() {
         return nombre;
     }
     
-   public abstract int realizarSorteo(ArrayList<Integer> numerosAnteriores, ArrayList<Integer> numerosApostadosDirectamente);
+   public abstract int realizarSorteo(Ronda ronda);
 
 }

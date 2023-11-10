@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import Modelo.Jugador;
 import Modelo.Mesa;
 import Modelo.Ronda;
+import java.util.List;
 
 /**
  *
@@ -22,7 +23,7 @@ public interface VistaOperarCerrarMesa {
     
     public void mostrarNumeroDeRonda(int numeroDeRonda);
     
-    public void mostrarRondas(Mesa mesa);//por controlador de Gian
+    public void mostrarRondas(Mesa mesa);
     
     public void mostrarNumeroDeRuleta(int numeroRuleta);
     
@@ -34,13 +35,11 @@ public interface VistaOperarCerrarMesa {
     
     public void motrarMesaConDistribucionApuestasAcadaTipoDeApuestas(Mesa mesaConDistribucionApuestas);  
 
-   public void mostrarListaUltimosLanzamientos(ArrayList <Ronda> ultimosLanzamientos);
-    
-    public void mostrarRondasEfectuadas(ArrayList <Ronda> rondasEfectuadas);
-    
+    public void mostrarListaUltimosLanzamientos(List<Integer> ultimosLanzamientos);
+        
     public void mostrarJugadoresEnLaMesa(ArrayList <Jugador> jugadoresMesa);
 
-    public void saldoDeJugadores(int  saldo);
+    public int saldoDeJugadores();
     
     public void mostrarMensajeDeError(String message);
     

@@ -11,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author sabrina
  */
-public class Fachada extends Observable implements Observador  {
+public class Fachada extends Observable {
     
     public enum eventos{cambiosMesas};
     private final SistemaAcceso sAcceso = new SistemaAcceso();
@@ -25,15 +25,14 @@ public class Fachada extends Observable implements Observador  {
         return instancia;
     }
 
-    private Fachada() {
+    private Fachada() {}
+    
+    public void agregarJugador(Jugador jugador) throws AccesoException{
+        sAcceso.agregarUsuarioJugador(jugador);
     }
     
-    public void agregarJugador(String cedula, String password, String nombreCompleto, int saldoInicial , int monto) throws AccesoException{
-        sAcceso.agregarUsuarioJugador(cedula, password, nombreCompleto, saldoInicial, monto);
-    }
-    
-    public void agregarCroupier(String cedula, String password, String nombreCompleto, Mesa mesaAsignada) throws AccesoException{
-        sAcceso.agregarCrupier(cedula, password, nombreCompleto, mesaAsignada);
+    public void agregarCrupier(Crupier crupier) throws AccesoException{
+        sAcceso.agregarCrupier(crupier);
     } 
     
     public Jugador loginJugador(String cedula, String password) throws AccesoException{
@@ -56,34 +55,29 @@ public class Fachada extends Observable implements Observador  {
         return sistemaMesa.getTipos();
     }
 
-    public ArrayList<Crupier> getCroupiers() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
     public ArrayList<Jugador> getJugadores() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    public void agregarMesa(Mesa mesa1) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return sistemaJugador.getJugadores();
     }
     
-     public Mesa iniciarMesa(ArrayList<TipoApuesta> tiposApuestaSeleccionados) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public ArrayList<Crupier> getCrupiers() {
+        return sistemaCrupier.getCrupiers();
     }
 
-     public void cerrarMesa(int mesaId){
-         sistemaMesa.cerrarMesa(mesaId);
+    public void agregarMesa(Mesa mesa) throws MesaRuletaException {
+        sistemaMesa.agregarMesa(mesa);
+        avisar(Eventos.MESA_AGREGADA);   
+    }
+    
+    public Mesa iniciarMesa(ArrayList<TipoApuesta> tipos, Crupier crupier) throws MesaRuletaException {
+        Mesa mesa = new Mesa(tipos, crupier);
+        agregarMesa(mesa);
+        return mesa;
      }
 
-    public void agregarObservador(ControladorIniciarMesa aThis) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    public ArrayList<EfectoSorteo> getEfectosSorteo() {
+        return sistemaMesa.getEfectosSorteo();
+    } 
 
-    // Métodos para el Jugador
-    public ArrayList<Mesa> listarMesasAbiertas() {
-        return sistemaMesa.listarMesasAbiertas();
-    }
     /**
     // Método para preparar la mesa para el sorteo
     public void prepararParaSorteo(int idMesa) throws MesaRuletaException {
@@ -115,23 +109,6 @@ public class Fachada extends Observable implements Observador  {
     }
   **/
 
-    @Override
-    public void actualizar(Object evento, Observable origen) {
-        if (Eventos.LOGIN_CRUPIER.equals(evento) || Eventos.LOGOUT_CRUPIER.equals(evento)) {
-            avisar(evento);   
-        }
-         if (Eventos.LOGIN_JUGADOR.equals(evento) || Eventos.LOGOUT_JUGADOR.equals(evento)) {
-            avisar(evento);
-        }
-         if (Eventos.ESTADO_MESA_CAMBIADO.equals(evento) || Eventos.MESA_INICIADA.equals(evento) || Eventos.MESA_CERRADA.equals(evento)){
-            avisar(evento);
-        }
-    }
-
-
-    public void actualizarEstadoMesa(Mesa mesa, EstadoMesa estadoMesa) {
-       sistemaMesa.actualizarEstadoMesa(mesa, estadoMesa);
-    }
 
 
    
