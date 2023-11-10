@@ -158,7 +158,6 @@ public class Mesa extends Observable{
 
         // Actualizar el balance
         balance += (totalApostado - totalPagado);
-
         // Limpiar las apuestas para la próxima ronda y realizar otras tareas necesarias
     }
     
@@ -168,6 +167,15 @@ public class Mesa extends Observable{
     public void iniciarRonda(){
     
     }
+  
+    public boolean agregarRonda(Ronda ronda){     
+        if(ronda != null){
+            rondas.add(ronda);
+            avisar(Eventos.NUEVA_RONDA);
+            return true;
+        }
+        return false;
+    }
 
     public int obtenerMontoTotalApostado() {
         int montoTotal = 0;
@@ -175,6 +183,10 @@ public class Mesa extends Observable{
             montoTotal += apuesta.getMonto();
         }
         return montoTotal;
+    }
+
+    private void agregarApuesta(Apuesta apuesta) {
+        apuestas.add(apuesta);
     }
      
 }
