@@ -49,9 +49,10 @@ public abstract class Usuario {
         this.nombreCompleto = nombreCompleto;
     }
     
-      public  boolean validarUsuario() throws AccesoException {
+      public void validarUsuario() throws AccesoException {
            if (!this.cedula.isEmpty() || !this.password.isEmpty()) {
             throw new AccesoException("Credenciales incorrectas");
+            
         } 
       }
       

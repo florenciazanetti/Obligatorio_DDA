@@ -185,7 +185,7 @@ public class Mesa extends Observable{
         return montoTotal;
     }
 
-    private void agregarApuesta(Apuesta apuesta) {
+    public void agregarApuesta(Apuesta apuesta) {
         apuestas.add(apuesta);
     }
      
