@@ -23,8 +23,5 @@ public class Crupier extends Usuario {
      
     }
 
-    @Override
-    public boolean validarUsuario() {
-    }
   
 }
