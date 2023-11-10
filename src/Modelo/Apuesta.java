@@ -5,6 +5,7 @@
 package Modelo;
 
 import java.util.HashMap;
+import Modelo.Jugador;
 
 /**
  *
@@ -13,15 +14,21 @@ import java.util.HashMap;
 public class Apuesta {
     
     private TipoApuesta tipoApuesta;
+    private int monto;
     private HashMap <String, UniversalCellCode> casilleros;
     private Jugador jugador;
-    private double montoApostado;
+    private int montoApostado;
    
 
-     public Apuesta(TipoApuesta tipoApuesta, int monto) {
+     public Apuesta(TipoApuesta tipoApuesta, int monto, Jugador jugador) {
         this.tipoApuesta = tipoApuesta;
         this.montoApostado = monto;
+        this.jugador = jugador;
         this.casilleros = new HashMap<> ();
+    }
+     
+      public int getMonto() {
+        return monto;
     }
 
     public Jugador getJugador() {
@@ -39,9 +46,13 @@ public class Apuesta {
     public void setCasilleros(HashMap<String, UniversalCellCode> casilleros) {
         this.casilleros = casilleros;
     }
+
+    boolean esGanadora(int numeroGanador) {
+         return tipoApuesta.esNumeroGanador(, numeroGanador);
+    }
   
-    public void apostar(int monto, int code, TipoApuesta tp){//, TipoApuesta tp???
-        this.casilleros.put(String.valueOf(code), new UniversallCellCode(tipoApuesta.getTipo(), code))
+     public int calcularPago() {
+        return tipoApuesta.calcularFactorPago(monto);
     }
     
 }

@@ -9,6 +9,7 @@ import Common.Observador;
 import Modelo.Apuesta;
 import Modelo.Jugador;
 import Modelo.Mesa;
+import Modelo.Ronda;
 import Vista.VistaJugarAbandonar;
 import java.util.ArrayList;
 
@@ -26,6 +27,16 @@ public class ControladorJugarYAbandonar implements Observador {
          this.mesa = mesa;
         this.vista = vista;
        
+    }
+    public void iniciarNuevaRonda(){
+        Ronda ronda = new Ronda();
+        double montoGanado = 0;
+        //logica para gestionar la ronda, calcular montos, etc.
+        ronda.calcularMontoTotalGanado( montoGanado);
+        double montoPerdido = 0;
+        ronda.calcularMontoTotalPerdido(montoPerdido);
+        jugador.registrarRonda(ronda);
+        vista.mostrarRondasParticipadas(jugador.getRondasParticipadas());
     }
     public double calcularTotalDeApuestas(ArrayList <Apuesta> apuestas){
       double total = 0.0;

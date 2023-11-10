@@ -29,6 +29,10 @@ public class Ronda {
     private ArrayList<EfectoSorteo> efectosSorteo;
     private ArrayList<Integer> numerosAnteriores;
     private ArrayList<Integer> numerosApostadosDirectamente;
+    
+    private double montoTotalApostado;
+    private double montoTotalGanado;
+    private double montoTotalPerdido;
 
     public Ronda(int rondaId) {
         this.apuestas = new ArrayList<>();
@@ -73,6 +77,18 @@ public class Ronda {
     
     private void liquidarRonda(){
     }
- 
+
+    public void calcularMontoTotalGanado(double montoGanado){
+        montoTotalGanado += montoGanado;
+    }
+    
+    public void calcularMontoTotalPerdido(double montoPerdido){
+        montoTotalGanado += montoPerdido;
+    }
+    
+    public double calcularBalanceRonda(){
+        return montoTotalGanado - montoTotalPerdido;
+    }
+    
     
 }

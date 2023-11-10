@@ -26,7 +26,7 @@ public interface VistaJugarAbandonar {
     
     public void mostrarMesaConApuestas(Mesa mesaConApuestas);
     
-    public void mostrarRondasParticipo(ArrayList <Ronda> rondasParticipadas);
+    public void mostrarRondasParticipadas(ArrayList <Ronda> rondasParticipadas);
     
     public void mostrarEstadisticasMesa (float estadistica);
 }

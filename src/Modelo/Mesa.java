@@ -144,7 +144,22 @@ public class Mesa extends Observable{
         return ultimosNum;
     }
     
-   private void finalizarRonda(){
+    public void finalizarRonda(int numeroGanador) {
+        int totalApostado = 0;
+        int totalPagado = 0;
+
+        for (Apuesta apuesta : apuestas) {
+            totalApostado += apuesta.getMonto();
+
+            if (apuesta.esGanadora(numeroGanador)) {
+                totalPagado += apuesta.calcularPago();
+            }
+        }
+
+        // Actualizar el balance
+        balance += (totalApostado - totalPagado);
+
+        // Limpiar las apuestas para la próxima ronda y realizar otras tareas necesarias
     }
     
     private void liquidarRonda(){
@@ -154,8 +169,12 @@ public class Mesa extends Observable{
     
     }
 
-    public int getTotalApostado() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public int obtenerMontoTotalApostado() {
+        int montoTotal = 0;
+        for (Apuesta apuesta : apuestas) {
+            montoTotal += apuesta.getMonto();
+        }
+        return montoTotal;
     }
      
 }

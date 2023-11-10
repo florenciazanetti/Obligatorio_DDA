@@ -18,6 +18,8 @@ public class Jugador extends Usuario{
     private int saldo;
     private Mesa mesaActual;
     private ArrayList<Apuesta> apuestas;
+    private ArrayList<Ronda> rondasPariticipadas;
+     
     
     public Jugador(String cedula, String password, String nombreCompleto, int saldo){
         super(cedula, password, nombreCompleto);
@@ -49,18 +51,36 @@ public class Jugador extends Usuario{
         return apuestas;
     }
 
-    public void descontarDeSaldo(int monto) {
-          this.saldo -= monto;
-      }
-
-      public void acreditarSaldo(int monto) {
-          this.saldo += monto;
-      }
-
-    @Override
-    public boolean validarUsuario() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void setApuestas(ArrayList<Apuesta> apuestas) {
+        this.apuestas = apuestas;
     }
+    
+      public ArrayList<Ronda> getRondasParticipadas() {
+        return rondasPariticipadas;
+    }
+
+    public Apuesta realizarApuesta(int monto, TipoApuesta tipo) {
+        Apuesta apuesta = null; 
+
+        if (this.saldo > monto) {
+            apuesta = new Apuesta(tipo, monto, this); 
+            this.apuestas.add(apuesta);
+            this.saldo -= monto;
+            mesaActual.agregarApuesta(apuesta);
+        }
+        return apuesta; 
+    }
+   
+      
+    public void recibirGanancias(double monto) {
+         this.saldo += monto;
+    }
+
+    public void actualizarSaldo(double monto) {
+        this.saldo += monto;
+    }
+
+ 
     
     }
 }
