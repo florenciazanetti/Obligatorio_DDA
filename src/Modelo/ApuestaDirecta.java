@@ -19,4 +19,9 @@ public class  ApuestaDirecta extends TipoApuesta {
         return monto * 36;
     }
     
+     @Override
+    public boolean esGanadora(int numeroGanador, int codigoUCC) {
+        // En una apuesta directa, el código UCC es igual al número apostado
+        return codigoUCC == numeroGanador;
+    }
 }

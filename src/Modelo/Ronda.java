@@ -18,13 +18,13 @@ public class Ronda {
     private int rondaId = 1;
     private int nextId;
     private int numeroGanador;
-    private float balanceAnterior;
-    private float balancePosterior;
-    private float recoleccion;
-    private float liquidacion;
+ //   private float balanceAnterior;
+   // private float balancePosterior;
+   // private float recoleccion;
+   // private float liquidacion;
     private int numeroSorteado;
-    private int montoTotalGanado;
-    private int montoTotalPerdido;
+    private int montoTotalPagado;
+    private int montoApostado;
     private Mesa mesa;
     private ArrayList<Apuesta> apuestas;
     private Map<Apuesta, Boolean> resultados;
@@ -39,10 +39,12 @@ public class Ronda {
         this.numerosAnteriores = new ArrayList<>();
         //this.numerosApostadosDirectamente = new ArrayList<>();
         this.efectosSorteo = efectosSorteo;
-        this.balanceAnterior = 0;
-        this.balancePosterior = 0;
-        this.recoleccion = 0;
-        this.liquidacion = 0;
+       // this.balanceAnterior = 0;
+        //this.balancePosterior = 0;
+        this.montoTotalPagado = 0;
+        this.montoApostado = 0;
+      //  this.recoleccion = 0;
+        //this.liquidacion = 0;
         this.mesa = mesa;
         this.rondaId = nextId++;
     }
@@ -54,10 +56,7 @@ public class Ronda {
      public List<Integer> ultimosResultados(int utlimosNNumeros){
         return this.mesa.ultimosNumerosSorteados(utlimosNNumeros);
     }
-     
-    public void agregarApuesta(Apuesta apuesta) {
-        this.apuestas.add(apuesta);
-    }
+
 
     public int getNumeroGanador() {
         return numeroGanador;
@@ -77,22 +76,29 @@ public class Ronda {
     private void liquidarRonda(){
     }
 
-    public void montoTotalGanadoEnRonda(double montoGanado){
-        montoTotalGanado += montoGanado;
-    }
-    
-    public void montoTotalPerdidoEnRonda(double montoPerdido){
-        montoTotalPerdido += montoPerdido;
-    }
-    
-    public double calcularBalanceRonda(){
-        return montoTotalGanado - montoTotalPerdido;
-    }
-
     public int getCantidadApuestas() {
          return apuestas.size();
     }
     
+    public int getMontoTotalPagado() {
+        return montoTotalPagado;
+    }
+    
+     public void agregarApuesta(Apuesta apuesta) {
+        apuestas.add(apuesta);
+        montoApostado += apuesta.getMontoApostado();
+    }
+     
+    public void procesarSorteo(int numeroGanador) {
+    // Suponiendo que 'apuestas' es una lista de todas las apuestas en la ronda
+    for (Apuesta apuesta : apuestas) {
+        for (Integer codigoUCC : apuesta.getCodigosUCC()) {
+            if (apuesta.getTipoApuesta().esGanadora(numeroGanador, codigoUCC)) {
+                // Código para manejar la apuesta ganadora
+            }
+        }
+    }
+}
 
     public int getMontoTotalApostado() {
         int montoTotal = 0;

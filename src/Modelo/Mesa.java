@@ -199,4 +199,8 @@ public class Mesa extends Observable{
     public int getCantidadApuestas(){
         return rondaActual.getCantidadApuestas();
     }
+
+    void actualizarBalance(int montoTotalGanado, int montoTotalPerdido) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

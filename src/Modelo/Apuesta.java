@@ -6,6 +6,7 @@ package Modelo;
 
 import java.util.HashMap;
 import Modelo.Jugador;
+import java.util.Set;
 
 /**
  *
@@ -38,6 +39,10 @@ public class Apuesta {
         return tipoApuesta;
     }
 
+    public Set<Integer> getCodigosUCC() {
+        return montosPorCasillero.keySet();
+    }
+    
     public int getMontoApostado() {
         return montoApostado;
     }
@@ -57,5 +62,23 @@ public class Apuesta {
         return tipoApuesta.calcularFactorPago(montoApostado);
     }
 
+    public boolean esGanadora(int numeroGanador) {
+    // Itera a través de los códigos UCC y verifica si alguno coincide con el número ganador
+        for (Integer codigoUCC : montosPorCasillero.keySet()) {
+            if (tipoApuesta.esGanadora(numeroGanador, codigoUCC)) {
+             return true;
+            }
+        }
+        return false;
+    }
     
+     public int calcularMontoGanado() {
+        int montoGanado = 0;
+        for (Integer codigoUCC : montosPorCasillero.keySet()) {
+            int montoApostadoEnCasillero = montosPorCasillero.get(codigoUCC);
+            montoGanado += montoApostadoEnCasillero * tipoApuesta.getRatioPago();
+        }
+        return montoGanado;
+    }
+
 }

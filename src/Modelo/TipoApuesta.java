@@ -49,4 +49,7 @@ public abstract class TipoApuesta {
     }
 
     public abstract int calcularFactorPago(int monto);
+
+      // Método abstracto para determinar si una apuesta es ganadora
+    public abstract boolean esGanadora(int numeroGanador, int codigoUCC);
 }

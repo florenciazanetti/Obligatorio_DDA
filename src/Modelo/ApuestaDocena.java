@@ -19,4 +19,14 @@ public class  ApuestaDocena  extends TipoApuesta{
         return monto * 3;
     }
     
+    @Override
+    public boolean esGanadora(int numeroGanador, int codigoUCC) {
+        // Lógica para determinar si el número ganador está en la docena correcta
+        return esNumeroEnDocenaCorrecta(numeroGanador, codigoUCC);
+    }
+
+    private boolean esNumeroEnDocenaCorrecta(int numero, int docenaUCC) {
+        // Implementar la lógica para determinar si el número está en la docena correcta
+        // basado en el código UCC
+    }
 }
