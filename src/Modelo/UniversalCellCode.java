@@ -12,13 +12,11 @@ import java.util.Map;
     public class UniversalCellCode {
         
     private final int codigo;
-    private int[] numerosAsociados;
     private TipoApuesta tipoApuesta;
     
 
-    public UniversalCellCode(int codigo, int[] numerosAsociados, TipoApuesta tipo) {
+    public UniversalCellCode(int codigo) {
         this.codigo = codigo;
-        this.numerosAsociados = numerosAsociados;
         this.tipoApuesta = tipo;
     }
 
@@ -26,9 +24,6 @@ import java.util.Map;
         return codigo;
     }
 
-    public int[] getNumerosAsociados() {
-        return numerosAsociados;
-    }
 
     public TipoApuesta getTipoApuesta() {
         return tipoApuesta;

@@ -188,5 +188,6 @@ public class Mesa extends Observable{
     public void agregarApuesta(Apuesta apuesta) {
         apuestas.add(apuesta);
     }
+    
      
 }

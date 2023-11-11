@@ -15,7 +15,6 @@ public class Apuesta {
     
     private TipoApuesta tipoApuesta;
     private int monto;
-    private HashMap <String, UniversalCellCode> casilleros;
     private Jugador jugador;
     private int montoApostado;
    
@@ -24,7 +23,6 @@ public class Apuesta {
         this.tipoApuesta = tipoApuesta;
         this.montoApostado = monto;
         this.jugador = jugador;
-        this.casilleros = new HashMap<> ();
     }
      
       public int getMonto() {
@@ -37,14 +35,6 @@ public class Apuesta {
 
     public void setJugador(Jugador jugador) {
         this.jugador = jugador;
-    }
-
-     public HashMap<String, UniversalCellCode> getCasilleros() {
-        return casilleros;
-    }
-    
-    public void setCasilleros(HashMap<String, UniversalCellCode> casilleros) {
-        this.casilleros = casilleros;
     }
 
     boolean esGanadora(int numeroGanador) {

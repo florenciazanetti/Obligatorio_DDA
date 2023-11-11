@@ -78,36 +78,7 @@ public class Fachada extends Observable {
         return sistemaMesa.getEfectosSorteo();
     } 
 
-    /**
-    // Método para preparar la mesa para el sorteo
-    public void prepararParaSorteo(int idMesa) throws MesaRuletaException {
-        // 1. Obtener la mesa de ruleta
-        Mesa mesa = sistemaMesa.obtenerMesaPorId(idMesa);
-        if (mesa == null) {
-            throw new MesaRuletaException("Mesa no encontrada con el ID: " + idMesa);
-        }
-        // 2. Verificar que la mesa está en un estado que permite el sorteo
-        if (!sistemaMesa.verificarEstadoParaSorteo(mesa)) {
-            throw new MesaRuletaException("La mesa no está en un estado válido para realizar un sorteo.");
-        }
-        // 3. Bloquear apuestas en la mesa
-        sistemaMesa.bloquearApuestas(mesa);
-        // 4. Validar las apuestas realizadas en la mesa
-        if (!sistemaMesa.validarApuestas(mesa.getApuestas())) {
-            throw new MesaRuletaException("Hay apuestas inválidas en la mesa.");
-        }
-        // 5. Registrar las apuestas antes del sorteo
-        sistemaMesa.registrarApuestasParaSorteo(mesa.getApuestas());
-        // 6. Seleccionar el efecto de sorteo si es necesario
-        EfectoSorteo efecto = sistemaMesa.seleccionarEfectoDeSorteo(mesa.getEfectoSorteoActual());
-        // 7. Notificar a los jugadores sobre el inicio del sorteo
-        sistemaJugador.notificarInicioDeSorteo(mesa.getJugadores());
-        // 8. Actualizar la interfaz de usuario para mostrar que la mesa está en fase de sorteo
-        //UI.actualizarEstadoMesa(mesa.getId(), "En espera del sorteo");
-        // 9. Preparar el sistema de sorteo
-        sistemaMesa.prepararSorteo(mesa.getId(), efecto);
-    }
-  **/
+  
 
 
 
