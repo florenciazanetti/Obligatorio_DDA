@@ -11,7 +11,7 @@ import java.util.Map;
  */
     public class UniversalCellCode {
         
-    private final int codigo;
+    private int codigo;
     private TipoApuesta tipoApuesta;
     
 

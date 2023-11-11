@@ -59,7 +59,7 @@ public class Jugador extends Usuario{
         return rondasPariticipadas;
     }
 
-    public Apuesta realizarApuesta(int monto, TipoApuesta tipo) {
+    public Apuesta realizarApuesta(int monto, TipoApuesta tipo, int casilleroUCC) {
         Apuesta apuesta = null; 
 
         if (this.saldo > monto) {
@@ -69,8 +69,7 @@ public class Jugador extends Usuario{
             mesaActual.agregarApuesta(apuesta);
         }
         return apuesta; 
-    }
-   
+    }  
       
     public void recibirGanancias(double monto) {
          this.saldo += monto;

@@ -23,22 +23,21 @@ public class Ronda {
     private float recoleccion;
     private float liquidacion;
     private int numeroSorteado;
+    private int montoTotalGanado;
+    private int montoTotalPerdido;
     private Mesa mesa;
     private ArrayList<Apuesta> apuestas;
     private Map<Apuesta, Boolean> resultados;
     private ArrayList<EfectoSorteo> efectosSorteo;
     private ArrayList<Integer> numerosAnteriores;
-    private ArrayList<Integer> numerosApostadosDirectamente;
+   // private ArrayList<Integer> numerosApostadosDirectamente;
     
-    private double montoTotalApostado;
-    private double montoTotalGanado;
-    private double montoTotalPerdido;
-
+    
     public Ronda(int rondaId) {
         this.apuestas = new ArrayList<>();
         this.resultados = new HashMap<>();
         this.numerosAnteriores = new ArrayList<>();
-        this.numerosApostadosDirectamente = new ArrayList<>();
+        //this.numerosApostadosDirectamente = new ArrayList<>();
         this.efectosSorteo = efectosSorteo;
         this.balanceAnterior = 0;
         this.balancePosterior = 0;
@@ -88,6 +87,19 @@ public class Ronda {
     
     public double calcularBalanceRonda(){
         return montoTotalGanado - montoTotalPerdido;
+    }
+
+    public int getCantidadApuestas() {
+         return apuestas.size();
+    }
+    
+
+    public int getMontoTotalApostado() {
+        int montoTotal = 0;
+        for(Apuesta apuesta: apuestas){
+            montoTotal += apuesta.getMontoApostado();
+        }
+        return montoTotal;
     }
     
     

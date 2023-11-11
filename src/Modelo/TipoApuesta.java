@@ -34,8 +34,13 @@ public abstract class TipoApuesta {
         return ratioPago;
     }
 
-    public UniversalCellCode getUniversalCellCode(String nombreCasillero) {
-        return this.casilleros.get(nombreCasillero);
+    public UniversalCellCode getUniversalCellCode(int casillero) {
+        return this.casilleros.get(casillero);
+    }
+    
+    // Método para obtener todos los códigos de casilleros asociados a este tipo de apuesta
+    public Set<Integer> getCodigosCasilleros() {
+        return this.casilleros.keySet();
     }
     
       // Método para agregar un casillero a este tipo de apuesta

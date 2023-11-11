@@ -17,14 +17,6 @@ public class ModoAleatorioParcial extends EfectoSorteo{
         super(nombre);
     }
 
-    @Override
-    public int realizarSorteo(ArrayList<Integer> numerosAnteriores, ArrayList<Integer> numerosApostadosDirectamente) {
-        int numero;
-        do {
-            numero = new Random().nextInt(37);
-        } while (numerosAnteriores.contains(numero));
-        return numero;
-    }
 
     @Override
     public int realizarSorteo(Ronda ronda) {

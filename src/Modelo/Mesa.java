@@ -17,6 +17,7 @@ import java.util.List;
 public class Mesa extends Observable{
     
     private int mesaId;
+    private int contadorRondas;
     private static int nextId = 0;
     private boolean bloqueada;
     private int balance;
@@ -30,6 +31,7 @@ public class Mesa extends Observable{
 
     public Mesa(ArrayList<TipoApuesta> tiposApuesta, Crupier crupier) {
         this.mesaId = nextId;
+        this.contadorRondas = 0;
         this.balance = 0;
         this.bloqueada = false;
         this.rondaActual = new Ronda(rondaActual.getRondaId());
@@ -41,10 +43,10 @@ public class Mesa extends Observable{
  
 //-------------GETTERS Y SETTERS-----------------//
      
-     public void setEstado(EstadoMesa estado) {
+     /**public void setEstado(EstadoMesa estado) {
         this.estado = estado;
         avisar(Eventos.ESTADO_MESA_CAMBIADO); 
-    }
+    }*/
      
      public EstadoMesa getEstado() {
         return estado;
@@ -74,13 +76,17 @@ public class Mesa extends Observable{
         this.balance = balance;
     }
 
+    public void setRondas(List<Ronda> rondas) {
+        this.rondas = rondas;
+    }
+    
+
     public Ronda getRondaActual() {
-       for(Ronda r: rondas){
-           if(r.getRondaId() == (rondaActual.getRondaId())){
-               return r;
-           }
-       }
+        if(!rondas.isEmpty()){
+          return rondas.get(rondas.size() - 1);
+        } else {
        return null;
+        }
     }
     
     public ArrayList<Jugador> getJugadores() {
@@ -144,12 +150,12 @@ public class Mesa extends Observable{
         return ultimosNum;
     }
     
-    public void finalizarRonda(int numeroGanador) {
+    public void liquidarRonda(int numeroGanador) {
         int totalApostado = 0;
         int totalPagado = 0;
 
         for (Apuesta apuesta : apuestas) {
-            totalApostado += apuesta.getMonto();
+          /*  totalApostado += apuesta.getMonto();*/
 
             if (apuesta.esGanadora(numeroGanador)) {
                 totalPagado += apuesta.calcularPago();
@@ -161,11 +167,11 @@ public class Mesa extends Observable{
         // Limpiar las apuestas para la próxima ronda y realizar otras tareas necesarias
     }
     
-    private void liquidarRonda(){
-    }
 
     public void iniciarRonda(){
-    
+        contadorRondas++;
+        Ronda nuevaRonda = new Ronda(contadorRondas);
+        this.rondas.add(nuevaRonda);
     }
   
     public boolean agregarRonda(Ronda ronda){     
@@ -177,17 +183,20 @@ public class Mesa extends Observable{
         return false;
     }
 
-    public int obtenerMontoTotalApostado() {
-        int montoTotal = 0;
-        for (Apuesta apuesta : apuestas) {
-            montoTotal += apuesta.getMonto();
+    public int getMontoTotalApostadoPorRonda() {
+        Ronda rondaActual = getRondaActual();
+        if(rondaActual != null){
+            return rondaActual.getMontoTotalApostado();
+        } else {
+            return 0;
         }
-        return montoTotal;
     }
 
     public void agregarApuesta(Apuesta apuesta) {
         apuestas.add(apuesta);
     }
     
-     
+    public int getCantidadApuestas(){
+        return rondaActual.getCantidadApuestas();
+    }
 }

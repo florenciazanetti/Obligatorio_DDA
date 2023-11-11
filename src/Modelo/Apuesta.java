@@ -14,20 +14,17 @@ import Modelo.Jugador;
 public class Apuesta {
     
     private TipoApuesta tipoApuesta;
-    private int monto;
     private Jugador jugador;
     private int montoApostado;
+    private HashMap<Integer, Integer> montosPorCasillero; // Clave: Código UCC, Valor: Monto apostado
    
 
-     public Apuesta(TipoApuesta tipoApuesta, int monto, Jugador jugador) {
+     public Apuesta(TipoApuesta tipoApuesta, int montoApostado, Jugador jugador) {
         this.tipoApuesta = tipoApuesta;
-        this.montoApostado = monto;
+        this.montoApostado = montoApostado;
         this.jugador = jugador;
     }
      
-      public int getMonto() {
-        return monto;
-    }
 
     public Jugador getJugador() {
         return jugador;
@@ -37,12 +34,32 @@ public class Apuesta {
         this.jugador = jugador;
     }
 
+    public TipoApuesta getTipoApuesta() {
+        return tipoApuesta;
+    }
+
+    public int getMontoApostado() {
+        return montoApostado;
+    }
+    
+      // Método para agregar o actualizar una apuesta en un casillero
+    public void agregarApuesta(UniversalCellCode casilleroUCC, int montoApostado) {
+        int codigoUCC = casilleroUCC.getCodigo();
+        montosPorCasillero.put(codigoUCC, montosPorCasillero.getOrDefault(codigoUCC, 0) + montoApostado);
+    }
+
+    // Método para obtener la cantidad apostada en un casillero específico
+    public int getMontoTotalEnUnCasillero(UniversalCellCode casilleroUCC) {
+         return montosPorCasillero.getOrDefault(casilleroUCC.getCodigo(), 0);
+    }
+
     boolean esGanadora(int numeroGanador) {
          return tipoApuesta.esNumeroGanador(, numeroGanador);
     }
   
      public int calcularPago() {
-        return tipoApuesta.calcularFactorPago(monto);
+        return tipoApuesta.calcularFactorPago(montoApostado);
     }
+
     
 }
