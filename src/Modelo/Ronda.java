@@ -57,6 +57,9 @@ public class Ronda {
         return this.mesa.ultimosNumerosSorteados(utlimosNNumeros);
     }
 
+    public void setNumeroGanador(int numero) {
+        this.numeroGanador = numero;
+    }
 
     public int getNumeroGanador() {
         return numeroGanador;
@@ -68,12 +71,6 @@ public class Ronda {
 
     public ArrayList<EfectoSorteo> getEfectosSorteo() {
         return efectosSorteo;
-    }
-
-      private void finalizarRonda(){
-    }
-    
-    private void liquidarRonda(){
     }
 
     public int getCantidadApuestas() {
@@ -88,19 +85,22 @@ public class Ronda {
         apuestas.add(apuesta);
         montoApostado += apuesta.getMontoApostado();
     }
-     
+
     public void procesarSorteo(int numeroGanador) {
-    // Suponiendo que 'apuestas' es una lista de todas las apuestas en la ronda
-    for (Apuesta apuesta : apuestas) {
-        for (Integer codigoUCC : apuesta.getCodigosUCC()) {
-            if (apuesta.getTipoApuesta().esGanadora(numeroGanador, codigoUCC)) {
-                // Código para manejar la apuesta ganadora
+        int montoTotalGanado = 0;
+        int montoTotalPerdido = 0;
+
+        for (Apuesta apuesta : apuestas) {
+            if (apuesta.esGanadora(numeroGanador)) {
+                int montoGanado = apuesta.calcularMontoGanado();
+                montoTotalGanado += montoGanado;
+            } else {
+                montoTotalPerdido += apuesta.getMontoApostado();
             }
         }
     }
-}
 
-    public int getMontoTotalApostado() {
+    public int getMontoTotalApostado() {//en ronda
         int montoTotal = 0;
         for(Apuesta apuesta: apuestas){
             montoTotal += apuesta.getMontoApostado();

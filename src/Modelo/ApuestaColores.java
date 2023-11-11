@@ -25,5 +25,22 @@ public class ApuestaColores extends TipoApuesta{
         return ((colorGanador.equals("Rojo") && codigoUCC == 43) ||
                 (colorGanador.equals("Negro") && codigoUCC == 44));
     }
+    
+    public static String obtenerColor(int numero) {
+        // Definir números rojos y negros típicos en la ruleta
+        int[] rojos = {1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36};
+        for (int numRojos : rojos) {
+            if (numero == numRojos) {
+                return "Rojo";
+            }
+        }
+        // Si no es rojo y es entre 1 y 36, entonces es negro
+        if (numero >= 1 && numero <= 36) {
+            return "Negro";
+        }
+        // 0  no tienen color
+        return "Sin color";
+    }
 }
+
 }

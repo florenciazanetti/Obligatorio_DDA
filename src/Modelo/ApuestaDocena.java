@@ -25,8 +25,12 @@ public class  ApuestaDocena  extends TipoApuesta{
         return esNumeroEnDocenaCorrecta(numeroGanador, codigoUCC);
     }
 
-    private boolean esNumeroEnDocenaCorrecta(int numero, int docenaUCC) {
-        // Implementar la lógica para determinar si el número está en la docena correcta
-        // basado en el código UCC
+     private boolean esNumeroEnDocenaCorrecta(int numero, int docenaUCC) {
+        // Determinar las docenas basadas en los códigos UCC
+        // Asumiendo que 40, 41, 42 son los códigos UCC para las tres docenas
+        int docenaInicio = (docenaUCC - 40) * 12 + 1;
+        int docenaFin = docenaInicio + 11;
+
+        return numero >= docenaInicio && numero <= docenaFin;
     }
 }

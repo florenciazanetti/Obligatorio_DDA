@@ -16,6 +16,7 @@ public enum Eventos {
     
     MESA_CERRADA, 
     MESA_INICIADA, 
+    ESTADO_MESA_CAMBIADO, 
     MESA_AGREGADA,
     LANZAR_PAGAR,
 

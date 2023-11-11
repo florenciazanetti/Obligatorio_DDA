@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import Common.Observable;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -43,10 +44,10 @@ public class Mesa extends Observable{
  
 //-------------GETTERS Y SETTERS-----------------//
      
-     /**public void setEstado(EstadoMesa estado) {
+     public void setEstado(EstadoMesa estado) {
         this.estado = estado;
-        avisar(Eventos.ESTADO_MESA_CAMBIADO); 
-    }*/
+        avisar(Eventos.ESTADO_MESA_CAMBIADO); // Notifica a los observadores
+    }
      
      public EstadoMesa getEstado() {
         return estado;
@@ -120,54 +121,86 @@ public class Mesa extends Observable{
   //----------------------------------------//
     
     public void agregarJugador(Jugador jugador) throws MesaRuletaException {
-        if (jugadores.contains(jugador)){
-            throw new MesaRuletaException("El jugador ya participa de esta mesa");
-        }
-        jugadores.add(jugador);
+    if (jugadores.contains(jugador)){
+        throw new MesaRuletaException("El jugador ya participa de esta mesa");
     }
+    jugadores.add(jugador);
+
+    if (jugadores.size() == 1) { // Verificar después de agregar el jugador
+        setEstado(EstadoMesa.ACTIVA);
+    }
+}
 
     public void eliminarJugador(String cedula) {
-        for(Jugador jugador: jugadores){
-            if(jugador.getCedula().equals(cedula)){
-                jugadores.remove(jugador);
+        Iterator<Jugador> iterator = jugadores.iterator();
+        while (iterator.hasNext()) {
+            Jugador jugador = iterator.next();
+            if (jugador.getCedula().equals(cedula)) {
+                iterator.remove(); // Elimina el jugador usando el iterador
             }
         }
-    }
+        if (jugadores.isEmpty()) { // Verificar después de eliminar el jugador
+            setEstado(EstadoMesa.INACTIVA);
+        }
+}
+
 
     ArrayList<Jugador> getJugadoresEnMesa() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    List<Integer> ultimosNumerosSorteados(int utlimosNNumeros) {
-        List<Ronda> ultimasRondas = null;
-        List<Integer> ultimosNum = new ArrayList<Integer>();
-        if(this.rondas.size() > utlimosNNumeros){
-             ultimasRondas = this.rondas.subList(this.rondas.size() - utlimosNNumeros, rondas.size());
-        } 
-        for (Ronda r: ultimasRondas){
-            ultimosNum.add(r.getNumeroGanador());
+    public List<Integer> ultimosNumerosSorteados(int ultimosNNumeros) {
+        List<Integer> ultimosNumeros = new ArrayList<>();
+        int inicio = Math.max(0, rondas.size() - ultimosNNumeros);
+        for (int i = inicio; i < rondas.size(); i++) {
+            ultimosNumeros.add(rondas.get(i).getNumeroGanador());
         }
-        return ultimosNum;
+        return ultimosNumeros;
     }
-    
+
+    //Calcula y distribuye los pagos a los jugadores según el resultado del sorteo
     public void liquidarRonda(int numeroGanador) {
-        int totalApostado = 0;
-        int totalPagado = 0;
-
-        for (Apuesta apuesta : apuestas) {
-          /*  totalApostado += apuesta.getMonto();*/
-
-            if (apuesta.esGanadora(numeroGanador)) {
-                totalPagado += apuesta.calcularPago();
-            }
+        if (rondaActual != null) {
+            rondaActual.procesarSorteo(numeroGanador);
+            actualizarBalance();
         }
-
-        // Actualizar el balance
-        balance += (totalApostado - totalPagado);
-        // Limpiar las apuestas para la próxima ronda y realizar otras tareas necesarias
     }
     
+    //marca el fin de una ronda de apuestas y prepara la mesa para la siguiente ronda  
+    public void finalizarRonda(int numeroSorteado) {
+    rondaActual = getRondaActual();
+    if (rondaActual != null) {
+        rondaActual.setNumeroGanador(numeroSorteado);
+        rondas.add(rondaActual); // Añade la ronda actual al historial
+        iniciarNuevaRonda(); // Método que inicia una nueva ronda
+    }
 
+    // Cambiar estado según la presencia de jugadores
+    if (!jugadores.isEmpty()) {
+        setEstado(EstadoMesa.ACTIVA);
+    } else {
+        setEstado(EstadoMesa.INACTIVA);
+    }
+}
+
+    
+    private void iniciarNuevaRonda() {
+        contadorRondas++;
+        rondaActual = new Ronda(contadorRondas);
+        setEstado(EstadoMesa.OPERANDO);
+    }
+
+    public void actualizarBalance() {
+        rondaActual = getRondaActual();
+        if (rondaActual != null) {
+            // Obtener los montos ganados y perdidos de la ronda actual.
+            int montoTotalGanado = rondaActual.getMontoTotalPagado();
+            int montoTotalPerdido = rondaActual.getMontoTotalApostado() - montoTotalGanado;
+            // Actualizar el balance de la mesa.
+            this.balance += (montoTotalPerdido - montoTotalGanado);
+        }
+}
+ 
     public void iniciarRonda(){
         contadorRondas++;
         Ronda nuevaRonda = new Ronda(contadorRondas);
@@ -184,7 +217,7 @@ public class Mesa extends Observable{
     }
 
     public int getMontoTotalApostadoPorRonda() {
-        Ronda rondaActual = getRondaActual();
+        rondaActual = getRondaActual();
         if(rondaActual != null){
             return rondaActual.getMontoTotalApostado();
         } else {
@@ -198,9 +231,5 @@ public class Mesa extends Observable{
     
     public int getCantidadApuestas(){
         return rondaActual.getCantidadApuestas();
-    }
-
-    void actualizarBalance(int montoTotalGanado, int montoTotalPerdido) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
