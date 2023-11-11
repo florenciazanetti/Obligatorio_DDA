@@ -77,12 +77,12 @@ public class Ronda {
     private void liquidarRonda(){
     }
 
-    public void calcularMontoTotalGanado(double montoGanado){
+    public void montoTotalGanadoEnRonda(double montoGanado){
         montoTotalGanado += montoGanado;
     }
     
-    public void calcularMontoTotalPerdido(double montoPerdido){
-        montoTotalGanado += montoPerdido;
+    public void montoTotalPerdidoEnRonda(double montoPerdido){
+        montoTotalPerdido += montoPerdido;
     }
     
     public double calcularBalanceRonda(){

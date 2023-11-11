@@ -52,10 +52,6 @@ public class Apuesta {
     public int getMontoTotalEnUnCasillero(UniversalCellCode casilleroUCC) {
          return montosPorCasillero.getOrDefault(casilleroUCC.getCodigo(), 0);
     }
-
-    boolean esGanadora(int numeroGanador) {
-         return tipoApuesta.esNumeroGanador(, numeroGanador);
-    }
   
      public int calcularPago() {
         return tipoApuesta.calcularFactorPago(montoApostado);
