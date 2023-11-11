@@ -14,7 +14,7 @@ import java.util.HashMap;
 public abstract class TipoApuesta {
     private int ratioPago;
     private String nombre;
-    private HashMap <String, UniversalCellCode> casilleros;
+    private HashMap <Integer, UniversalCellCode> casilleros;
 
     public TipoApuesta(String nombre, int ratioPago) {
         this.nombre = nombre;
@@ -36,6 +36,11 @@ public abstract class TipoApuesta {
 
     public UniversalCellCode getUniversalCellCode(String nombreCasillero) {
         return this.casilleros.get(nombreCasillero);
+    }
+    
+      // Método para agregar un casillero a este tipo de apuesta
+    public void agregarCasillero(UniversalCellCode ucc) {
+        casilleros.put(ucc.getCodigo(), ucc);
     }
 
     public abstract int calcularFactorPago(int monto);
