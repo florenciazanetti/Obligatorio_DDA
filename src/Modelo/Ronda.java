@@ -102,5 +102,15 @@ public class Ronda {
         return montoTotal;
     }
     
+     public int getMontoTotalApostadoPorUnJugador(Jugador jugador) {
+        int montoTotal = 0;
+        for(Apuesta apuesta: apuestas){
+            if(apuesta.getJugador().equals(jugador)){
+                montoTotal += apuesta.getMontoApostado();
+            }
+        }
+        return montoTotal;
+    }
+    
     
 }
