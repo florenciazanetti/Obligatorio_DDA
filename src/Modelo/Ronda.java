@@ -18,12 +18,14 @@ public class Ronda {
     private int rondaId = 1;
     private int nextId;
     private int numeroGanador;
- //   private float balanceAnterior;
-   // private float balancePosterior;
+    private int balanceAnterior;
+    private int balancePosterior;
    // private float recoleccion;
    // private float liquidacion;
     private int numeroSorteado;
     private int montoTotalPagado;
+    private int montoTotalPerdido;
+    private int montoTotalGanado;
     private int montoApostado;
     private Mesa mesa;
     private ArrayList<Apuesta> apuestas;
@@ -37,12 +39,12 @@ public class Ronda {
         this.apuestas = new ArrayList<>();
         this.resultados = new HashMap<>();
         this.numerosAnteriores = new ArrayList<>();
-        //this.numerosApostadosDirectamente = new ArrayList<>();
-        this.efectosSorteo = efectosSorteo;
-       // this.balanceAnterior = 0;
-        //this.balancePosterior = 0;
+        this.balanceAnterior = 0;
+        this.balancePosterior = 0;
         this.montoTotalPagado = 0;
         this.montoApostado = 0;
+        this.montoTotalGanado = 0;
+        this.montoTotalPerdido = 0;
       //  this.recoleccion = 0;
         //this.liquidacion = 0;
         this.mesa = mesa;
@@ -81,6 +83,15 @@ public class Ronda {
         return montoTotalPagado;
     }
     
+    public void setBalanceAnterior(int balance) {
+       this.balanceAnterior = balance;
+    }
+
+    public int getBalancePosterior() {
+        return balancePosterior;
+    }
+
+    
      public void agregarApuesta(Apuesta apuesta) {
         apuestas.add(apuesta);
         montoApostado += apuesta.getMontoApostado();
@@ -98,7 +109,17 @@ public class Ronda {
                 montoTotalPerdido += apuesta.getMontoApostado();
             }
         }
+         balancePosterior = balanceAnterior + (montoTotalPerdido - montoTotalGanado);
     }
+    
+    public int getMontoTotalPerdido() {
+        return montoTotalPerdido;
+    }
+    
+    public int getMontoTotalGanado() {
+        return montoTotalGanado;
+    }
+
 
     public int getMontoTotalApostado() {//en ronda
         int montoTotal = 0;
@@ -125,7 +146,6 @@ public class Ronda {
                 System.out.println("Apuesta perdida: " + apuesta);
             }
         }
-    // Puedes optar por eliminar las apuestas perdedoras de la lista, dependiendo de cómo quieras manejarlo
 }
 
 

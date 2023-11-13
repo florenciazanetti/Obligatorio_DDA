@@ -171,7 +171,7 @@ public class Mesa extends Observable{
     public void liquidarRonda(int numeroGanador) {
         if (rondaActual != null) {
             rondaActual.procesarSorteo(numeroGanador);
-            actualizarBalance();
+            actualizarBalancePostRonda();
         }
     }
     
@@ -195,11 +195,14 @@ public class Mesa extends Observable{
     
     private void iniciarNuevaRonda() {
         contadorRondas++;
-        rondaActual = new Ronda(contadorRondas);
+       rondaActual = new Ronda(contadorRondas);
+        this.rondas.add(rondaActual);
         setEstado(EstadoMesa.OPERANDO);
+       rondaActual.setBalanceAnterior(this.balance);
+        
     }
 
-    public void actualizarBalance() {
+    public void actualizarBalancePostRonda() {
         rondaActual = getRondaActual();
         if (rondaActual != null) {
             // Obtener los montos ganados y perdidos de la ronda actual.
@@ -209,12 +212,7 @@ public class Mesa extends Observable{
             this.balance += (montoTotalPerdido - montoTotalGanado);
         }
 }
- 
-    public void iniciarRonda(){
-        contadorRondas++;
-        Ronda nuevaRonda = new Ronda(contadorRondas);
-        this.rondas.add(nuevaRonda);
-    }
+
   
     public boolean agregarRonda(Ronda ronda){     
         if(ronda != null){
