@@ -19,36 +19,64 @@ import Modelo.MesaRuletaException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author flore
- */
+
 public class ControladorIniciarMesa {
     private Fachada fachada;
     private VistaIniciarMesa vista;
-    TipoApuesta tipo;
+    private Mesa mesa;
 
+    // Constructor del controlador
     public ControladorIniciarMesa(Crupier crupier, VistaIniciarMesa vista) {
         this.vista = vista;
-        mesa.agregar(this);
+        this.fachada = Fachada.getInstancia(); 
+        crupier.setMesa(new Mesa());
+        fachada.agregarMesa(mesa);
     }  
 
-    public void cargarComboTiposDeApuestas(){
-        ArrayList<TipoApuesta> tiposDeApuestas = Fachada.getInstancia().getTiposApuesta();
-        String[] strings = new String[tiposDeApuestas.length];
-        for (int i = 0; i < tiposDeApuestas.length; i++){
-            if(tiposDeApuestas[i].name() != "ApuestaDirecta"){
-                strings[i] = tiposDeApuestas[i].name();
-            }
+    // Método para cargar el combo con los tipos de apuestas
+    public void cargarTiposDeApuestas() {
+        ArrayList<TipoApuesta> tiposApuesta = mesa.getTiposApuesta();
+        vista.mostrarTiposDeApuestas(tiposApuesta, "Apuesta Directa");
+    }
+    
+    // Método para manejar la selección de tipos de apuesta y empezar la mesa
+  /*  public void iniciarMesaConSeleccion(Crupier crupier, ArrayList<TipoApuesta> seleccionados) {
+        mesa.setTiposApuesta(seleccionados); // Configura los tipos de apuesta en la mesa
+        fachada.iniciarMesa(crupier, seleccionados); // Inicia la mesa con el crupier y los tipos de apuesta seleccionados
+        // Continuar con "Operar mesa"
+    }*/
+    
+     public void manejarInicioDeMesa() {
+        // Obtener las selecciones de la vista
+        ArrayList<TipoApuesta> tiposSeleccionados = vista.obtenerTiposApuestaSeleccionados();
+        // Verificar si al menos un tipo de apuesta ha sido seleccionado
+        if (tiposSeleccionados.isEmpty()) {
+            vista.mostrarMensaje("Debe seleccionar al menos un tipo de apuesta.");
+            return;
         }
-        vista.mostrarTiposDeApuestas(strings);
+        // Iniciar la mesa con las selecciones
+        iniciarMesaConSeleccion(tiposSeleccionados);
+    }
+
+    // Método para iniciar la mesa con los tipos de apuesta seleccionados
+    public void iniciarMesaConSeleccion(ArrayList<TipoApuesta> seleccionados) {
+        mesa.setTiposApuesta(seleccionados);
+        fachada.iniciarMesa(mesa); // Asumiendo que fachada.iniciarMesa espera un objeto Mesa
+        // Continuar con "Operar mesa"
     }
     
-    public void tipoApuestaSeleccionado(String tipoSeleccionado){
-        tipo = TipoApuesta.valueOf(tipoSeleccionado);
+    // Método para iniciar la configuración de la mesa
+    public void iniciarConfiguracionMesa(Crupier crupier) {
+        cargarTiposDeApuestas(); 
     }
+
+    public void volverALaPantallaDeLogin() {
+        vista.cerrarVentana();
+    }
+}
+
     
-     public void iniciarMesa(String[] tipos, Crupier crupier) {
+    /* public void iniciarMesa(String[] tipos, Crupier crupier) {
         ArrayList<TipoApuesta> tiposSeleccionados = new ArrayList<>();  
         tiposSeleccionados.add(TipoApuesta.ApuestaDirecta);
         if(tipos != null){
@@ -62,7 +90,7 @@ public class ControladorIniciarMesa {
         } catch (MesaRuletaException ex) {
             vista.mostrarMensaje(ex.getMessage());
         }
-     }
+     }/*
 
     public void logout() {
           Fachada.getInstancia().logout(crupier);   

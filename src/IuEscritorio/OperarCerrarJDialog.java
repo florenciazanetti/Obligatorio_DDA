@@ -21,14 +21,13 @@ import javax.swing.JComboBox;
  *
  * @author sabrina
  */
-public class OperarCerrarJDialog extends javax.swing.JDialog implements VistaOperarCerrarMesa {
+public class OperarCerrarJDialog extends javax.swing.JFrame  implements VistaOperarCerrarMesa {
     
     private ControladorOperarCerrarMesa controlador ;
     private EfectoSorteo efectoSorteo;
     private Mesa mesa;
      
-    public OperarCerrarJDialog(java.awt.Frame parent, boolean modal, Crupier crupier) {
-        super(parent, modal);
+    public OperarCerrarJDialog(Crupier crupier, ) {
         initComponents();
 
     }
@@ -61,7 +60,7 @@ public class OperarCerrarJDialog extends javax.swing.JDialog implements VistaOpe
             comboBoxEfectoSorteo.addItem(ef);
         }
     }
-    @Override
+/*    @Override
     public void mostrarCantidadApuestas(Mesa mesa) {
         cantApuestas.setText(Integer.toString(mesa.getApuestas().size()));
     }
@@ -71,7 +70,7 @@ public class OperarCerrarJDialog extends javax.swing.JDialog implements VistaOpe
         for()
         montoApuestas.setText(Integer.toString(mesa.getApuestas().));
         
-    }
+    }*/
 
     @Override
     public void motrarMesaConDistribucionApuestasAcadaTipoDeApuestas(Mesa mesaConDistribucionApuestas) {
@@ -95,11 +94,6 @@ public class OperarCerrarJDialog extends javax.swing.JDialog implements VistaOpe
 
     @Override
     public void mostrarJugadoresEnLaMesa(ArrayList<Jugador> jugadoresMesa) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void saldoDeJugadores(int saldo) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
@@ -351,4 +345,14 @@ public class OperarCerrarJDialog extends javax.swing.JDialog implements VistaOpe
     private javax.swing.JTable tablaJugadorSaldo;
     private javax.swing.JLabel ultimosLanzamientos;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void mostrarCantidadApuestas(int cantidadApuestas) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mostrarMontoTotalApostado(int montoTotal) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

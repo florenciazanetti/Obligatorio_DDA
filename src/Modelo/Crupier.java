@@ -23,5 +23,19 @@ public class Crupier extends Usuario {
      
     }
 
+    public Mesa getMesa() {
+        return mesa;
+    }
+
+    public void setMesa(Mesa mesa) {
+        this.mesa = mesa;
+    }
+       
+       
+       
+     public void configurarMesa(Mesa mesa, ArrayList<TipoApuesta> tiposApuestaSeleccionados) {
+        mesa.setTiposApuesta(tiposApuestaSeleccionados);
+    }
+
   
 }

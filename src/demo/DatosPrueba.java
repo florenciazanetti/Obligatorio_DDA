@@ -50,7 +50,7 @@ public class DatosPrueba {
         Fachada.getInstancia().agregarCrupier(crupier2);
         Fachada.getInstancia().agregarCrupier(crupier3);
         
-        
+ 
         /**TipoApuesta apuestaRojo = new TipoApuesta("Rojo", 2);
         apuestaRojo.agregarCasillero("Rojo", 43);
 

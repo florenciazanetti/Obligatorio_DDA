@@ -39,6 +39,10 @@ public class Mesa extends Observable{
         this.tiposApuesta = new ArrayList<>();
         this.jugadores = new ArrayList<>();
         this.nextId++;
+        this.estado = EstadoMesa.INACTIVA; // Estado inicial de la mesa
+    }
+    
+      public Mesa() {
     }
     
  
@@ -110,8 +114,9 @@ public class Mesa extends Observable{
         return tiposApuesta;
     }
 
-    public void setTiposApuesta(ArrayList<TipoApuesta> tiposApuesta) {
-        this.tiposApuesta = tiposApuesta;
+    public void setTiposApuesta(List<TipoApuesta> tiposApuesta) {
+        this.tiposApuesta.clear();
+        this.tiposApuesta.addAll(tiposApuesta);
     }
 
     public List<Ronda> getRondas() {
@@ -119,6 +124,14 @@ public class Mesa extends Observable{
     }
     
   //----------------------------------------//
+    public void iniciarMesa() {
+        if (!this.tiposApuesta.isEmpty()) {
+            // Lógica para iniciar la mesa
+            this.estado = EstadoMesa.ACTIVA;
+            // Otros procesos de inicialización...
+        }
+    }
+    
     
     public void agregarJugador(Jugador jugador) throws MesaRuletaException {
     if (jugadores.contains(jugador)){

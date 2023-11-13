@@ -68,11 +68,15 @@ public class Fachada extends Observable {
         avisar(Eventos.MESA_AGREGADA);   
     }
     
-    public Mesa iniciarMesa(ArrayList<TipoApuesta> tipos, Crupier crupier) throws MesaRuletaException {
+    /*public Mesa iniciarMesa(ArrayList<TipoApuesta> tipos, Crupier crupier) throws MesaRuletaException {
         Mesa mesa = new Mesa(tipos, crupier);
         agregarMesa(mesa);
         return mesa;
-     }
+     }*/
+    public void iniciarMesa(Crupier crupier, ArrayList<TipoApuesta> tiposApuestaSeleccionados) {
+        Mesa mesa = new Mesa(tiposApuestaSeleccionados, crupier); // Suponiendo que Mesa se crea por cada crupier
+        crupier.configurarMesa(mesa, tiposApuestaSeleccionados);
+    }
 
     public ArrayList<EfectoSorteo> getEfectosSorteo() {
         return sistemaMesa.getEfectosSorteo();
