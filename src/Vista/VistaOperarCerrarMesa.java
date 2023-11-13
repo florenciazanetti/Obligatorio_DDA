@@ -42,5 +42,17 @@ public interface VistaOperarCerrarMesa {
     public int saldoDeJugadores();
     
     public void mostrarMensajeDeError(String message);
+
+    public void actualizarSaldosJugadores(ArrayList<Jugador> jugadores);
+
+    public void ocultarUltimoNumeroGanador();
+
+    public void actualizarListaUltimosLanzamientos();
+
+    public void actualizarListaRondas();
+
+    public void notificarCierreMesa();
+
+    public void notificarCierreMesa();
     
 }

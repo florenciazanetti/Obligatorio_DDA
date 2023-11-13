@@ -16,6 +16,8 @@ import Modelo.Fachada;
 import java.util.ArrayList;
 import Modelo.Mesa;
 import Modelo.MesaRuletaException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,28 +26,34 @@ public class ControladorIniciarMesa {
     private Fachada fachada;
     private VistaIniciarMesa vista;
     private Mesa mesa;
+    private Crupier crupier;
+    private Map<String, TipoApuesta> nombreATipoMap = new HashMap<>();
 
     // Constructor del controlador
-    public ControladorIniciarMesa(Crupier crupier, VistaIniciarMesa vista) {
+    public ControladorIniciarMesa(Crupier crupier, VistaIniciarMesa vista) throws MesaRuletaException {
         this.vista = vista;
         this.fachada = Fachada.getInstancia(); 
         crupier.setMesa(new Mesa());
         fachada.agregarMesa(mesa);
+        nombreATipoMap = new HashMap<>();
+        // Llenar el mapa con los tipos de apuesta y sus nombres
+        for (TipoApuesta tipo : mesa.getTiposApuesta()) {
+            nombreATipoMap.put(tipo.getNombre(), tipo);
+        }
     }  
 
-    // Método para cargar el combo con los tipos de apuestas
+    // Cuando cargues los tipos de apuesta en la tabla, también llena el mapa
     public void cargarTiposDeApuestas() {
         ArrayList<TipoApuesta> tiposApuesta = mesa.getTiposApuesta();
+        for (TipoApuesta tipo : tiposApuesta) {
+            nombreATipoMap.put(tipo.getNombre(), tipo);
+        }
         vista.mostrarTiposDeApuestas(tiposApuesta, "Apuesta Directa");
+}
+      public TipoApuesta getTipoApuestaPorNombre(String nombre) {
+        return nombreATipoMap.get(nombre);
     }
-    
-    // Método para manejar la selección de tipos de apuesta y empezar la mesa
-  /*  public void iniciarMesaConSeleccion(Crupier crupier, ArrayList<TipoApuesta> seleccionados) {
-        mesa.setTiposApuesta(seleccionados); // Configura los tipos de apuesta en la mesa
-        fachada.iniciarMesa(crupier, seleccionados); // Inicia la mesa con el crupier y los tipos de apuesta seleccionados
-        // Continuar con "Operar mesa"
-    }*/
-    
+      
      public void manejarInicioDeMesa() {
         // Obtener las selecciones de la vista
         ArrayList<TipoApuesta> tiposSeleccionados = vista.obtenerTiposApuestaSeleccionados();
@@ -61,7 +69,7 @@ public class ControladorIniciarMesa {
     // Método para iniciar la mesa con los tipos de apuesta seleccionados
     public void iniciarMesaConSeleccion(ArrayList<TipoApuesta> seleccionados) {
         mesa.setTiposApuesta(seleccionados);
-        fachada.iniciarMesa(mesa); // Asumiendo que fachada.iniciarMesa espera un objeto Mesa
+        fachada.iniciarMesa(crupier, seleccionados); // Asumiendo que fachada.iniciarMesa espera un objeto Mesa
         // Continuar con "Operar mesa"
     }
     
@@ -73,34 +81,6 @@ public class ControladorIniciarMesa {
     public void volverALaPantallaDeLogin() {
         vista.cerrarVentana();
     }
-}
-
-    
-    /* public void iniciarMesa(String[] tipos, Crupier crupier) {
-        ArrayList<TipoApuesta> tiposSeleccionados = new ArrayList<>();  
-        tiposSeleccionados.add(TipoApuesta.ApuestaDirecta);
-        if(tipos != null){
-            for (String tiposA : tipos)
-                tiposSeleccionados.add(TipoApuesta.valueOf(tiposA));
-            }
-        Mesa mesa;
-        try{
-            mesa = fachada.iniciarMesa(tiposSeleccionados, crupier);
-            vista.ejecutarSiguienteCasoUso(mesa);
-        } catch (MesaRuletaException ex) {
-            vista.mostrarMensaje(ex.getMessage());
-        }
-     }/*
-
-    public void logout() {
-          Fachada.getInstancia().logout(crupier);   
-    }
-
-    public void cerrarPantallaSinIniciar() {// El crupier cierra la pantalla (sin presionar “Iniciar”): el usuario se desloguea.
-        vista.volverALaPantallaDeLogin();
-        Fachada.getInstancia().logout(crupier);   
-    }
-
 
 
     

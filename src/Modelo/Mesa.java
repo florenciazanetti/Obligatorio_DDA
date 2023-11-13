@@ -10,6 +10,7 @@ import java.util.Map;
 import Common.Observable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 /**
  *
@@ -134,14 +135,14 @@ public class Mesa extends Observable{
     
     
     public void agregarJugador(Jugador jugador) throws MesaRuletaException {
-    if (jugadores.contains(jugador)){
-        throw new MesaRuletaException("El jugador ya participa de esta mesa");
-    }
-    jugadores.add(jugador);
+        if (jugadores.contains(jugador)){
+            throw new MesaRuletaException("El jugador ya participa de esta mesa");
+        }
+        jugadores.add(jugador);
 
-    if (jugadores.size() == 1) { // Verificar después de agregar el jugador
-        setEstado(EstadoMesa.ACTIVA);
-    }
+        if (jugadores.size() == 1) { // Verificar después de agregar el jugador
+            setEstado(EstadoMesa.ACTIVA);
+        }
 }
 
     public void eliminarJugador(String cedula) {
@@ -156,11 +157,6 @@ public class Mesa extends Observable{
             setEstado(EstadoMesa.INACTIVA);
         }
 }
-
-
-    ArrayList<Jugador> getJugadoresEnMesa() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 
     public List<Integer> ultimosNumerosSorteados(int ultimosNNumeros) {
         List<Integer> ultimosNumeros = new ArrayList<>();
@@ -244,5 +240,52 @@ public class Mesa extends Observable{
     
     public int getCantidadApuestas(){
         return rondaActual.getCantidadApuestas();
+    }
+
+    public int lanzarBola() {
+        // Supongamos que la ruleta tiene números del 0 al 36
+        Random random = new Random();
+        int numeroGanador = random.nextInt(37); // Genera un número entre 0 y 36
+        if (rondaActual != null) {
+            rondaActual.setNumeroGanador(numeroGanador);
+        }
+        return numeroGanador;
+}
+
+
+    public void bloquearApuestas() {
+        this.bloqueada = true;
+}
+
+    public void desbloquearApuestas() {
+        this.bloqueada = false;
+}
+
+
+    public void recolectarApuestasPerdedoras() {
+    if (rondaActual != null) {
+        rondaActual.recolectarPerdedoras();
+    }
+}
+   public void pagarApuestasGanadoras() {
+        if (rondaActual != null) {
+            rondaActual.pagarGanadoras();
+        }
+}
+
+
+    public void realizarLiquidacion() {
+         if (rondaActual != null) {
+            rondaActual.liquidarRonda();
+        }
+    }
+
+    public void expulsarJugadores() {
+         jugadores.clear(); // Elimina todos los jugadores de la lista
+         setEstado(EstadoMesa.INACTIVA); // Cambia el estado de la mesa a inactiva
+    }
+
+    public void prepararParaNuevaRonda() {
+         iniciarNuevaRonda(); 
     }
 }

@@ -12,6 +12,10 @@ import java.util.ArrayList;
  * @author sabrina
  */
 public class Fachada extends Observable {
+
+    public Mesa getMesaPorId(int mesaId) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
     public enum eventos{cambiosMesas};
     private final SistemaAcceso sAcceso = new SistemaAcceso();

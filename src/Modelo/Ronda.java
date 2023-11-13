@@ -117,6 +117,44 @@ public class Ronda {
         }
         return montoTotal;
     }
-    
+
+    public void recolectarPerdedoras() {
+        for (Apuesta apuesta : apuestas) {
+            if (!apuesta.esGanadora(numeroGanador)) {
+                // Opcionalmente registrar o realizar acciones con las apuestas perdedoras
+                System.out.println("Apuesta perdida: " + apuesta);
+            }
+        }
+    // Puedes optar por eliminar las apuestas perdedoras de la lista, dependiendo de cómo quieras manejarlo
+}
+
+
+    public void liquidarRonda() {
+        int montoTotalGanado = 0;
+        int montoTotalPerdido = 0;
+
+        for (Apuesta apuesta : apuestas) {
+            if (apuesta.esGanadora(numeroGanador)) {
+                montoTotalGanado += apuesta.calcularMontoGanado();
+            } else {
+                montoTotalPerdido += apuesta.getMontoApostado();
+            }
+        }
+
+        // Aquí actualizas los montos relevantes
+        montoTotalPagado = montoTotalGanado;
+    // Puedes agregar más lógica si es necesario
+}
+
+    public void pagarGanadoras() {
+        for (Apuesta apuesta : apuestas) {
+            if (apuesta.esGanadora(numeroGanador)) {
+                int montoGanado = apuesta.calcularMontoGanado();
+                Jugador jugador = apuesta.getJugador();
+                jugador.actualizarSaldo(montoGanado); // Suponiendo que Jugador tiene un método para actualizar su saldo
+            }
+        }
+}
+
     
 }
