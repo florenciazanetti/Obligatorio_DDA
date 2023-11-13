@@ -53,6 +53,5 @@ public interface VistaOperarCerrarMesa {
 
     public void notificarCierreMesa();
 
-    public void notificarCierreMesa();
     
 }

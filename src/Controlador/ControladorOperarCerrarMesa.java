@@ -43,6 +43,7 @@ public class ControladorOperarCerrarMesa implements Observador {
     
     public void iniciarRonda(){
         mesa.iniciarRonda();
+        vista.mostrarBalanceDeMesa(mesa.getBalance());
         inicializar();
     }
     

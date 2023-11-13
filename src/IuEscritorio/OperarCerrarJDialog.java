@@ -16,7 +16,10 @@ import Modelo.Mesa;
 import Modelo.Ronda;
 import Vista.VistaOperarCerrarMesa;
 import componente.PanelRuleta;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 /**
  *
  * @author sabrina
@@ -27,10 +30,10 @@ public class OperarCerrarJDialog extends javax.swing.JFrame  implements VistaOpe
     private EfectoSorteo efectoSorteo;
     private Mesa mesa;
      
-    public OperarCerrarJDialog(Crupier crupier, ) {
+    /*public OperarCerrarJDialog(Crupier crupier, ) {
         initComponents();
 
-    }
+    }*/
 
     private void cerrarMesa(){
         controlador.cerrarMesa(mesa.getMesaId());
@@ -46,7 +49,7 @@ public class OperarCerrarJDialog extends javax.swing.JFrame  implements VistaOpe
       
     @Override
     public void mostrarNumeroDeRonda(int numeroDeRonda) {
-        
+        lblNumeroRonda.setText("Número de Ronda: " + numeroDeRonda);
     }
 
     @Override
@@ -55,10 +58,12 @@ public class OperarCerrarJDialog extends javax.swing.JFrame  implements VistaOpe
     }
 
     @Override
-    public void mostrarListaDeEfectos(ArrayList<EfectoSorteo> efectos) {
-      for (EfectoSorteo ef : efectos) {
-            comboBoxEfectoSorteo.addItem(ef);
+      public void mostrarListaDeEfectos(ArrayList<EfectoSorteo> efectos) {
+        DefaultListModel<String> modelo = new DefaultListModel<>();
+        for (EfectoSorteo efecto : efectos) {
+            modelo.addElement(efecto.toString()); // Suponiendo que EfectoSorteo tiene un método toString adecuado
         }
+        comboEfectoSorteo.setModel((ComboBoxModel<String>) modelo);
     }
 /*    @Override
     public void mostrarCantidadApuestas(Mesa mesa) {
@@ -79,12 +84,12 @@ public class OperarCerrarJDialog extends javax.swing.JFrame  implements VistaOpe
     
      @Override
     public void mostrarMensajeDeError(String message) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+        JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
+}
 
     @Override
     public void mostrarNumeroSorteado(int numSorteado) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        numSorteado.setText("Número Sorteado: " + numSorteado);
     }
 
     @Override
@@ -99,9 +104,9 @@ public class OperarCerrarJDialog extends javax.swing.JFrame  implements VistaOpe
 
       @Override
     public void mostrarBalanceDeMesa(double balanceMesa) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        montoBalance.setText("Balance de Mesa: " + balanceMesa);
     }
-    
+
 
     @Override
     public void mostrarListaUltimosLanzamientos(List<Integer> ultimosLanzamientos) {
@@ -113,7 +118,41 @@ public class OperarCerrarJDialog extends javax.swing.JFrame  implements VistaOpe
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
- 
+    @Override
+    public void mostrarCantidadApuestas(int cantidadApuestas) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mostrarMontoTotalApostado(int montoTotal) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void actualizarSaldosJugadores(ArrayList<Jugador> jugadores) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void ocultarUltimoNumeroGanador() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void actualizarListaUltimosLanzamientos() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void actualizarListaRondas() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void notificarCierreMesa() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+}
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -141,6 +180,7 @@ public class OperarCerrarJDialog extends javax.swing.JFrame  implements VistaOpe
         jLabel4 = new javax.swing.JLabel();
         numRuleta = new java.awt.Label();
         numRonda = new java.awt.Label();
+        numSorteado = new java.awt.Label();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -198,6 +238,11 @@ public class OperarCerrarJDialog extends javax.swing.JFrame  implements VistaOpe
         btnLanzarPagar.setText("jButton1");
 
         btnCerrarMesa.setText("jButton2");
+        btnCerrarMesa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarMesaActionPerformed(evt);
+            }
+        });
 
         jLabel9.setText("$-");
 
@@ -217,6 +262,8 @@ public class OperarCerrarJDialog extends javax.swing.JFrame  implements VistaOpe
 
         numRonda.setText("label2");
 
+        numSorteado.setText("label1");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -224,18 +271,18 @@ public class OperarCerrarJDialog extends javax.swing.JFrame  implements VistaOpe
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(7, 7, 7)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 757, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(33, 33, 33)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(ultimosLanzamientos)))
-                .addContainerGap(12, Short.MAX_VALUE))
+                        .addComponent(ultimosLanzamientos))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 757, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -258,7 +305,8 @@ public class OperarCerrarJDialog extends javax.swing.JFrame  implements VistaOpe
                         .addComponent(comboEfectoSorteo, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(48, 48, 48)
                         .addComponent(btnLanzarPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(numSorteado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -272,8 +320,8 @@ public class OperarCerrarJDialog extends javax.swing.JFrame  implements VistaOpe
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(numRuleta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(54, 54, 54)
-                        .addComponent(btnCerrarMesa)
-                        .addGap(25, 25, 25))))
+                        .addComponent(btnCerrarMesa)))
+                .addGap(25, 25, 25))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -293,30 +341,34 @@ public class OperarCerrarJDialog extends javax.swing.JFrame  implements VistaOpe
                     .addComponent(numRonda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(comboEfectoSorteo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(montoApuestas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cantApuestas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel7)
-                                .addComponent(jLabel8)
-                                .addComponent(btnLanzarPagar)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 357, Short.MAX_VALUE)
+                    .addComponent(numSorteado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(comboEfectoSorteo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(montoApuestas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cantApuestas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel8)
+                            .addComponent(btnLanzarPagar))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 357, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
                             .addComponent(jLabel6)
                             .addComponent(ultimosLanzamientos))
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(22, 22, 22))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCerrarMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarMesaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCerrarMesaActionPerformed
 
    
   JComboBox<EfectoSorteo> comboBoxEfectoSorteo = new JComboBox<>();
@@ -341,18 +393,10 @@ public class OperarCerrarJDialog extends javax.swing.JFrame  implements VistaOpe
     private java.awt.Label montoBalance;
     private java.awt.Label numRonda;
     private java.awt.Label numRuleta;
+    private java.awt.Label numSorteado;
     private javax.swing.JTable tablaCrupier;
     private javax.swing.JTable tablaJugadorSaldo;
     private javax.swing.JLabel ultimosLanzamientos;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public void mostrarCantidadApuestas(int cantidadApuestas) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void mostrarMontoTotalApostado(int montoTotal) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-}
+ 
