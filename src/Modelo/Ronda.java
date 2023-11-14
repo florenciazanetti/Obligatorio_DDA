@@ -98,8 +98,8 @@ public class Ronda {
     }
 
     public void procesarSorteo(int numeroGanador) {
-        int montoTotalGanado = 0;
-        int montoTotalPerdido = 0;
+         montoTotalGanado = 0;
+        montoTotalPerdido = 0;
 
         for (Apuesta apuesta : apuestas) {
             if (apuesta.esGanadora(numeroGanador)) {
@@ -121,7 +121,7 @@ public class Ronda {
     }
 
 
-    public int getMontoTotalApostado() {//en ronda
+    public int getMontoTotalApostado() {
         int montoTotal = 0;
         for(Apuesta apuesta: apuestas){
             montoTotal += apuesta.getMontoApostado();

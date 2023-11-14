@@ -19,13 +19,13 @@ public interface VistaOperarCerrarMesa {
 
     void mostrarDatosDeRonda(ArrayList<Ronda> rondas);
 
-    void mostrarListaUltimosLanzamientos(List<Integer> ultimosLanzamientos);
+    void mostrarListaUltimosLanzamientos(ArrayList<Integer> ultimosLanzamientos);
 
     void mostrarMensajeDeError(String message);
 
     void ultimoNumeroSorteado(int ultimo);
     
-    void listarJugadoresYSaldo(ArrayList<Jugador> jugadores);
+    void mostrarJugadoresYSaldo(ArrayList<Jugador> jugadores);
 
     
 }

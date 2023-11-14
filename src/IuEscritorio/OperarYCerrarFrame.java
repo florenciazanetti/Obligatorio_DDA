@@ -5,28 +5,36 @@
 package IuEscritorio;
 
 import Controlador.ControladorOperarCerrarMesa;
+import Modelo.Crupier;
 import Modelo.EfectoSorteo;
 import Modelo.Jugador;
 import Modelo.Mesa;
 import Modelo.Ronda;
+import Modelo.TipoApuesta;
 import Vista.VistaOperarCerrarMesa;
+import componente.PanelRuleta;
 import java.util.ArrayList;
-import java.util.List;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author sabrina
  */
-public class OperarYCerrarDialog extends javax.swing.JDialog implements VistaOperarCerrarMesa {
+public class OperarYCerrarFrame extends javax.swing.JFrame implements VistaOperarCerrarMesa {
 
-  private ControladorOperarCerrarMesa controlador ;
-    private EfectoSorteo efectoSorteo;
+    private ControladorOperarCerrarMesa controlador ;
+    private TipoApuesta[] tipoApuesta;
     private Mesa mesa;
     
-    public OperarYCerrarDialog(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public OperarYCerrarFrame(Crupier crupier, TipoApuesta[] tipoApuesta, Mesa mesa) {
+        this.mesa = mesa; 
+        this.controlador = new ControladorOperarCerrarMesa(crupier, mesa, this);
+        this.tipoApuesta = tipoApuesta;
         initComponents();
+        ocultarBotones();
+        mostrarBotones();
     }
 
     private void cerrarMesa(){
@@ -39,6 +47,48 @@ public class OperarYCerrarDialog extends javax.swing.JDialog implements VistaOpe
     
     private void pagar(){
         controlador.pagar();
+    }
+    
+    private void ocultarBotones(){
+        r.setVisible(PanelRuleta.PRIMERA_COLUMNA, false);
+        r.setVisible(PanelRuleta.SEGUNDA_COLUMNA, false);
+        r.setVisible(PanelRuleta.TERCERA_COLUMNA, false);
+         r.setVisible(PanelRuleta.MAYOR, false);
+        r.setVisible(PanelRuleta.MENOR, false);
+        r.setVisible(PanelRuleta.COMPUESTO, false);
+        r.setVisible(PanelRuleta.PRIMO, false);
+        r.setVisible(PanelRuleta.IMPAR, false);
+        r.setVisible(PanelRuleta.PAR, false);
+        r.setVisible(PanelRuleta.ROJO, false);
+        r.setVisible(PanelRuleta.NEGRO, false);
+        r.setVisible(PanelRuleta.PRIMERA_DOCENA, false);
+        r.setVisible(PanelRuleta.SEGUNDA_DOCENA, false);
+        r.setVisible(PanelRuleta.TERCERA_DOCENA, false);
+    }
+    
+    private void mostrarBotones(){
+        for (TipoApuesta tipoApuesta : tipoApuesta) {
+        switch (tipoApuesta.getNombre()) {
+            case "Primera Dicena":
+                r.setVisible(PanelRuleta.PRIMERA_DOCENA, true);
+                break;
+            case "Segunda Docena":
+               r.setVisible(PanelRuleta.SEGUNDA_DOCENA, true);
+                    break;
+            case "Tercera Docena":
+               r.setVisible(PanelRuleta.TERCERA_DOCENA, true);
+                    break;
+            case "Rojo":
+                r.setVisible(PanelRuleta.ROJO, true);
+                    break;
+            case "Negro":
+               r.setVisible(PanelRuleta.NEGRO, true);
+                    break;
+            default:
+                break;
+        }
+    }
+
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -65,8 +115,9 @@ public class OperarYCerrarDialog extends javax.swing.JDialog implements VistaOpe
         numRonda = new javax.swing.JTextField();
         numRuleta = new javax.swing.JTextField();
         numSorteado = new javax.swing.JTextField();
-        ultimosLanzamientos = new javax.swing.JTextField();
         r = new componente.PanelRuleta();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        ultimosLanzam = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -76,6 +127,11 @@ public class OperarYCerrarDialog extends javax.swing.JDialog implements VistaOpe
         jLabel2.setText("Ronda");
 
         btnLanzarPagar.setText("jButton1");
+        btnLanzarPagar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLanzarPagarActionPerformed(evt);
+            }
+        });
 
         comboEfectoSorteo.setModel(JComboBox<EfectoSorteo> comboBoxEfectoSorteo = new JComboBox<>(););
 
@@ -153,7 +209,7 @@ public class OperarYCerrarDialog extends javax.swing.JDialog implements VistaOpe
 
         numSorteado.setText("jTextField1");
 
-        ultimosLanzamientos.setText("jTextField1");
+        jScrollPane4.setViewportView(ultimosLanzam);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -172,16 +228,16 @@ public class OperarYCerrarDialog extends javax.swing.JDialog implements VistaOpe
                 .addComponent(numBalance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(355, 355, 355)
                 .addComponent(numRonda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 210, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 362, Short.MAX_VALUE)
                 .addComponent(numRuleta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(182, 182, 182))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(210, 210, 210)
-                        .addComponent(ultimosLanzamientos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(226, 226, 226)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(61, 61, 61)
+                        .addGap(60, 60, 60)
                         .addComponent(r, javax.swing.GroupLayout.PREFERRED_SIZE, 689, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -241,11 +297,11 @@ public class OperarYCerrarDialog extends javax.swing.JDialog implements VistaOpe
                     .addComponent(cdadApuestas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(montoApuestas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(numSorteado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(26, 26, 26)
                 .addComponent(r, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                .addComponent(ultimosLanzamientos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(209, 209, 209))
+                .addGap(31, 31, 31)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(207, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(28, 28, 28)
@@ -263,7 +319,7 @@ public class OperarYCerrarDialog extends javax.swing.JDialog implements VistaOpe
                             .addComponent(jLabel7)
                             .addComponent(jLabel8)
                             .addComponent(btnLanzarPagar)))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 363, Short.MAX_VALUE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 402, Short.MAX_VALUE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                             .addComponent(jLabel5)
@@ -277,17 +333,21 @@ public class OperarYCerrarDialog extends javax.swing.JDialog implements VistaOpe
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCerrarMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarMesaActionPerformed
-        // TODO add your handling code here:
+        cerrarMesa();
     }//GEN-LAST:event_btnCerrarMesaActionPerformed
 
     private void numBalanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_numBalanceActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_numBalanceActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    
+    private void btnLanzarPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLanzarPagarActionPerformed
+         if (btnLanzarPagar.getText().equals("Lanzar")) {
+            lanzar();
+        } else {
+            pagar();
+        }
+    }//GEN-LAST:event_btnLanzarPagarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCerrarMesa;
@@ -304,6 +364,7 @@ public class OperarYCerrarDialog extends javax.swing.JDialog implements VistaOpe
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextField montoApuestas;
     private java.awt.TextField numBalance;
     private javax.swing.JTextField numRonda;
@@ -312,9 +373,19 @@ public class OperarYCerrarDialog extends javax.swing.JDialog implements VistaOpe
     private componente.PanelRuleta r;
     private javax.swing.JTable tablaCrupier;
     private javax.swing.JTable tablaJugadorSaldo;
-    private javax.swing.JTextField ultimosLanzamientos;
+    private javax.swing.JList<Integer> ultimosLanzam;
     // End of variables declaration//GEN-END:variables
 
+    
+    public void iniciarlizar(){
+        int balanceSaldo = Integer.parseInt(numBalance.getText());
+        int nroDeRonda = Integer.parseInt(numRonda.getText());
+        int montoTotalApuestas = Integer.parseInt(montoApuestas.getText());
+        int cantidadApuestas = Integer.parseInt(cdadApuestas.getText());
+        EfectoSorteo efecto = (EfectoSorteo) comboEfectoSorteo.getSelectedItem();
+        int numeroSorteado = Integer.parseInt(numSorteado.getText());
+    }
+    
     @Override
     public void mostrarDatosDeRonda(ArrayList<Ronda> rondas) {
         DefaultTableModel modelo = (DefaultTableModel) tablaCrupier.getModel();
@@ -323,32 +394,47 @@ public class OperarYCerrarDialog extends javax.swing.JDialog implements VistaOpe
         for(Ronda ronda: rondas){
             int numeroRonda = ronda.getRondaId();
             int montoTotalApuestasPerdidas = ronda.getMontoTotalPerdido();
-            int montoTotalApuestasGanados = ronda.getMontoTotalGanado();
-            int balancePosteriorAlSorteo = 
-            int montoTotalApuestas = ronda.getMontoTotalApostado();
-            
+            int montoTotalApuestasPagadas = ronda.getMontoTotalPagado();
+            int balancePosteriorAlSorteo = ronda.getBalancePosterior();
+            int montoTotalApuestas = montoApuestas.setText(Integer.parseInt(ronda.getMontoTotalApostado()));
+            modelo.addRow(new Object[]{numeroRonda, balanceAnteriorAlSorteo, montoTotalApuestas, montoTotalApuestasPerdidas, montoTotalDeApuestasPagadas, balancePosteriorAlSorteo });
+        
+            // Actualiza el balance anterior para la próxima ronda
+            balanceAnteriorAlSorteo = balancePosteriorAlSorteo;
+
         }
     
     }
 
     @Override
-    public void mostrarListaUltimosLanzamientos(List<Integer> ultimosLanzamientos) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void mostrarListaUltimosLanzamientos(ArrayList<Integer> ultimosLanzamientos) {
+         DefaultListModel<Integer> modelo = new DefaultListModel<>();
+        for(Integer lanzamiento : ultimosLanzamientos) {
+            modelo.addElement(lanzamiento);
+        }
+        ultimosLanzam.setModel(modelo);
     }
 
     @Override
     public void mostrarMensajeDeError(String message) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+     JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
     @Override
-    public void ultimoNumeroSorteado(int ultimo) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    public void ultimoNumeroSorteado(int numeroSorteado) {
+       numSorteado.setText(String.valueOf(numeroSorteado));
+   }
 
     @Override
-    public void listarJugadoresYSaldo(ArrayList<Jugador> jugadores) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void mostrarJugadoresYSaldo(ArrayList<Jugador> jugadores) {
+         DefaultTableModel modelo = (DefaultTableModel) tablaJugadorSaldo.getModel();
+        modelo.setRowCount(0);
+
+        for(Jugador jugador : jugadores) {
+            Object[] fila = new Object[]{jugador.getCedula(), jugador.getSaldo()};
+            modelo.addRow(fila);
+        }
+        
     }
 
   

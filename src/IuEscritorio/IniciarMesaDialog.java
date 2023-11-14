@@ -113,8 +113,8 @@ import javax.swing.table.DefaultTableModel;
     }
 
     @Override
-    public void ejecutarSiguienteCasoUso(Crupier crupier, ArrayList<TipoApuesta> tiposApuesta) {
-       new OperarCerrarJDialog(crupier, tiposApuesta).setVisible(true);
+    public void ejecutarSiguienteCasoUso(Crupier crupier, TipoApuesta[] tiposApuesta, Mesa mesa) {
+       new OperarYCerrarFrame(crupier, tiposApuesta, mesa).setVisible(true);
 
     }
     
@@ -228,6 +228,8 @@ import javax.swing.table.DefaultTableModel;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable listaTablaTipoApuestas;
     // End of variables declaration//GEN-END:variables
+
+
 
     
 

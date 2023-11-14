@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public interface VistaIniciarMesa {
       ArrayList<TipoApuesta> obtenerTiposApuestaSeleccionados();
       void mostrarTiposDeApuestas(ArrayList<TipoApuesta> tipoApuestas, String apuestaDirecta);
-      void ejecutarSiguienteCasoUso(Crupier crupier, ArrayList<TipoApuesta> tiposApuesta);
+      void ejecutarSiguienteCasoUso(Crupier crupier, TipoApuesta[] tiposApuesta, Mesa mesa);
       void cerrarVentana(); //cuando se va sin iniciar
       void cerrarPantallaConfiguracion();//cuando ya inició mesa
       void volverALaPantallaDeLogin(); //La pantalla de configuración se cierra. (Si el cierra la mesa y quisiera iniciarla de nuevo deberá loguearse 
