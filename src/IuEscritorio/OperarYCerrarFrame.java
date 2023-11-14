@@ -9,6 +9,7 @@ import Modelo.Crupier;
 import Modelo.EfectoSorteo;
 import Modelo.Jugador;
 import Modelo.Mesa;
+import Modelo.ModoAleatorioCompleto;
 import Modelo.Ronda;
 import Modelo.TipoApuesta;
 import Vista.VistaOperarCerrarMesa;
@@ -33,6 +34,8 @@ public class OperarYCerrarFrame extends javax.swing.JFrame implements VistaOpera
         this.controlador = new ControladorOperarCerrarMesa(crupier, mesa, this);
         this.tipoApuesta = tipoApuesta;
         initComponents();
+        inicializar();
+        inicializarEfectoSorteo(); 
         ocultarBotones();
         mostrarBotones();
     }
@@ -67,7 +70,7 @@ public class OperarYCerrarFrame extends javax.swing.JFrame implements VistaOpera
     }
     
     private void mostrarBotones(){
-        for (TipoApuesta tipoApuesta : tipoApuesta) {
+        for (TipoApuesta tipoApuesta : this.tipoApuesta) {
         switch (tipoApuesta.getNombre()) {
             case "Primera Dicena":
                 r.setVisible(PanelRuleta.PRIMERA_DOCENA, true);
@@ -333,7 +336,10 @@ public class OperarYCerrarFrame extends javax.swing.JFrame implements VistaOpera
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCerrarMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarMesaActionPerformed
+        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que quieres cerrar la mesa?", "Confirmar Cierre", JOptionPane.YES_NO_OPTION);
+            if (confirmacion == JOptionPane.YES_OPTION) {
         cerrarMesa();
+    }
     }//GEN-LAST:event_btnCerrarMesaActionPerformed
 
     private void numBalanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_numBalanceActionPerformed
@@ -375,9 +381,15 @@ public class OperarYCerrarFrame extends javax.swing.JFrame implements VistaOpera
     private javax.swing.JTable tablaJugadorSaldo;
     private javax.swing.JList<Integer> ultimosLanzam;
     // End of variables declaration//GEN-END:variables
+    
+    private void inicializarEfectoSorteo() {
+        /*for (EfectoSorteo efecto : EfectoSorteo) {
+            comboEfectoSorteo.addItem(efecto);
+        }*/
+}
 
     
-    public void iniciarlizar(){
+    public void inicializar(){
         int balanceSaldo = Integer.parseInt(numBalance.getText());
         int nroDeRonda = Integer.parseInt(numRonda.getText());
         int montoTotalApuestas = Integer.parseInt(montoApuestas.getText());
@@ -396,12 +408,11 @@ public class OperarYCerrarFrame extends javax.swing.JFrame implements VistaOpera
             int montoTotalApuestasPerdidas = ronda.getMontoTotalPerdido();
             int montoTotalApuestasPagadas = ronda.getMontoTotalPagado();
             int balancePosteriorAlSorteo = ronda.getBalancePosterior();
-            int montoTotalApuestas = montoApuestas.setText(Integer.parseInt(ronda.getMontoTotalApostado()));
-            modelo.addRow(new Object[]{numeroRonda, balanceAnteriorAlSorteo, montoTotalApuestas, montoTotalApuestasPerdidas, montoTotalDeApuestasPagadas, balancePosteriorAlSorteo });
+            int montoTotalApuestas = (ronda.getMontoTotalApostado());
+            modelo.addRow(new Object[]{numeroRonda, balanceAnteriorAlSorteo, montoTotalApuestas, montoTotalApuestasPerdidas, montoTotalApuestasPagadas, balancePosteriorAlSorteo });
         
             // Actualiza el balance anterior para la próxima ronda
             balanceAnteriorAlSorteo = balancePosteriorAlSorteo;
-
         }
     
     }
