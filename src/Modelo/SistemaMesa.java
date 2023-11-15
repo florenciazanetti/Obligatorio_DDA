@@ -6,6 +6,7 @@ package Modelo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class SistemaMesa {
     private  ArrayList<TipoApuesta> tiposDeApuestas;
@@ -53,8 +54,13 @@ public class SistemaMesa {
         return null;
     }
 
-    public void listarMesasAbiertas() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public ArrayList<Mesa> listarMesasAbiertas() {
+        for (Mesa mesa: mesas){
+            if(mesa.estaDisponibleParaNuevoJugador()){
+                mesas.add(mesa);
+            }
+        }
+        return mesas;
     }
 
 
@@ -95,6 +101,26 @@ public class SistemaMesa {
 
     public ArrayList<EfectoSorteo> getEfectosSorteo() {
         return efectosSorteo;
+    }
+
+    public boolean agregarJugadorAUnaMesa(Jugador jugador, Mesa mesa) throws MesaRuletaException {
+        boolean yaEstaEnMesa = mesa.estaJugadorUnidoAMesa(jugador);
+        if(!yaEstaEnMesa){
+            mesa.agregarJugador(jugador);
+        } else {
+            throw new MesaRuletaException("El jugador ya participa de esta mesa.");
+        }
+        return true;
+    }
+
+    public List<Ronda> getRondasJugador(Jugador jugador) {
+        List<Ronda> rondasDeJugador = new ArrayList<>();
+        for (Mesa mesa: mesas){
+            if (mesa.getJugadores().equals(jugador)){
+                rondasDeJugador.addAll(mesa.getRondas());
+            }
+        }
+        return rondasDeJugador;
     }
    
 }

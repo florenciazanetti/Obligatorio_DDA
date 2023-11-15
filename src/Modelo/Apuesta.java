@@ -17,13 +17,15 @@ public class Apuesta {
     private TipoApuesta tipoApuesta;
     private Jugador jugador;
     private int montoApostado;
+    private int ucc; // Universal Cell Code
     private HashMap<Integer, Integer> montosPorCasillero; // Clave: Código UCC, Valor: Monto apostado
    
 
-     public Apuesta(TipoApuesta tipoApuesta, int montoApostado, Jugador jugador) {
+     public Apuesta(TipoApuesta tipoApuesta, int montoApostado, Jugador jugador, int ucc) {
         this.tipoApuesta = tipoApuesta;
         this.montoApostado = montoApostado;
         this.jugador = jugador;
+        this.ucc = ucc;
     }
      
 

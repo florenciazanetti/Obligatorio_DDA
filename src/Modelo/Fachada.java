@@ -7,17 +7,13 @@ import Common.Observador;
 import Common.Observable;
 import Controlador.ControladorIniciarMesa;
 import java.util.ArrayList;
+import java.util.List;
 /**
  *
  * @author sabrina
  */
 public class Fachada extends Observable {
 
-    public Mesa getMesaPorId(int mesaId) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
-    public enum eventos{cambiosMesas};
     private final SistemaAcceso sAcceso = new SistemaAcceso();
     private final SistemaMesa sistemaMesa = new SistemaMesa();
     private final SistemaCrupier sistemaCrupier = new SistemaCrupier();
@@ -72,11 +68,6 @@ public class Fachada extends Observable {
         avisar(Eventos.MESA_AGREGADA);   
     }
     
-    /*public Mesa iniciarMesa(ArrayList<TipoApuesta> tipos, Crupier crupier) throws MesaRuletaException {
-        Mesa mesa = new Mesa(tipos, crupier);
-        agregarMesa(mesa);
-        return mesa;
-     }*/
     public void iniciarMesa(Crupier crupier, ArrayList<TipoApuesta> tiposApuestaSeleccionados) {
         Mesa mesa = new Mesa(tiposApuestaSeleccionados, crupier); // Suponiendo que Mesa se crea por cada crupier
         crupier.configurarMesa(mesa, tiposApuestaSeleccionados);
@@ -86,8 +77,21 @@ public class Fachada extends Observable {
         return sistemaMesa.getEfectosSorteo();
     } 
 
-  
+  public boolean agregarJugadorAUnaMesa(Jugador jugador, Mesa mesa) throws MesaRuletaException {
+        return sistemaMesa.agregarJugadorAUnaMesa(jugador, mesa);
+    }
 
+    public ArrayList<Mesa> getMesasAbiertas() {
+        return sistemaMesa.listarMesasAbiertas();
+    }
+
+    public Mesa getMesaPorId(int mesaId) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public List<Ronda> getRondasJugador(Jugador jugador) {
+        sistemaMesa.getRondasJugador(jugador);
+    }
 
 
    

@@ -12,8 +12,10 @@ import java.util.ArrayList;
  * @author flore
  */
 public interface VistaUnirseAMesa {
-    
     void mostrarMesasAbiertas(ArrayList<Mesa> mesasAbiertas);
+    void mostrarMensajeError(String mensaje);
 
-    public void actualizarInterfaz();
+    public void logOut();
+
+    public void logOut();
 }

@@ -15,6 +15,8 @@ import Modelo.TipoApuesta;
 import Vista.VistaOperarCerrarMesa;
 import componente.PanelRuleta;
 import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -28,64 +30,78 @@ public class OperarYCerrarFrame extends javax.swing.JFrame implements VistaOpera
     private ControladorOperarCerrarMesa controlador ;
     private TipoApuesta[] tipoApuesta;
     private Mesa mesa;
+    private PanelRuleta panel;
     
     public OperarYCerrarFrame(Crupier crupier, TipoApuesta[] tipoApuesta, Mesa mesa) {
         this.mesa = mesa; 
         this.controlador = new ControladorOperarCerrarMesa(crupier, mesa, this);
         this.tipoApuesta = tipoApuesta;
         initComponents();
-        inicializar();
-        inicializarEfectoSorteo(); 
+        incializar();
         ocultarBotones();
         mostrarBotones();
+        actualizarEstadoBotones();
     }
 
     private void cerrarMesa(){
         controlador.cerrarMesa(mesa.getMesaId());
     }
     
-    private int lanzar(){
-        controlador.lanzar();
+    private void lanzarPagar(){
+        int montoTotalApostado = 0;
+        int cantidadApuestas = 0;
+        int numeroRonda = Integer.parseInt(numRonda.getText());
+        int balance = Integer.parseInt(numBalance.getText());
+        String efectos = (String) comboEfectoSorteo.getSelectedItem();
+        actualizarEstadoBotones();
+        controlador.lanzarPagar(numeroRonda, balance, montoTotalApostado, cantidadApuestas, mesa, efectos);
     }
+
     
-    private void pagar(){
-        controlador.pagar();
+    private void actualizarEstadoBotones() {
+        if (mesa.estaBloqueada()) {
+            btnLanzarPagar.setEnabled(false);
+            btnCerrarMesa.setEnabled(true);
+        } else {
+            btnLanzarPagar.setEnabled(true);
+            btnCerrarMesa.setEnabled(false);
+        }
     }
     
     private void ocultarBotones(){
-        r.setVisible(PanelRuleta.PRIMERA_COLUMNA, false);
-        r.setVisible(PanelRuleta.SEGUNDA_COLUMNA, false);
-        r.setVisible(PanelRuleta.TERCERA_COLUMNA, false);
-         r.setVisible(PanelRuleta.MAYOR, false);
-        r.setVisible(PanelRuleta.MENOR, false);
-        r.setVisible(PanelRuleta.COMPUESTO, false);
-        r.setVisible(PanelRuleta.PRIMO, false);
-        r.setVisible(PanelRuleta.IMPAR, false);
-        r.setVisible(PanelRuleta.PAR, false);
-        r.setVisible(PanelRuleta.ROJO, false);
-        r.setVisible(PanelRuleta.NEGRO, false);
-        r.setVisible(PanelRuleta.PRIMERA_DOCENA, false);
-        r.setVisible(PanelRuleta.SEGUNDA_DOCENA, false);
-        r.setVisible(PanelRuleta.TERCERA_DOCENA, false);
+        panel.setVisible(PanelRuleta.PRIMERA_COLUMNA, false);
+        panel.setVisible(PanelRuleta.SEGUNDA_COLUMNA, false);
+        panel.setVisible(PanelRuleta.TERCERA_COLUMNA, false);
+        panel.setVisible(PanelRuleta.MAYOR, false);
+        panel.setVisible(PanelRuleta.MENOR, false);
+        panel.setVisible(PanelRuleta.COMPUESTO, false);
+        panel.setVisible(PanelRuleta.PRIMO, false);
+        panel.setVisible(PanelRuleta.IMPAR, false);
+        panel.setVisible(PanelRuleta.PAR, false);
+        panel.setVisible(PanelRuleta.ROJO, false);
+        panel.setVisible(PanelRuleta.NEGRO, false);
+        panel.setVisible(PanelRuleta.PRIMERA_DOCENA, false);
+        panel.setVisible(PanelRuleta.SEGUNDA_DOCENA, false);
+        panel.setVisible(PanelRuleta.TERCERA_DOCENA, false);
     }
     
     private void mostrarBotones(){
         for (TipoApuesta tipoApuesta : this.tipoApuesta) {
         switch (tipoApuesta.getNombre()) {
             case "Primera Dicena":
-                r.setVisible(PanelRuleta.PRIMERA_DOCENA, true);
+                panel.setVisible(PanelRuleta.PRIMERA_DOCENA, true);
                 break;
             case "Segunda Docena":
-               r.setVisible(PanelRuleta.SEGUNDA_DOCENA, true);
+               panel.setVisible(PanelRuleta.SEGUNDA_DOCENA, true);
                     break;
             case "Tercera Docena":
-               r.setVisible(PanelRuleta.TERCERA_DOCENA, true);
+               panel.setVisible(PanelRuleta.TERCERA_DOCENA, true);
                     break;
             case "Rojo":
-                r.setVisible(PanelRuleta.ROJO, true);
+                panel.setVisible(PanelRuleta.ROJO, true);
                     break;
             case "Negro":
-               r.setVisible(PanelRuleta.NEGRO, true);
+               panel.setVisible(PanelRuleta.NEGRO, true);
                     break;
             default:
                 break;
@@ -118,32 +134,36 @@ public class OperarYCerrarFrame extends javax.swing.JFrame implements VistaOpera
         numRonda = new javax.swing.JTextField();
         numRuleta = new javax.swing.JTextField();
         numSorteado = new javax.swing.JTextField();
-        r = new componente.PanelRuleta();
         jScrollPane4 = new javax.swing.JScrollPane();
         ultimosLanzam = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel8.setText("Monto:");
+        getContentPane().add(jLabel8);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setText("Ronda");
+        getContentPane().add(jLabel2);
 
-        btnLanzarPagar.setText("jButton1");
+        btnLanzarPagar.setText("lanzar/pagar");
         btnLanzarPagar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLanzarPagarActionPerformed(evt);
             }
         });
+        getContentPane().add(btnLanzarPagar);
 
         comboEfectoSorteo.setModel(JComboBox<EfectoSorteo> comboBoxEfectoSorteo = new JComboBox<>(););
+        getContentPane().add(comboEfectoSorteo);
 
-        btnCerrarMesa.setText("jButton2");
+        btnCerrarMesa.setText("cerrar mesa");
         btnCerrarMesa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCerrarMesaActionPerformed(evt);
             }
         });
+        getContentPane().add(btnCerrarMesa);
 
         tablaCrupier.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         tablaCrupier.setModel(new javax.swing.table.DefaultTableModel(
@@ -167,7 +187,10 @@ public class OperarYCerrarFrame extends javax.swing.JFrame implements VistaOpera
         });
         jScrollPane2.setViewportView(tablaCrupier);
 
+        getContentPane().add(jScrollPane2);
+
         jLabel9.setText("$-");
+        getContentPane().add(jLabel9);
 
         tablaJugadorSaldo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -182,18 +205,25 @@ public class OperarYCerrarFrame extends javax.swing.JFrame implements VistaOpera
         ));
         jScrollPane3.setViewportView(tablaJugadorSaldo);
 
+        getContentPane().add(jScrollPane3);
+
         jLabel5.setText("Ultimos lanzamientos");
+        getContentPane().add(jLabel5);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel3.setText("Ruleta");
+        getContentPane().add(jLabel3);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel4.setText("#");
+        getContentPane().add(jLabel4);
 
         jLabel7.setText("Apuestas:");
+        getContentPane().add(jLabel7);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("#");
+        getContentPane().add(jLabel1);
 
         numBalance.setText("textField1");
         numBalance.addActionListener(new java.awt.event.ActionListener() {
@@ -201,136 +231,26 @@ public class OperarYCerrarFrame extends javax.swing.JFrame implements VistaOpera
                 numBalanceActionPerformed(evt);
             }
         });
+        getContentPane().add(numBalance);
 
-        cdadApuestas.setText("jTextField1");
+        cdadApuestas.setText("num Apuestas");
+        getContentPane().add(cdadApuestas);
 
-        montoApuestas.setText("jTextField1");
+        montoApuestas.setText("monto Apuestas");
+        getContentPane().add(montoApuestas);
 
-        numRonda.setText("jTextField1");
+        numRonda.setText("num Ronda");
+        getContentPane().add(numRonda);
 
-        numRuleta.setText("jTextField1");
+        numRuleta.setText("num Ruleta");
+        getContentPane().add(numRuleta);
 
-        numSorteado.setText("jTextField1");
+        numSorteado.setText("num sorteado");
+        getContentPane().add(numSorteado);
 
         jScrollPane4.setViewportView(ultimosLanzam);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(116, 116, 116)
-                .addComponent(cdadApuestas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(86, 86, 86)
-                .addComponent(montoApuestas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(numSorteado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(86, 86, 86)
-                .addComponent(numBalance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(355, 355, 355)
-                .addComponent(numRonda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 362, Short.MAX_VALUE)
-                .addComponent(numRuleta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(182, 182, 182))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(226, 226, 226)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(60, 60, 60)
-                        .addComponent(r, javax.swing.GroupLayout.PREFERRED_SIZE, 689, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(39, 39, 39)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(13, 13, 13)
-                                    .addComponent(jLabel9))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(8, 8, 8)
-                                    .addComponent(jLabel7)
-                                    .addGap(108, 108, 108)
-                                    .addComponent(jLabel8)))
-                            .addGap(157, 157, 157)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(comboEfectoSorteo, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(48, 48, 48)
-                                    .addComponent(btnLanzarPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(0, 0, Short.MAX_VALUE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel2)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel3)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(106, 106, 106)
-                                    .addComponent(btnCerrarMesa)))
-                            .addGap(59, 59, 59))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(12, 12, 12)
-                                    .addComponent(jLabel5))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 757, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGap(40, 40, 40)))))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(numBalance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(numRonda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(numRuleta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cdadApuestas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(montoApuestas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(numSorteado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
-                .addComponent(r, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(207, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(28, 28, 28)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel1)
-                        .addComponent(btnCerrarMesa)
-                        .addComponent(jLabel9)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel4))
-                    .addGap(18, 18, 18)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(comboEfectoSorteo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel8)
-                            .addComponent(btnLanzarPagar)))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 402, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(jLabel5)
-                            .addGap(18, 18, 18)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(28, 28, 28)))
-        );
+        getContentPane().add(jScrollPane4);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -348,10 +268,8 @@ public class OperarYCerrarFrame extends javax.swing.JFrame implements VistaOpera
 
     private void btnLanzarPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLanzarPagarActionPerformed
          if (btnLanzarPagar.getText().equals("Lanzar")) {
-            lanzar();
-        } else {
-            pagar();
-        }
+            lanzarPagar();
+         }
     }//GEN-LAST:event_btnLanzarPagarActionPerformed
 
 
@@ -376,27 +294,22 @@ public class OperarYCerrarFrame extends javax.swing.JFrame implements VistaOpera
     private javax.swing.JTextField numRonda;
     private javax.swing.JTextField numRuleta;
     private javax.swing.JTextField numSorteado;
-    private componente.PanelRuleta r;
     private javax.swing.JTable tablaCrupier;
     private javax.swing.JTable tablaJugadorSaldo;
     private javax.swing.JList<Integer> ultimosLanzam;
     // End of variables declaration//GEN-END:variables
-    
-    private void inicializarEfectoSorteo() {
-        /*for (EfectoSorteo efecto : EfectoSorteo) {
-            comboEfectoSorteo.addItem(efecto);
-        }*/
+    @Override
+    public void mostrarDatosMesa(int saldo, int rondaId, int mesaId, ArrayList<EfectoSorteo> efectos) {
+        numBalance.setText(saldo + "");
+        numRonda.setText(rondaId + "");
+        numRuleta.setText(mesaId + "");
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+        for (EfectoSorteo ef : efectos) {
+            model.addElement(ef.getNombre());
+        }
+        comboEfectoSorteo.setModel(model);
 }
 
-    
-    public void inicializar(){
-        int balanceSaldo = Integer.parseInt(numBalance.getText());
-        int nroDeRonda = Integer.parseInt(numRonda.getText());
-        int montoTotalApuestas = Integer.parseInt(montoApuestas.getText());
-        int cantidadApuestas = Integer.parseInt(cdadApuestas.getText());
-        EfectoSorteo efecto = (EfectoSorteo) comboEfectoSorteo.getSelectedItem();
-        int numeroSorteado = Integer.parseInt(numSorteado.getText());
-    }
     
     @Override
     public void mostrarDatosDeRonda(ArrayList<Ronda> rondas) {
@@ -408,7 +321,7 @@ public class OperarYCerrarFrame extends javax.swing.JFrame implements VistaOpera
             int montoTotalApuestasPerdidas = ronda.getMontoTotalPerdido();
             int montoTotalApuestasPagadas = ronda.getMontoTotalPagado();
             int balancePosteriorAlSorteo = ronda.getBalancePosterior();
-            int montoTotalApuestas = (ronda.getMontoTotalApostado());
+           // int montoTotalApuestas = (ronda.getMontoTotalApostado());
             modelo.addRow(new Object[]{numeroRonda, balanceAnteriorAlSorteo, montoTotalApuestas, montoTotalApuestasPerdidas, montoTotalApuestasPagadas, balancePosteriorAlSorteo });
         
             // Actualiza el balance anterior para la próxima ronda
@@ -446,6 +359,30 @@ public class OperarYCerrarFrame extends javax.swing.JFrame implements VistaOpera
             modelo.addRow(fila);
         }
         
+    }
+
+    @Override
+    public void pausarJuego() {
+        panel.pausar();
+    }
+
+    @Override
+    public void reanudarJuego() {
+        panel.reanudar();
+    }
+
+    private void incializar() {
+        controlador.inicializar();
+    }
+
+    @Override
+    public void mostrarListaUltimosLanzamientos(List<Integer> ultimosLanzamientos) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void ocultarNumeroSorteado() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
   

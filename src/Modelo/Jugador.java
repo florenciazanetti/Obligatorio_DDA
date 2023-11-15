@@ -25,6 +25,14 @@ public class Jugador extends Usuario{
         super(cedula, password, nombreCompleto);
         this.saldo = saldo;
     }
+
+    public Mesa getMesaActual() {
+        return mesaActual;
+    }
+
+    public ArrayList<Ronda> getRondasPariticipadas() {
+        return rondasPariticipadas;
+    }
     
 
     public int getSaldo() {
@@ -59,18 +67,17 @@ public class Jugador extends Usuario{
         return rondasPariticipadas;
     }
 
-    public Apuesta realizarApuesta(int monto, TipoApuesta tipo, int casilleroUCC) {
-        Apuesta apuesta = null; 
-
-        if (this.saldo > monto) {
-            apuesta = new Apuesta(tipo, monto, this); 
-            this.apuestas.add(apuesta);
+     public Apuesta realizarApuesta(int monto, TipoApuesta tipo, int casilleroUCC) throws MesaRuletaException {
+        if (this.saldo >= monto) {
             this.saldo -= monto;
-            mesaActual.agregarApuesta(apuesta);
+            Apuesta apuesta = new Apuesta(tipo, monto, this, casilleroUCC); 
+            this.apuestas.add(apuesta);
+            return apuesta;
+        } else {
+            throw new MesaRuletaException("Saldo insuficiente");
         }
-        return apuesta; 
-    }  
-      
+    }
+
     public void recibirGanancias(double monto) {
          this.saldo += monto;
     }
@@ -79,6 +86,14 @@ public class Jugador extends Usuario{
         this.saldo += monto;
     }
 
- 
+   /* public void unirseAMesa(Mesa mesa) throws MesaRuletaException(){
+        if (mesa.(jugadorActual)) {
+                    ;
+                }
+                mesa.agregarJugador(jugadorActual);
+            }  
+          }
+
+ */
     
     }

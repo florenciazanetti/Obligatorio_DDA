@@ -4,11 +4,14 @@
  */
 package Vista;
 
+import Modelo.Apuesta;
 import Modelo.EnumTipoApuesta;
 import Modelo.Jugador;
 import Modelo.Mesa;
 import Modelo.Ronda;
+import Modelo.TipoApuesta;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -16,17 +19,25 @@ import java.util.ArrayList;
  */
 public interface VistaJugarAbandonar {
     
-    public void mostrarTiposDeApuesta(ArrayList<EnumTipoApuesta> listarTiposApuestaSeleccionados);
+     void mostrarTiposDeApuesta(ArrayList<TipoApuesta> listarTiposApuestaSeleccionados);
     
-    public void mostrarSaldoJugador();
+     void mostrarSaldoJugador(int saldo);
     
-    public void mostrarNumeroMesayRonda(); //FALTA MANDARLE POR PARAMETRO
+     void mostrarNumeroMesayRonda(int mesaId, int rondaId); 
     
-    public void mostrarNombreCompletoJugador(Jugador jugador);
+     void mostrarNombreCompletoJugador(String jugador);
     
-    public void mostrarMesaConApuestas(Mesa mesaConApuestas);
+     void mostrarRondasParticipadas(List <Ronda> rondasParticipadas);
     
-    public void mostrarRondasParticipadas(ArrayList <Ronda> rondasParticipadas);
-    
-    public void mostrarEstadisticasMesa (float estadistica);
+     void mostrarEstadisticasMesa (float estadistica);
+
+     void mostrarMensajeError(String mensaje);
+
+     void actualizarVistaPostApuesta(int saldo, ArrayList<Apuesta> apuestas);
+
+     void actualizarVistaPostAbandono();
+
+     void mostrarRondas(List<Ronda> rondas);
+
+     void mostrarNumeroSorteado(int numeroSorteado);
 }

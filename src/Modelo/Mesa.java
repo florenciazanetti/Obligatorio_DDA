@@ -18,29 +18,32 @@ import java.util.Random;
  */
 public class Mesa extends Observable{
     
-    private int mesaId;
+    private int mesaId = 1;
     private int contadorRondas;
     private static int nextId = 0;
     private boolean bloqueada;
+    private boolean disponible;
     private int balance;
     private Ronda rondaActual;
     private Crupier crupier;
-    private EstadoMesa estado;
+    private EstadoMesa estadoMesa;
     private ArrayList<Apuesta> apuestas;
     private ArrayList<Jugador> jugadores;
     private List<Ronda> rondas;
     private ArrayList<TipoApuesta> tiposApuesta;
+    private List<Integer> ultimosLanzamientos = new ArrayList<>();
 
     public Mesa(ArrayList<TipoApuesta> tiposApuesta, Crupier crupier) {
         this.mesaId = nextId;
         this.contadorRondas = 0;
         this.balance = 0;
         this.bloqueada = false;
+        this.disponible = false;
         this.rondaActual = new Ronda(rondaActual.getRondaId());
         this.tiposApuesta = new ArrayList<>();
         this.jugadores = new ArrayList<>();
         this.nextId++;
-        this.estado = EstadoMesa.INACTIVA; // Estado inicial de la mesa
+        this.estadoMesa = EstadoMesa.INACTIVA; // Estado inicial de la mesa
     }
     
       public Mesa() {
@@ -50,12 +53,27 @@ public class Mesa extends Observable{
 //-------------GETTERS Y SETTERS-----------------//
      
      public void setEstado(EstadoMesa estado) {
-        this.estado = estado;
+        this.estadoMesa = estado;
         avisar(Eventos.ESTADO_MESA_CAMBIADO); // Notifica a los observadores
     }
      
+      // Método para obtener los últimos lanzamientos
+    public List<Integer> getUltimosLanzamientos() {
+        return new ArrayList<>(ultimosLanzamientos); // Devuelve una copia para evitar modificaciones externas
+    }
+
+    // Método para agregar un nuevo lanzamiento a la lista
+    public void agregarNuevoLanzamiento(int numeroGanador) {
+        // Agregar al inicio de la lista
+        ultimosLanzamientos.add(0, numeroGanador);
+        int maximoLanzamientos = 10;
+        if (ultimosLanzamientos.size() > maximoLanzamientos) {
+            ultimosLanzamientos.remove(ultimosLanzamientos.size() - 1);
+        }
+    }
+     
      public EstadoMesa getEstado() {
-        return estado;
+        return estadoMesa;
     }
 
     public ArrayList<Apuesta> getApuestas() {
@@ -128,9 +146,19 @@ public class Mesa extends Observable{
     public void iniciarMesa() {
         if (!this.tiposApuesta.isEmpty()) {
             // Lógica para iniciar la mesa
-            this.estado = EstadoMesa.ACTIVA;
+            this.estadoMesa = EstadoMesa.ACTIVA;
             // Otros procesos de inicialización...
         }
+    }
+    
+    public boolean estaJugadorUnidoAMesa(Jugador jugador) {
+        boolean unido = false;
+        for(Jugador j: jugadores){
+            if(jugador.equals(jugador)){
+                unido = true;
+            }
+        }
+        return false;
     }
     
     
@@ -145,12 +173,10 @@ public class Mesa extends Observable{
         }
 }
 
-    public void eliminarJugador(String cedula) {
-        Iterator<Jugador> iterator = jugadores.iterator();
-        while (iterator.hasNext()) {
-            Jugador jugador = iterator.next();
-            if (jugador.getCedula().equals(cedula)) {
-                iterator.remove(); // Elimina el jugador usando el iterador
+    public void eliminarJugador(Jugador jug) {
+       for(Jugador jugador: jugadores){
+            if (jugador.equals(jug)) {
+                jugadores.remove(jug); 
             }
         }
         if (jugadores.isEmpty()) { // Verificar después de eliminar el jugador
@@ -177,23 +203,23 @@ public class Mesa extends Observable{
     
     //marca el fin de una ronda de apuestas y prepara la mesa para la siguiente ronda  
     public void finalizarRonda(int numeroSorteado) {
-    rondaActual = getRondaActual();
-    if (rondaActual != null) {
-        rondaActual.setNumeroGanador(numeroSorteado);
-        rondas.add(rondaActual); // Añade la ronda actual al historial
-        iniciarNuevaRonda(); // Método que inicia una nueva ronda
-    }
+        rondaActual = getRondaActual();
+        if (rondaActual != null) {
+            rondaActual.setNumeroGanador(numeroSorteado);
+            rondas.add(rondaActual); // Añade la ronda actual al historial
+            iniciarNuevaRonda(); // Método que inicia una nueva ronda
+        }
 
-    // Cambiar estado según la presencia de jugadores
-    if (!jugadores.isEmpty()) {
-        setEstado(EstadoMesa.ACTIVA);
-    } else {
-        setEstado(EstadoMesa.INACTIVA);
-    }
+        // Cambiar estadoMesa según la presencia de jugadores
+        if (!jugadores.isEmpty()) {
+            setEstado(EstadoMesa.ACTIVA);
+        } else {
+            setEstado(EstadoMesa.INACTIVA);
+        }
 }
 
     
-    private void iniciarNuevaRonda() {
+    public void iniciarNuevaRonda() {
         contadorRondas++;
        rondaActual = new Ronda(contadorRondas);
         this.rondas.add(rondaActual);
@@ -233,7 +259,21 @@ public class Mesa extends Observable{
     }
 
     public void agregarApuesta(Apuesta apuesta) {
-        apuestas.add(apuesta);
+        for(Jugador jugador: jugadores){
+            if (jugador.getSaldo() > 0){
+                apuestas.add(apuesta);
+                 avisar(Eventos.NUEVA_APUESTA);
+            }
+        }
+ 
+    }
+    
+    public int getNumeroSorteado(){
+        int numeroSorteado = 0;
+        for(Ronda ronda: rondas){
+             numeroSorteado = ronda.getNumeroGanador();
+        }
+        return numeroSorteado;
     }
     
     public int getCantidadApuestas(){
@@ -249,7 +289,22 @@ public class Mesa extends Observable{
         }
         return numeroGanador;
 }
+    
+    public void bloquearMesa() {
+        this.estadoMesa = EstadoMesa.BLOQUEADA;
+    }
+    
+    public void desbloquearMesa() {
+        this.estadoMesa = EstadoMesa.ACTIVA;
+    }
 
+    public boolean estaBloqueada() {
+        return estadoMesa == EstadoMesa.BLOQUEADA;
+    }
+    
+    public void cerrarMesa() {
+        this.estadoMesa = EstadoMesa.CERRADA;
+    }
 
     public void bloquearApuestas() {
         this.bloqueada = true;
@@ -280,10 +335,32 @@ public class Mesa extends Observable{
 
     public void expulsarJugadores() {
          jugadores.clear(); // Elimina todos los jugadores de la lista
-         setEstado(EstadoMesa.INACTIVA); // Cambia el estado de la mesa a inactiva
+         setEstado(EstadoMesa.INACTIVA); // Cambia el estadoMesa de la mesa a inactiva
     }
 
     public void prepararParaNuevaRonda() {
          iniciarNuevaRonda(); 
     }
+
+    public void retirarApuesta(Apuesta apuesta) {
+         this.balance += apuesta.getMontoApostado(); // Asumiendo que getMonto devuelve el monto apostado
+         // Eliminar la apuesta de la lista de apuestas actuales
+        this.apuestas.remove(apuesta);
+    }
+
+    public void agregarUltimoLanzamiento(int numeroGanador) {
+       
+    }
+
+    public boolean estaDisponibleParaNuevoJugador() {
+        if (!disponible) {
+            return false;
+        }
+        // Verifica el estado de la mesa
+        if (estadoMesa == EstadoMesa.BLOQUEADA || estadoMesa == EstadoMesa.CERRADA) {
+            return false;
+        }
+        return true; 
+    }
+   
 }

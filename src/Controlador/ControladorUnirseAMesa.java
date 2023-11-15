@@ -2,9 +2,11 @@ package Controlador;
 
 import Common.Observable;
 import Common.Observador;
+import Modelo.Eventos;
 import Modelo.Fachada;
 import Modelo.Jugador;
 import Modelo.Mesa;
+import Modelo.MesaRuletaException;
 import Vista.VistaUnirseAMesa;
 import java.util.ArrayList;
 
@@ -14,44 +16,56 @@ import java.util.ArrayList;
  */
 public class ControladorUnirseAMesa implements Observador {
     
-    private Jugador jugador;
-    private Mesa mesa;
     private VistaUnirseAMesa vista;
+    private Fachada fachada;
+    private Jugador jugador;
     
-    public ControladorUnirseAMesa(Jugador jugador, Mesa mesa, VistaUnirseAMesa vista) {
-        this.jugador = jugador;
-        this.mesa = mesa;
+    public ControladorUnirseAMesa(Fachada fachada, Jugador jugador, VistaUnirseAMesa vista) {
         this.vista = vista;
+        this.fachada = fachada;
+        this.jugador = jugador;
+        fachada.agregar(this);
+    }
+ 
+    
+    public void logOut(){
+        Fachada.getInstancia().logout(jugador);
+        vista.logOut();
     }
     
-    public void unirseAMesa(){
-        jugador.unirseAMesa(mesa);
-        vista.actualizarInterfaz();
+     public void unirseAMesa(Mesa mesa, Jugador jugador) {
+        try {
+            Fachada.getInstancia().agregarJugadorAUnaMesa(jugador, mesa);
+            // Lanza el caso de uso "Jugar"
+            //iniciarJuego(mesa);
+        } catch (MesaRuletaException e) {
+            vista.mostrarMensajeError(e.getMessage());
+        }
     }
     
-    private void logOut(){
-    
-    }
-
-    @Override
-    public void mostrarMesasAbiertas(ArrayList<Mesa> mesasAbiertas) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 
     @Override
     public void actualizar(Object evento, Observable origen) {
-        if(evento.equals(Fachada.eventos.cambiosMesas)){
-            vista.actualizarInterfaz();
+         if (Eventos.MESA_AGREGADA.equals(evento) || Eventos.MESA_INICIADA.equals(evento)) {
+            vista.mostrarMesasAbiertas(Fachada.getInstancia().getMesasAbiertas());
         }
     }
+    
     public void cargarMesasAbiertas() {
         ArrayList<Mesa> mesasAbiertas = Fachada.getInstancia().getMesasAbiertas();
-        for(Mesa mesa: mesas){
-            mesasAbiertas.add(mesa);
-        }
-        listaMesasAbiertas.setListData(mesasAbiertas.toArray());
+        vista.mostrarMesasAbiertas(mesasAbiertas);
      }
     
-    
+    /*private void iniciarJuego(Mesa mesa) {
+    // Verificar si la mesa está en un estado que permita comenzar un nuevo juego
+    if (mesa.puedeIniciarRonda()) {
+        // Preparar la mesa para una nueva ronda
+        mesa.prepararParaNuevaRonda();
+
+        // Habilitar apuestas
+        mesa.habilitarApuestas();
+*/
+}
+
     
 }

@@ -16,16 +16,23 @@ import java.util.List;
  * @author flore
  */
 public interface VistaOperarCerrarMesa {
+    void mostrarDatosMesa(int saldo, int rondaId, int mesaId, ArrayList<EfectoSorteo> efectos);
 
     void mostrarDatosDeRonda(ArrayList<Ronda> rondas);
 
-    void mostrarListaUltimosLanzamientos(ArrayList<Integer> ultimosLanzamientos);
+    void mostrarListaUltimosLanzamientos(List<Integer> ultimosLanzamientos);
 
     void mostrarMensajeDeError(String message);
 
     void ultimoNumeroSorteado(int ultimo);
     
     void mostrarJugadoresYSaldo(ArrayList<Jugador> jugadores);
+    
+    void pausarJuego();
+    
+    void reanudarJuego();
+
+    public void ocultarNumeroSorteado();
 
     
 }

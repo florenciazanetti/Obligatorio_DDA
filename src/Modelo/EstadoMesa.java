@@ -12,5 +12,6 @@ public enum EstadoMesa {
     INACTIVA,
     ACTIVA,
     OPERANDO,
+    BLOQUEADA,
     CERRADA
 }
