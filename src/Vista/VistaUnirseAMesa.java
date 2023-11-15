@@ -14,8 +14,5 @@ import java.util.ArrayList;
 public interface VistaUnirseAMesa {
     void mostrarMesasAbiertas(ArrayList<Mesa> mesasAbiertas);
     void mostrarMensajeError(String mensaje);
-
-    public void logOut();
-
-    public void logOut();
+    void logOut();
 }

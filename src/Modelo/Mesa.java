@@ -108,7 +108,7 @@ public class Mesa extends Observable{
         if(!rondas.isEmpty()){
           return rondas.get(rondas.size() - 1);
         } else {
-       return null;
+            return null;
         }
     }
     
@@ -346,6 +346,10 @@ public class Mesa extends Observable{
             return false;
         }
         return true; 
+    }
+
+     public boolean estaJugadorUnidoAMesa(Jugador jugador) {
+        return jugadores.contains(jugador);
     }
    
 }

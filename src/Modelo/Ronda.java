@@ -17,7 +17,7 @@ import java.util.Map;
 public class Ronda {
     private int rondaId;
     private static int nextId = 1;
-    private int numeroGanador;
+    private int numeroGanador = -1;
     private int balanceAnterior;
     private int balancePosterior;
    // private float recoleccion;

@@ -17,8 +17,10 @@ public class Jugador extends Usuario{
     
     private int saldo;
     private Mesa mesaActual;
+    private Ronda rondaActual;
     private ArrayList<Apuesta> apuestas;
     private ArrayList<Ronda> rondasPariticipadas;
+    private boolean estaConectado;
      
     
     public Jugador(String cedula, String password, String nombreCompleto, int saldo){
@@ -29,11 +31,6 @@ public class Jugador extends Usuario{
     public Mesa getMesaActual() {
         return mesaActual;
     }
-
-    public ArrayList<Ronda> getRondasPariticipadas() {
-        return rondasPariticipadas;
-    }
-    
 
     public int getSaldo() {
         return saldo;
@@ -55,6 +52,16 @@ public class Jugador extends Usuario{
         this.mesaActual = null;
     }
 
+     // Método para obtener la ronda actual
+    public Ronda getRondaActual() {
+        return rondaActual;
+    }
+
+    // Método para establecer la ronda actual
+    public void setRondaActual(Ronda rondaActual) {
+        this.rondaActual = rondaActual;
+    }
+    
     public ArrayList<Apuesta> getApuestas() {
         return apuestas;
     }
@@ -62,12 +69,21 @@ public class Jugador extends Usuario{
     public void setApuestas(ArrayList<Apuesta> apuestas) {
         this.apuestas = apuestas;
     }
+
+    public void isEstaConectado(boolean estaConectado) {
+         this.estaConectado = estaConectado;
+    }
+
+    public void setEstaConectado(boolean estaConectado) {
+        this.estaConectado = estaConectado;
+    }
+    
     
       public ArrayList<Ronda> getRondasParticipadas() {
         return rondasPariticipadas;
     }
 
-     public Apuesta realizarApuesta(int monto, TipoApuesta tipo, int casilleroUCC) throws MesaRuletaException {
+     public Apuesta realizarApuesta(int monto, int casilleroUCC, Jugador jugador, TipoApuesta tipo) throws MesaRuletaException {
         if (this.saldo >= monto) {
             this.saldo -= monto;
             Apuesta apuesta = new Apuesta(tipo, monto, this, casilleroUCC); 
@@ -85,15 +101,5 @@ public class Jugador extends Usuario{
     public void actualizarSaldo(double monto) {
         this.saldo += monto;
     }
-
-   /* public void unirseAMesa(Mesa mesa) throws MesaRuletaException(){
-        if (mesa.(jugadorActual)) {
-                    ;
-                }
-                mesa.agregarJugador(jugadorActual);
-            }  
-          }
-
- */
     
     }

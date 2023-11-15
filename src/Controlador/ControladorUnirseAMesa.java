@@ -20,7 +20,7 @@ public class ControladorUnirseAMesa implements Observador {
     private Fachada fachada;
     private Jugador jugador;
     
-    public ControladorUnirseAMesa(Fachada fachada, Jugador jugador, VistaUnirseAMesa vista) {
+    public ControladorUnirseAMesa(Jugador jugador, VistaUnirseAMesa vista) {
         this.vista = vista;
         this.fachada = fachada;
         this.jugador = jugador;
@@ -43,13 +43,6 @@ public class ControladorUnirseAMesa implements Observador {
         }
     }
     
-
-    @Override
-    public void actualizar(Object evento, Observable origen) {
-         if (Eventos.MESA_AGREGADA.equals(evento) || Eventos.MESA_INICIADA.equals(evento)) {
-            vista.mostrarMesasAbiertas(Fachada.getInstancia().getMesasAbiertas());
-        }
-    }
     
     public void cargarMesasAbiertas() {
         ArrayList<Mesa> mesasAbiertas = Fachada.getInstancia().getMesasAbiertas();
@@ -69,6 +62,13 @@ public class ControladorUnirseAMesa implements Observador {
 
     public ArrayList<Mesa> getMesasDisponibles() {
         return fachada.getMesasAbiertas();
+    }
+
+    @Override
+    public void actualizar(Observable origen, Object evento) {
+        if (Eventos.MESA_AGREGADA.equals(evento) || Eventos.MESA_INICIADA.equals(evento)) {
+            vista.mostrarMesasAbiertas(Fachada.getInstancia().getMesasAbiertas());
+        }
     }
 }
 

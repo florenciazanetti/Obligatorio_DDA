@@ -25,11 +25,12 @@ public class UnirseAMesaDialog extends javax.swing.JDialog implements VistaUnirs
     private ControladorUnirseAMesa controlador;
     private Jugador jugador;
     
-    public UnirseAMesaDialog(Fachada fachada, Jugador jugador, VistaUnirseAMesa vista) {
+    public UnirseAMesaDialog(java.awt.Frame parent, boolean modal, Jugador jugador) {
         initComponents();
-        controlador = new ControladorUnirseAMesa(fachada, jugador, this);
+        controlador = new ControladorUnirseAMesa(jugador, this);
         setTitle("Unirse a Mesa");   
         setLocationRelativeTo(null);
+        controlador.cargarMesasAbiertas();
     }
 
     @SuppressWarnings("unchecked")
@@ -111,9 +112,6 @@ public class UnirseAMesaDialog extends javax.swing.JDialog implements VistaUnirs
         
     }//GEN-LAST:event_btnLogOffActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogOff;
@@ -131,9 +129,10 @@ public class UnirseAMesaDialog extends javax.swing.JDialog implements VistaUnirs
             JOptionPane.showMessageDialog(this, "Seleccione una mesa para unirse.");
         }
     }
-
     
+    @Override
     public void logOut(){
+        jugador.isEstaConectado(false);
         Fachada.getInstancia().logout(jugador);
          dispose();
     }
@@ -156,19 +155,17 @@ public class UnirseAMesaDialog extends javax.swing.JDialog implements VistaUnirs
         listaMesasAbiertas.setModel(model);
 }
 
-    
-
+   
     @Override
     public void mostrarMensajeError(String mensaje) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+         JOptionPane.showMessageDialog(this, mensaje);
     }
     
-      // Sobrescribir el método actualizar
     @Override
-    public void actualizar(Object evento, Observable origen) {
+    public void actualizar(Observable origen, Object evento) {
         if (evento.equals(Eventos.MESA_AGREGADA) || evento.equals(Eventos.MESA_INICIADA)) {
             actualizarListaMesas(controlador.getMesasDisponibles());
-        }
+        }    
     }
 }
 

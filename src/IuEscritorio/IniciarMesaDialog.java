@@ -10,6 +10,7 @@ import Controlador.ControladorIniciarMesa;
 import java.util.ArrayList;
 import Modelo.Crupier;
 import Modelo.Mesa;
+import Modelo.MesaRuletaException;
 import Modelo.TipoApuesta;
 import Modelo.Usuario;
 import java.util.HashMap;
@@ -26,7 +27,7 @@ import javax.swing.table.DefaultTableModel;
     private Mesa mesa;
     private DefaultTableModel modeloTabla;
 
-    public IniciarMesaDialog(java.awt.Frame parent, boolean modal, Crupier crupier){
+    public IniciarMesaDialog(java.awt.Frame parent, boolean modal, Crupier crupier) {
         super(parent, modal);
         initComponents();
         controlador = new ControladorIniciarMesa(crupier, this);
@@ -114,7 +115,7 @@ import javax.swing.table.DefaultTableModel;
 
     @Override
     public void ejecutarSiguienteCasoUso(Crupier crupier, TipoApuesta[] tiposApuesta, Mesa mesa) {
-       new OperarYCerrarFrame(crupier, tiposApuesta, mesa).setVisible(true);
+       new OperarCerrar(crupier, tiposApuesta, mesa).setVisible(true);
 
     }
     

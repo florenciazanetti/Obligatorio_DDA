@@ -20,15 +20,11 @@ public interface VistaJugarAbandonar {
     
      void mostrarTiposDeApuesta(ArrayList<TipoApuesta> listarTiposApuestaSeleccionados);
     
-     void mostrarSaldoJugador(int saldo);
+     void mostrarSaldoJugador();
     
-     void mostrarNumeroMesayRonda(int mesaId, int rondaId); 
-    
-     void mostrarNombreCompletoJugador(String jugador);
+     void mostrarNombreJugador(String jugador);
     
      void mostrarRondasParticipadas(List <Ronda> rondasParticipadas);
-    
-     void mostrarEstadisticasMesa (float estadistica);
 
      void mostrarMensajeError(String mensaje);
 
@@ -36,7 +32,5 @@ public interface VistaJugarAbandonar {
 
      void actualizarVistaPostAbandono();
 
-     void mostrarRondas(List<Ronda> rondas);
-
-     void mostrarNumeroSorteado(int numeroSorteado);
+     void mostrarNumeroSorteado(int numeroGanador);
 }

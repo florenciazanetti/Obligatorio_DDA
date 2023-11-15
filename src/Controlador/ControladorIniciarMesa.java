@@ -29,7 +29,7 @@ public class ControladorIniciarMesa {
     private Map<String, TipoApuesta> nombreATipoMap = new HashMap<>();
 
     // Constructor del controlador
-    public ControladorIniciarMesa(Crupier crupier, VistaIniciarMesa vista) throws MesaRuletaException {
+    public ControladorIniciarMesa(Crupier crupier, VistaIniciarMesa vista) {
         this.vista = vista;
         this.fachada = Fachada.getInstancia(); 
         this.mesa = new Mesa();

@@ -27,4 +27,5 @@ public class Observable {
             observadores.get(i).actualizar(this, evento);
         }
     }
+   
 }

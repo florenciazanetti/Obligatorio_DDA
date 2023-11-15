@@ -13,6 +13,6 @@ import java.util.ArrayList;
  */
 public interface Observador {
     
-    public void actualizar(Object evento, Observable origen);
+    void actualizar(Observable origen, Object evento);
     
 }

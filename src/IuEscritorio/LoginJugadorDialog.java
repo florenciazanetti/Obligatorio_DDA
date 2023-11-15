@@ -34,7 +34,7 @@ public class LoginJugadorDialog extends LoginDialog{
 
     @Override
     protected void ejecutarCasoUsoInicial(Usuario usuario) {
-        new UnirseAMesaDialog((java.awt.Frame) this.getParent(), false, (Jugador) usuario).setVisible(true);
+        new UnirseAMesaDialog((java.awt.Frame) this.getParent(),false,(Jugador) usuario).setVisible(true);
     }
     
 }

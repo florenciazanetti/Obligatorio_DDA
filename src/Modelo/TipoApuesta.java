@@ -42,13 +42,14 @@ public abstract class TipoApuesta {
     public Set<Integer> getCodigosCasilleros() {
         return this.casilleros.keySet();
     }
-    
+ 
       // Método para agregar un casillero a este tipo de apuesta
     public void agregarCasillero(UniversalCellCode ucc) {
         casilleros.put(ucc.getCodigo(), ucc);
     }
 
     public abstract int calcularFactorPago(int monto);
+    
 
       // Método abstracto para determinar si una apuesta es ganadora
     public abstract boolean esGanadora(int numeroGanador, int codigoUCC);

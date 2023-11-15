@@ -64,10 +64,6 @@ public class SistemaMesa {
     }
 
 
-   /* public void bloquearApuestas(Mesa mesa) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }*/
-
      public Mesa findMesaById(int id) throws MesaRuletaException {
         return mesas.stream()
                 .filter(mesa -> mesa.getMesaId() == id)
@@ -75,17 +71,8 @@ public class SistemaMesa {
                 .orElseThrow(() -> new MesaRuletaException("Mesa no encontrada con ID: " + id));
     }
      
-    /*public boolean validarApuestas(ArrayList<Apuesta> apuestas) {
-        for (Apuesta apuesta : apuestas) {
-            if (apuesta.getMontoApostado() > apuesta.getJugador().getMonto()) {
-                return false;
-            }
-        }
-        return true;
-    } */
     
      public EfectoSorteo seleccionarEfectoDeSorteo(EfectoSorteo efectoActual) {
-        // Asumiendo que efectoActual viene del frontend o algún otro servicio
         return efectoActual;
     }
 
@@ -95,9 +82,6 @@ public class SistemaMesa {
             }
         }
 
-    /*ArrayList<Jugador> getJugadoresEnMesa(Mesa mesa) {
-
-    }*/
 
     public ArrayList<EfectoSorteo> getEfectosSorteo() {
         return efectosSorteo;
