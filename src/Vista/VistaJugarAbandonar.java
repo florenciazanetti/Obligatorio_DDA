@@ -5,7 +5,6 @@
 package Vista;
 
 import Modelo.Apuesta;
-import Modelo.EnumTipoApuesta;
 import Modelo.Jugador;
 import Modelo.Mesa;
 import Modelo.Ronda;

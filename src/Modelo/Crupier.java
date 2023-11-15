@@ -33,7 +33,7 @@ public class Crupier extends Usuario {
        
        
        
-     public void configurarMesa(Mesa mesa, ArrayList<TipoApuesta> tiposApuestaSeleccionados) {
+     public void configurarMesa(ArrayList<TipoApuesta> tiposApuestaSeleccionados) {
         mesa.setTiposApuesta(tiposApuestaSeleccionados);
     }
 

@@ -9,7 +9,6 @@ import Modelo.Crupier;
 import Modelo.EfectoSorteo;
 import Modelo.Jugador;
 import Modelo.Mesa;
-import Modelo.ModoAleatorioCompleto;
 import Modelo.Ronda;
 import Modelo.TipoApuesta;
 import Vista.VistaOperarCerrarMesa;
@@ -18,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -258,8 +258,8 @@ public class OperarYCerrarFrame extends javax.swing.JFrame implements VistaOpera
     private void btnCerrarMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarMesaActionPerformed
         int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que quieres cerrar la mesa?", "Confirmar Cierre", JOptionPane.YES_NO_OPTION);
             if (confirmacion == JOptionPane.YES_OPTION) {
-        cerrarMesa();
-    }
+                cerrarMesa();
+            }
     }//GEN-LAST:event_btnCerrarMesaActionPerformed
 
     private void numBalanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_numBalanceActionPerformed
@@ -322,7 +322,7 @@ public class OperarYCerrarFrame extends javax.swing.JFrame implements VistaOpera
             int montoTotalApuestasPagadas = ronda.getMontoTotalPagado();
             int balancePosteriorAlSorteo = ronda.getBalancePosterior();
            // int montoTotalApuestas = (ronda.getMontoTotalApostado());
-            modelo.addRow(new Object[]{numeroRonda, balanceAnteriorAlSorteo, montoTotalApuestas, montoTotalApuestasPerdidas, montoTotalApuestasPagadas, balancePosteriorAlSorteo });
+            modelo.addRow(new Object[]{numeroRonda, balanceAnteriorAlSorteo, montoTotalApuestasPerdidas, montoTotalApuestasPagadas, balancePosteriorAlSorteo });
         
             // Actualiza el balance anterior para la próxima ronda
             balanceAnteriorAlSorteo = balancePosteriorAlSorteo;
@@ -382,6 +382,16 @@ public class OperarYCerrarFrame extends javax.swing.JFrame implements VistaOpera
 
     @Override
     public void ocultarNumeroSorteado() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void pausarRuleta() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void reanudarRuleta() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

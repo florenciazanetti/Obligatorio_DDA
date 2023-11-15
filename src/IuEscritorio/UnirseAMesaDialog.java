@@ -4,30 +4,30 @@
  */
 package IuEscritorio;
 
+import Common.Observable;
+import Common.Observador;
 import Controlador.ControladorUnirseAMesa;
+import Modelo.Eventos;
+import Modelo.Fachada;
 import Modelo.Jugador;
 import Modelo.Mesa;
 import Vista.VistaUnirseAMesa;
 import java.util.ArrayList;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author flore
  */
-public class UnirseAMesaDialog extends javax.swing.JDialog implements VistaUnirseAMesa {
+public class UnirseAMesaDialog extends javax.swing.JDialog implements VistaUnirseAMesa, Observador {
     
     private ControladorUnirseAMesa controlador;
-    /**
-     * Creates new form UnirseAMesaDialog
-     */
-    public UnirseAMesaDialog(java.awt.Frame parent, boolean modal, Jugador jugador) {
-        super(parent, modal);
+    private Jugador jugador;
+    
+    public UnirseAMesaDialog(Fachada fachada, Jugador jugador, VistaUnirseAMesa vista) {
         initComponents();
-    }
-    public UnirseAMesaDialog(Jugador jugador, Mesa mesa) {
-        initComponents();
-        controlador = new ControladorUnirseAMesa(jugador, mesa, this);
+        controlador = new ControladorUnirseAMesa(fachada, jugador, this);
         setTitle("Unirse a Mesa");   
         setLocationRelativeTo(null);
     }
@@ -39,9 +39,8 @@ public class UnirseAMesaDialog extends javax.swing.JDialog implements VistaUnirs
         jLabel1 = new javax.swing.JLabel();
         btnUnirseAmesa = new javax.swing.JButton();
         btnLogOff = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        listaMesasAbiertas = new javax.swing.JList<>();
         jLabel2 = new javax.swing.JLabel();
+        listaMesasAbiertas = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -54,14 +53,12 @@ public class UnirseAMesaDialog extends javax.swing.JDialog implements VistaUnirs
             }
         });
 
-        btnLogOff.setText("Lof Off");
+        btnLogOff.setText("Log Off");
         btnLogOff.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLogOffActionPerformed(evt);
             }
         });
-
-        jScrollPane2.setViewportView(listaMesasAbiertas);
 
         jLabel2.setText("Mesas Abiertas");
 
@@ -82,41 +79,35 @@ public class UnirseAMesaDialog extends javax.swing.JDialog implements VistaUnirs
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(160, 160, 160)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(163, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(189, 189, 189))
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addComponent(listaMesasAbiertas, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 335, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnUnirseAmesa)
-                            .addComponent(btnLogOff))
-                        .addGap(76, 76, 76))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(listaMesasAbiertas, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnUnirseAmesa)
+                    .addComponent(btnLogOff)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnUnirseAmesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUnirseAmesaActionPerformed
-        // TODO add your handling code here:
+        unirseAMesaSeleccionada();
     }//GEN-LAST:event_btnUnirseAmesaActionPerformed
 
     private void btnLogOffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOffActionPerformed
-        // TODO add your handling code here:
+        logOut();
         
     }//GEN-LAST:event_btnLogOffActionPerformed
 
@@ -129,43 +120,55 @@ public class UnirseAMesaDialog extends javax.swing.JDialog implements VistaUnirs
     private javax.swing.JButton btnUnirseAmesa;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JList<String> listaMesasAbiertas;
+    private javax.swing.JList<Mesa> listaMesasAbiertas;
     // End of variables declaration//GEN-END:variables
 
-   
-       
-    
-    
-    private void logOut(){
-    
+   private void unirseAMesaSeleccionada() {
+        Mesa mesaSeleccionada = listaMesasAbiertas.getSelectedValue();
+        if (mesaSeleccionada != null) {
+            controlador.unirseAMesa(mesaSeleccionada, jugador);
+        } else {
+            JOptionPane.showMessageDialog(this, "Seleccione una mesa para unirse.");
+        }
     }
 
-    //@Override
-   // public void mostrarMesasAbiertas(ArrayList<Mesa> mesasAbiertas) {
-       
-        //DefaultTableModel model = (DefaultTableModel) tablaMesasAbiertas.getModel();
-        
-        //model.addColumn("Tipos de Apuesta");
-        //tablaMesasAbiertas.setModel(model);
-        
-        //for(Mesa mesa : mesasAbiertas){
-            //Object[] rowData = {mesa.getMesaId()};
-            //model.addRow(rowData);
-        //}
-    //}
     
-    @Override
-    public void mostrarMesasAbiertas(ArrayList<Mesa> mesasAbiertas) {
-        if (!mesasAbiertas.isEmpty()) {
-            listaMesasAbiertas.setListData((String[]) mesasAbiertas.toArray());
-        } else {
-            listaMesasAbiertas.setListData((String[]) new ArrayList<Mesa>().toArray());
+    public void logOut(){
+        Fachada.getInstancia().logout(jugador);
+         dispose();
+    }
+
+  // Método para actualizar la lista de mesas
+    public void actualizarListaMesas(ArrayList<Mesa> nuevasMesas) {
+        DefaultListModel<Mesa> model = (DefaultListModel<Mesa>) listaMesasAbiertas.getModel();
+        model.removeAllElements();
+        for (Mesa mesa : nuevasMesas) {
+            model.addElement(mesa);
         }
     }
     
-    public btnUnirseAmesa(){
-        
+    @Override
+    public void mostrarMesasAbiertas(ArrayList<Mesa> mesasAbiertas) {
+        DefaultListModel<Mesa> model = new DefaultListModel<>();
+        for (Mesa mesa : mesasAbiertas) {
+            model.addElement(mesa);
+        }
+        listaMesasAbiertas.setModel(model);
+}
+
+    
+
+    @Override
+    public void mostrarMensajeError(String mensaje) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+      // Sobrescribir el método actualizar
+    @Override
+    public void actualizar(Object evento, Observable origen) {
+        if (evento.equals(Eventos.MESA_AGREGADA) || evento.equals(Eventos.MESA_INICIADA)) {
+            actualizarListaMesas(controlador.getMesasDisponibles());
+        }
     }
 }
 

@@ -1,9 +1,11 @@
 package IuEscritorio;
 
 import Controlador.ControladorJugarYAbandonar;
+import Modelo.Apuesta;
 import Modelo.Mesa;
 import Modelo.Jugador;
 import Modelo.Ronda;
+import Modelo.TipoApuesta;
 import Vista.VistaJugarAbandonar;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +16,6 @@ import java.util.List;
 public class JugarAbandonarDialog extends javax.swing.JDialog implements VistaJugarAbandonar {
 
     private ControladorJugarYAbandonar controlador;
-    private List<OperarCerrarJDialog.Escuchador> handlers;
     
     /**
      * Creates new form MesaJugadorPanel
@@ -45,6 +46,41 @@ public class JugarAbandonarDialog extends javax.swing.JDialog implements VistaJu
     
     public void actualizarNumeroMesaRuleta(int numeroMesaRuleta){
        labelNumeroMesaRuleta.setText("Ruleta #" + numeroMesaRuleta); 
+    }
+
+    @Override
+    public void mostrarTiposDeApuesta(ArrayList<TipoApuesta> listarTiposApuestaSeleccionados) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mostrarRondasParticipadas(List<Ronda> rondasParticipadas) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mostrarMensajeError(String mensaje) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void actualizarVistaPostApuesta(int saldo, ArrayList<Apuesta> apuestas) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void actualizarVistaPostAbandono() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mostrarRondas(List<Ronda> rondas) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mostrarNumeroSorteado(int numeroSorteado) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     public interface Escuchador {
@@ -344,9 +380,9 @@ public class JugarAbandonarDialog extends javax.swing.JDialog implements VistaJu
 
       @Override
     public void mostrarSaldoJugador(int saldo) {
-        double saldo = controlador.getSaldoJugador(); 
+        double saldoJ = controlador.getSaldoJugador(); 
         
-        saldoJugador.setText("Saldo: $" + saldo);
+        saldo.setText("Saldo: $" + saldo);
     }
 
     @Override
@@ -354,20 +390,6 @@ public class JugarAbandonarDialog extends javax.swing.JDialog implements VistaJu
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    @Override
-    public void mostrarNombreCompletoJUgador(String nombreCompleto) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void mostrarMesaConApuestas(Mesa mesaConApuestas) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void mostrarRondasParticipo(ArrayList<Ronda> rondasParticipadas) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 
     @Override
     public void mostrarEstadisticasMesa(float estadistica) {

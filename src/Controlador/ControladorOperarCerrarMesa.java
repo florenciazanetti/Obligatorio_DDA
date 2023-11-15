@@ -69,8 +69,9 @@ public class ControladorOperarCerrarMesa implements Observador {
         } 
 }
 
-    public void lanzarPagar(Mesa mesa, String efectoSorteoNombre) {
+    public void lanzarPagar(int numeroRonda, int balance, int montoTotalApostado, int cantidadDeApuestas, Mesa mesa, String efectoSorteoNombre) {
     /// Lanzar
+        vista.pausarRuleta();
         mesa.bloquearApuestas(); // Bloquea nuevas apuestas
         int numeroGanador = determinarNumeroGanador(efectoSorteoNombre, mesa); // Método para determinar el número ganador
         vista.ultimoNumeroSorteado(numeroGanador); // Mostrar el número ganador en la vista
@@ -85,6 +86,7 @@ public class ControladorOperarCerrarMesa implements Observador {
 
         // Preparación para la siguiente ronda
         mesa.prepararParaNuevaRonda();
+        vista.reanudarRuleta();
 }
     
     public int determinarNumeroGanador(String efectoSorteoNombre, Mesa mesa) {

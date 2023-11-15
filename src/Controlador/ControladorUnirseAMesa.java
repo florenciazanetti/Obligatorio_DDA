@@ -54,7 +54,8 @@ public class ControladorUnirseAMesa implements Observador {
     public void cargarMesasAbiertas() {
         ArrayList<Mesa> mesasAbiertas = Fachada.getInstancia().getMesasAbiertas();
         vista.mostrarMesasAbiertas(mesasAbiertas);
-     }
+    }
+
     
     /*private void iniciarJuego(Mesa mesa) {
     // Verificar si la mesa está en un estado que permita comenzar un nuevo juego
@@ -65,7 +66,10 @@ public class ControladorUnirseAMesa implements Observador {
         // Habilitar apuestas
         mesa.habilitarApuestas();
 */
+
+    public ArrayList<Mesa> getMesasDisponibles() {
+        return fachada.getMesasAbiertas();
+    }
 }
 
     
-}

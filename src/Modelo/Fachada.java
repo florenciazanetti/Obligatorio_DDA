@@ -69,9 +69,16 @@ public class Fachada extends Observable {
     }
     
     public void iniciarMesa(Crupier crupier, ArrayList<TipoApuesta> tiposApuestaSeleccionados) {
-        Mesa mesa = new Mesa(tiposApuestaSeleccionados, crupier); // Suponiendo que Mesa se crea por cada crupier
-        crupier.configurarMesa(mesa, tiposApuestaSeleccionados);
-    }
+        Mesa mesa = crupier.getMesa();
+        if (mesa == null) {
+            mesa = new Mesa(); // Crear una nueva mesa si el crupier no tiene una asignada
+            crupier.setMesa(mesa); // Asegúrate de que el crupier tenga la mesa asignada
+        }
+        crupier.configurarMesa(tiposApuestaSeleccionados); // Configura la mesa con los tipos de apuesta seleccionados
+        mesa.iniciarMesa(); // Cambia el estado de la mesa a activa o inicia la mesa
+        sistemaMesa.agregarMesa(mesa);
+}
+
 
     public ArrayList<EfectoSorteo> getEfectosSorteo() {
         return sistemaMesa.getEfectosSorteo();
@@ -90,7 +97,7 @@ public class Fachada extends Observable {
     }
 
     public List<Ronda> getRondasJugador(Jugador jugador) {
-        sistemaMesa.getRondasJugador(jugador);
+        return sistemaMesa.getRondasJugador(jugador);
     }
 
 

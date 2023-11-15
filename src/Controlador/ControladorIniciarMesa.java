@@ -7,7 +7,6 @@ package Controlador;
 
 import Common.Observable;
 import Common.Observador;
-import IuEscritorio.OperarCerrarJDialog;
 import Vista.VistaIniciarMesa;
 import Modelo.Crupier;
 import Modelo.EstadoMesa;
@@ -33,13 +32,9 @@ public class ControladorIniciarMesa {
     public ControladorIniciarMesa(Crupier crupier, VistaIniciarMesa vista) throws MesaRuletaException {
         this.vista = vista;
         this.fachada = Fachada.getInstancia(); 
-        crupier.setMesa(new Mesa());
-        fachada.agregarMesa(mesa);
-        nombreATipoMap = new HashMap<>();
-        // Llenar el mapa con los tipos de apuesta y sus nombres
-        for (TipoApuesta tipo : mesa.getTiposApuesta()) {
-            nombreATipoMap.put(tipo.getNombre(), tipo);
-        }
+        this.mesa = new Mesa();
+        crupier.setMesa(mesa);
+        fachada.agregarMesa(mesa); 
     }  
 
     // Cuando cargues los tipos de apuesta en la tabla, también llena el mapa

@@ -15,7 +15,6 @@ import Modelo.MesaRuletaException;
 import Modelo.Ronda;
 import Modelo.TipoApuesta;
 import Vista.VistaJugarAbandonar;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -90,7 +89,7 @@ public class ControladorJugarYAbandonar implements Observador {
                 int numeroSorteado = mesa.getNumeroSorteado();
                 vista.mostrarNumeroSorteado(numeroSorteado);
                 break;
-            case LIQUIDACION_RONDA:
+            case LIQUIDACION:
                 // Lógica para manejar la liquidación de la ronda
                 mostrarInformacionJugador();
                 break;
@@ -101,3 +100,4 @@ public class ControladorJugarYAbandonar implements Observador {
         }
     }
  }
+}

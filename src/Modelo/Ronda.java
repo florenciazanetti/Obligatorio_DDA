@@ -15,8 +15,8 @@ import java.util.Map;
  * @author sabrina
  */
 public class Ronda {
-    private int rondaId = 1;
-    private int nextId;
+    private int rondaId;
+    private static int nextId = 1;
     private int numeroGanador;
     private int balanceAnterior;
     private int balancePosterior;

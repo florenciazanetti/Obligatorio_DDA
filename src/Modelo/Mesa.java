@@ -18,9 +18,9 @@ import java.util.Random;
  */
 public class Mesa extends Observable{
     
-    private int mesaId = 1;
+    private int mesaId;
+    private static int nextId = 1;
     private int contadorRondas;
-    private static int nextId = 0;
     private boolean bloqueada;
     private boolean disponible;
     private int balance;
@@ -34,15 +34,14 @@ public class Mesa extends Observable{
     private List<Integer> ultimosLanzamientos = new ArrayList<>();
 
     public Mesa(ArrayList<TipoApuesta> tiposApuesta, Crupier crupier) {
-        this.mesaId = nextId;
+        this.mesaId = nextId++;
         this.contadorRondas = 0;
         this.balance = 0;
         this.bloqueada = false;
         this.disponible = false;
-        this.rondaActual = new Ronda(rondaActual.getRondaId());
-        this.tiposApuesta = new ArrayList<>();
+        this.rondaActual = null;
+        this.tiposApuesta = new ArrayList<>(tiposApuesta);
         this.jugadores = new ArrayList<>();
-        this.nextId++;
         this.estadoMesa = EstadoMesa.INACTIVA; // Estado inicial de la mesa
     }
     
@@ -151,14 +150,11 @@ public class Mesa extends Observable{
         }
     }
     
-    public boolean estaJugadorUnidoAMesa(Jugador jugador) {
-        boolean unido = false;
-        for(Jugador j: jugadores){
-            if(jugador.equals(jugador)){
-                unido = true;
-            }
+    public void eliminarJugador(Jugador jugador) {
+        jugadores.remove(jugador); // Elimina al jugador de la lista
+        if (jugadores.isEmpty()) {
+            setEstado(EstadoMesa.INACTIVA);
         }
-        return false;
     }
     
     
@@ -170,17 +166,6 @@ public class Mesa extends Observable{
 
         if (jugadores.size() == 1) { // Verificar después de agregar el jugador
             setEstado(EstadoMesa.ACTIVA);
-        }
-}
-
-    public void eliminarJugador(Jugador jug) {
-       for(Jugador jugador: jugadores){
-            if (jugador.equals(jug)) {
-                jugadores.remove(jug); 
-            }
-        }
-        if (jugadores.isEmpty()) { // Verificar después de eliminar el jugador
-            setEstado(EstadoMesa.INACTIVA);
         }
 }
 
@@ -259,13 +244,12 @@ public class Mesa extends Observable{
     }
 
     public void agregarApuesta(Apuesta apuesta) {
-        for(Jugador jugador: jugadores){
-            if (jugador.getSaldo() > 0){
+        for (Jugador jugador: jugadores){
+            if (jugador.getSaldo() >= apuesta.getMontoApostado()) {
                 apuestas.add(apuesta);
-                 avisar(Eventos.NUEVA_APUESTA);
+                avisar(Eventos.NUEVA_APUESTA);
             }
         }
- 
     }
     
     public int getNumeroSorteado(){
@@ -281,14 +265,15 @@ public class Mesa extends Observable{
     }
 
     public int lanzarBola() {
-        // Supongamos que la ruleta tiene números del 0 al 36
         Random random = new Random();
         int numeroGanador = random.nextInt(37); // Genera un número entre 0 y 36
         if (rondaActual != null) {
             rondaActual.setNumeroGanador(numeroGanador);
+            // Aquí podrías avisar a los observadores sobre el nuevo número ganador
+            avisar(Eventos.SORTEO_REALIZADO);
         }
         return numeroGanador;
-}
+    }
     
     public void bloquearMesa() {
         this.estadoMesa = EstadoMesa.BLOQUEADA;
@@ -304,10 +289,12 @@ public class Mesa extends Observable{
     
     public void cerrarMesa() {
         this.estadoMesa = EstadoMesa.CERRADA;
+        avisar(Eventos.MESA_CERRADA);
     }
 
     public void bloquearApuestas() {
         this.bloqueada = true;
+        this.estadoMesa = EstadoMesa.BLOQUEADA;
 }
 
     public void desbloquearApuestas() {
@@ -319,6 +306,7 @@ public class Mesa extends Observable{
     if (rondaActual != null) {
         rondaActual.recolectarPerdedoras();
     }
+    avisar(Eventos.RECOLECCION);
 }
    public void pagarApuestasGanadoras() {
         if (rondaActual != null) {
@@ -331,6 +319,7 @@ public class Mesa extends Observable{
          if (rondaActual != null) {
             rondaActual.liquidarRonda();
         }
+         avisar(Eventos.LIQUIDACION);
     }
 
     public void expulsarJugadores() {
@@ -347,11 +336,7 @@ public class Mesa extends Observable{
          // Eliminar la apuesta de la lista de apuestas actuales
         this.apuestas.remove(apuesta);
     }
-
-    public void agregarUltimoLanzamiento(int numeroGanador) {
-       
-    }
-
+    
     public boolean estaDisponibleParaNuevoJugador() {
         if (!disponible) {
             return false;

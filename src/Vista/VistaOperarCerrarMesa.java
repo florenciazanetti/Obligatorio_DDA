@@ -34,5 +34,9 @@ public interface VistaOperarCerrarMesa {
 
     public void ocultarNumeroSorteado();
 
+    public void pausarRuleta();
+
+    public void reanudarRuleta();
+
     
 }
