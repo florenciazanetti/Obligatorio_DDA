@@ -67,6 +67,7 @@ public class OperarCerrar extends javax.swing.JFrame implements VistaOperarCerra
         tablaInfoRondas = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
         tablaUltimosLanzamientos = new javax.swing.JList<>();
+        r = new componente.PanelRuleta();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -188,10 +189,14 @@ public class OperarCerrar extends javax.swing.JFrame implements VistaOperarCerra
                                         .addComponent(jLabel1)
                                         .addGap(18, 18, 18)
                                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(130, 130, 130)
+                                .addGap(78, 78, 78)
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 52, Short.MAX_VALUE)))
+                        .addGap(0, 202, Short.MAX_VALUE)))
                 .addGap(28, 28, 28))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(61, 61, 61)
+                .addComponent(r, javax.swing.GroupLayout.PREFERRED_SIZE, 689, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -214,7 +219,9 @@ public class OperarCerrar extends javax.swing.JFrame implements VistaOperarCerra
                     .addComponent(comboEfectos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLanzarPagar)
                     .addComponent(numSorteado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 215, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(r, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -243,8 +250,6 @@ public class OperarCerrar extends javax.swing.JFrame implements VistaOperarCerra
     }//GEN-LAST:event_btnCerrarMesaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton b_0;
-    private javax.swing.JButton b_1;
     private javax.swing.JTextField balanceMesa;
     private javax.swing.JButton btnCerrarMesa;
     private javax.swing.JButton btnLanzarPagar;
@@ -255,8 +260,6 @@ public class OperarCerrar extends javax.swing.JFrame implements VistaOperarCerra
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -265,6 +268,7 @@ public class OperarCerrar extends javax.swing.JFrame implements VistaOperarCerra
     private javax.swing.JTextField numRonda;
     private javax.swing.JTextField numRuleta;
     private javax.swing.JTextField numSorteado;
+    private componente.PanelRuleta r;
     private javax.swing.JTable tablaInfoRondas;
     private javax.swing.JTable tablaJugadores;
     private javax.swing.JList<Integer> tablaUltimosLanzamientos;
@@ -389,7 +393,7 @@ public class OperarCerrar extends javax.swing.JFrame implements VistaOperarCerra
             for (Integer numero : ultimosLanzamientos) {
                 lista.addElement(numero);
             }
-           /* tablaLanzamientos.setModel(lista);*/
+            tablaUltimosLanzamientos.setModel(lista);
         }
 
     @Override
@@ -415,12 +419,12 @@ public class OperarCerrar extends javax.swing.JFrame implements VistaOperarCerra
 
     @Override
     public void mostrarMontoApostado(int montoTotalApostado) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        montoApuestas.setText(String.valueOf(montoTotalApostado));
     }
 
     @Override
     public void obtenerCdadApuestasPorRonda(int montoTotalApostado) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        numApuesta.setText(String.valueOf(montoTotalApostado));
     }
     
 }
