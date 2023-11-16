@@ -8,10 +8,11 @@ import Modelo.TipoApuesta;
         
 public class ApuestaColores extends TipoApuesta{
     String color;
-    
-    public ApuestaColores(String nombre, int ratioPago) {
-        super(nombre, ratioPago);
+
+    public ApuestaColores(String nombre, String nombreCodigo, int casillero) {
+        super(nombre, nombreCodigo, casillero);
     }
+    
 
     @Override
     public int calcularFactorPago(int monto) {
@@ -19,11 +20,11 @@ public class ApuestaColores extends TipoApuesta{
     }
     
     @Override
-    public boolean esGanadora(int numeroGanador, int codigoUCC) {
+    public boolean esGanadora(int numeroGanador, int casillero) {
         // Supongamos que tienes un método que determina el color del número
         String colorGanador = obtenerColor(numeroGanador);
-        return ((colorGanador.equals("Rojo") && codigoUCC == 43) ||
-                (colorGanador.equals("Negro") && codigoUCC == 44));
+        return ((colorGanador.equals("Rojo") && casillero == 43) ||
+                (colorGanador.equals("Negro") && casillero == 44));
     }
     
     public static String obtenerColor(int numero) {

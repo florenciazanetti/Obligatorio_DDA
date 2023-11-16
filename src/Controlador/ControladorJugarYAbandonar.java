@@ -41,17 +41,7 @@ public class ControladorJugarYAbandonar implements Observador {
 
     public void realizarApuesta(int casilleroUCC, int monto, Jugador jugador, TipoApuesta tipo ) {
         try {
-            if (jugador.getSaldo() < monto) {
-                vista.mostrarMensajeError("Saldo insuficiente.");
-                return;
-            }
-            Apuesta apuesta = jugador.realizarApuesta(casilleroUCC, monto, jugador, tipo );
-            if (apuesta != null) {
-                mesa.agregarApuesta(apuesta);
-                vista.actualizarVistaPostApuesta(jugador.getSaldo(), mesa.getApuestas());
-            } else {
-                vista.mostrarMensajeError("No se pudo realizar la apuesta.");
-            }
+            Apuesta apuesta = mesa.realizarApuesta(casilleroUCC, monto, jugador, tipo );
         } catch (MesaRuletaException e) {
             vista.mostrarMensajeError(e.getMessage());
         }
@@ -79,16 +69,16 @@ public class ControladorJugarYAbandonar implements Observador {
         // Puedes disparar un evento para notificar que el jugador ha abandonado la mesa
     }
       
-     public void mostrarTiposDeApuesta(int idMesa) {
+    /* public void mostrarTiposDeApuesta(int idMesa) {
         Mesa mesa = Fachada.getInstancia().getMesaPorId(idMesa);
         vista.mostrarTiposDeApuesta (mesa.getTiposApuesta());
-    }
+    }*/
       
 
     public TipoApuesta buscarTipoApuesta(int codigoCasillero) {
         List<TipoApuesta> tiposDeApuesta = Fachada.getInstancia().getTiposApuesta();
         for (TipoApuesta tipoApuesta : tiposDeApuesta) {
-            if (tipoApuesta.getCodigosCasilleros().contains(codigoCasillero)) {
+            if (tipoApuesta.getCasillero() == (codigoCasillero)) {
                 return tipoApuesta;
             }
     }
@@ -105,11 +95,11 @@ public class ControladorJugarYAbandonar implements Observador {
                         getDatosIniciales();
                         break;
                     case SORTEO_REALIZADO:
-                        numeroGanador(jugador.getRondaActual().getNumeroGanador());
-                        vista.mostrarNumeroSorteado(numeroSorteado);
+                        int numero = jugador.getRondaActual().getNumeroGanador();
+                        vista.mostrarNumeroSorteado(numero);
                         break;
                     case LIQUIDACION:
-                        mostrarInformacionJugador();
+                        
                         break;
                     case MESA_CERRADA:
                         // Lógica para manejar el evento de cierre de mesa

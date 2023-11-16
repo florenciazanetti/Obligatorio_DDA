@@ -100,6 +100,14 @@ public class Fachada extends Observable {
         return sistemaMesa.getRondasJugador(jugador);
     }
 
+    public void agregarTipoApuesta(TipoApuesta tipo) {
+        sistemaMesa.agregarTipoApuesta(tipo);
+    }
+
+    public ArrayList<EfectoSorteo> agregarEfectoSorteo(EfectoSorteo efecto) {
+        return sistemaMesa.agregarEfectoSorteo(efecto);
+    }
+
 
    
 

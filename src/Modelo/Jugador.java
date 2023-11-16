@@ -3,8 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Modelo;
+import Common.Observable;
 import java.util.ArrayList;
 import java.util.Date;
+import Common.Observable;
 
 /**
  *
@@ -13,7 +15,7 @@ import java.util.Date;
 
 
 
-public class Jugador extends Usuario{
+public class Jugador extends Usuario {
     
     private int saldo;
     private Mesa mesaActual;
@@ -83,16 +85,7 @@ public class Jugador extends Usuario{
         return rondasPariticipadas;
     }
 
-     public Apuesta realizarApuesta(int monto, int casilleroUCC, Jugador jugador, TipoApuesta tipo) throws MesaRuletaException {
-        if (this.saldo >= monto) {
-            this.saldo -= monto;
-            Apuesta apuesta = new Apuesta(tipo, monto, this, casilleroUCC); 
-            this.apuestas.add(apuesta);
-            return apuesta;
-        } else {
-            throw new MesaRuletaException("Saldo insuficiente");
-        }
-    }
+ 
 
     public void recibirGanancias(double monto) {
          this.saldo += monto;
@@ -100,6 +93,12 @@ public class Jugador extends Usuario{
 
     public void actualizarSaldo(double monto) {
         this.saldo += monto;
+    }
+
+    void restarSaldo(int monto) {
+        if (this.saldo >= monto) {
+            this.saldo -= monto;
+        }    
     }
     
     }

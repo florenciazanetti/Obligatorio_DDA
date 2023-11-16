@@ -4,6 +4,7 @@
  */
 package Modelo;
 
+import Common.Observable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,14 +15,12 @@ import java.util.Map;
  *
  * @author sabrina
  */
-public class Ronda {
+public class Ronda extends Observable {
     private int rondaId;
     private static int nextId = 1;
     private int numeroGanador = -1;
     private int balanceAnterior;
     private int balancePosterior;
-   // private float recoleccion;
-   // private float liquidacion;
     private int numeroSorteado;
     private int montoTotalPagado;
     private int montoTotalPerdido;
@@ -45,11 +44,13 @@ public class Ronda {
         this.montoApostado = 0;
         this.montoTotalGanado = 0;
         this.montoTotalPerdido = 0;
-      //  this.recoleccion = 0;
-        //this.liquidacion = 0;
         this.mesa = mesa;
         this.rondaId = nextId++;
     }
+
+    public Ronda() {
+    }
+    
 
     public int getRondaId() {
         return rondaId;
@@ -92,9 +93,10 @@ public class Ronda {
     }
 
     
-     public void agregarApuesta(Apuesta apuesta) {
-        apuestas.add(apuesta);
-        montoApostado += apuesta.getMontoApostado();
+    public void agregarApuesta(TipoApuesta tipo, int universalCellCode, int valorDeApuesta, Jugador jugador ) {
+            Apuesta apuesta = new Apuesta(tipo, valorDeApuesta, jugador, universalCellCode  );
+            this.apuestas.add(apuesta);
+            avisar(Eventos.NUEVA_APUESTA);
     }
 
     public void procesarSorteo(int numeroGanador) {

@@ -243,13 +243,18 @@ public class Mesa extends Observable{
         }
     }
 
-    public void agregarApuesta(Apuesta apuesta) {
-        for (Jugador jugador: jugadores){
-            if (jugador.getSaldo() >= apuesta.getMontoApostado()) {
-                apuestas.add(apuesta);
-                avisar(Eventos.NUEVA_APUESTA);
-            }
+    
+        public Apuesta realizarApuesta(int monto, int casilleroUCC, Jugador jugador, TipoApuesta tipo) throws MesaRuletaException {
+        if (jugador.getSaldo() >=  monto) {
+            jugador.restarSaldo(monto);
+            Apuesta apuesta = new Apuesta(tipo, monto, jugador, casilleroUCC); 
+            this.apuestas.add(apuesta);
+            avisar(Eventos.NUEVA_APUESTA);
+            return apuesta;
+        } else {
+            throw new MesaRuletaException("Saldo insuficiente");
         }
+        
     }
     
     public int getNumeroSorteado(){
@@ -352,4 +357,8 @@ public class Mesa extends Observable{
         return jugadores.contains(jugador);
     }
    
+    @Override
+    public String toString() {
+        return String.valueOf("Mesa id " + mesaId);
+    }
 }

@@ -18,25 +18,25 @@ import java.util.List;
 public interface VistaOperarCerrarMesa {
     void mostrarDatosMesa(int saldo, int rondaId, int mesaId, ArrayList<EfectoSorteo> efectos);
 
-    void mostrarDatosDeRonda(ArrayList<Ronda> rondas);
-
     void mostrarListaUltimosLanzamientos(List<Integer> ultimosLanzamientos);
-
-    void mostrarMensajeDeError(String message);
 
     void ultimoNumeroSorteado(int ultimo);
     
+    void mostrarDatosRonda(ArrayList<Ronda> rondas);
+    
+    void  mostrarMensajeDeError(String mensaje);
+    
     void mostrarJugadoresYSaldo(ArrayList<Jugador> jugadores);
-    
-    void pausarJuego();
-    
-    void reanudarJuego();
 
-    public void ocultarNumeroSorteado();
+    void ocultarNumeroSorteado();
 
-    public void pausarRuleta();
+    void pausarRuleta();
 
-    public void reanudarRuleta();
+    void reanudarRuleta();
+
+    public void mostrarMontoApostado(int montoTotalApostado);
+
+    public void obtenerCdadApuestasPorRonda(int montoTotalApostado);
 
     
 }

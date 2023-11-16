@@ -9,10 +9,11 @@ package Modelo;
  * @author sabrina
  */
 public class  ApuestaDirecta extends TipoApuesta {
-    
-    public ApuestaDirecta(String nombre, int ratioPago) {
-        super(nombre, ratioPago);
+
+    public ApuestaDirecta(String nombre, String nombreCodigo, int casillero) {
+        super(nombre, nombreCodigo, casillero);
     }
+    
 
     @Override
     public int calcularFactorPago(int monto) {
@@ -20,8 +21,8 @@ public class  ApuestaDirecta extends TipoApuesta {
     }
     
      @Override
-    public boolean esGanadora(int numeroGanador, int codigoUCC) {
+    public boolean esGanadora(int numeroGanador, int casillero) {
         // En una apuesta directa, el código UCC es igual al número apostado
-        return codigoUCC == numeroGanador;
+        return casillero == numeroGanador;
     }
 }

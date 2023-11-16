@@ -28,9 +28,5 @@ public interface VistaJugarAbandonar {
 
      void mostrarMensajeError(String mensaje);
 
-     void actualizarVistaPostApuesta(int saldo, ArrayList<Apuesta> apuestas);
-
-     void actualizarVistaPostAbandono();
-
      void mostrarNumeroSorteado(int numeroGanador);
 }

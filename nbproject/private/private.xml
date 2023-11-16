@@ -3,14 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/flore/Desktop/DemoPanelRuleta/src/Modelo/Jugador.java</file>
-            <file>file:/C:/Users/flore/Desktop/DemoPanelRuleta/src/Modelo/Ronda.java</file>
-            <file>file:/C:/Users/flore/Desktop/DemoPanelRuleta/src/Controlador/ControladorUnirseAMesa.java</file>
-            <file>file:/C:/Users/flore/Desktop/DemoPanelRuleta/src/IuEscritorio/JugarAbandonarDialog.java</file>
-            <file>file:/C:/Users/flore/Desktop/DemoPanelRuleta/src/Controlador/ControladorJugarYAbandonar.java</file>
-            <file>file:/C:/Users/flore/Desktop/DemoPanelRuleta/src/Vista/VistaJugarAbandonar.java</file>
-            <file>file:/C:/Users/flore/Desktop/DemoPanelRuleta/src/Modelo/Usuario.java</file>
-            <file>file:/C:/Users/flore/Desktop/DemoPanelRuleta/src/IuEscritorio/UnirseAMesaDialog.java</file>
+            <file>file:/home/sabrina/Escritorio/ORT/4to%20semestre/DDA2/OBLIGATORIO/Obligatorio/Obligatorio_DDA/src/componente/PanelRuleta.java</file>
+            <file>file:/home/sabrina/Escritorio/ORT/4to%20semestre/DDA2/OBLIGATORIO/Obligatorio/Obligatorio_DDA/src/Controlador/ControladorIniciarMesa.java</file>
+            <file>file:/home/sabrina/Escritorio/ORT/4to%20semestre/DDA2/OBLIGATORIO/Obligatorio/Obligatorio_DDA/src/IuEscritorio/OperarCerrar.java</file>
+            <file>file:/home/sabrina/Escritorio/ORT/4to%20semestre/DDA2/OBLIGATORIO/Obligatorio/Obligatorio_DDA/src/Vista/VistaOperarCerrarMesa.java</file>
+            <file>file:/home/sabrina/Escritorio/ORT/4to%20semestre/DDA2/OBLIGATORIO/Obligatorio/Obligatorio_DDA/src/IuEscritorio/JugarAbandonarPanelJugador.java</file>
+            <file>file:/home/sabrina/Escritorio/ORT/4to%20semestre/DDA2/OBLIGATORIO/Obligatorio/Obligatorio_DDA/src/componente/DatosPrueba.java</file>
+            <file>file:/home/sabrina/Escritorio/ORT/4to%20semestre/DDA2/OBLIGATORIO/Obligatorio/Obligatorio_DDA/src/Controlador/ControladorOperarCerrarMesa.java</file>
+            <file>file:/home/sabrina/Escritorio/ORT/4to%20semestre/DDA2/OBLIGATORIO/Obligatorio/Obligatorio_DDA/src/Controlador/ControladorJugarYAbandonar.java</file>
+            <file>file:/home/sabrina/Escritorio/ORT/4to%20semestre/DDA2/OBLIGATORIO/Obligatorio/Obligatorio_DDA/src/IuEscritorio/LoginCrupierDialog.java</file>
+            <file>file:/home/sabrina/Escritorio/ORT/4to%20semestre/DDA2/OBLIGATORIO/Obligatorio/Obligatorio_DDA/src/Modelo/Ronda.java</file>
         </group>
     </open-files>
 </project-private>

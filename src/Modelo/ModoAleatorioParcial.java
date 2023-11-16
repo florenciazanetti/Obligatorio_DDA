@@ -5,6 +5,8 @@
 package Modelo;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Random;
 
 /**
@@ -12,6 +14,7 @@ import java.util.Random;
  * @author sabrina
  */
 public class ModoAleatorioParcial extends EfectoSorteo{
+     private Queue<Integer> numerosSorteados = new LinkedList<>();
     
     public ModoAleatorioParcial(String nombre) {
         super(nombre);
@@ -20,14 +23,18 @@ public class ModoAleatorioParcial extends EfectoSorteo{
 
     @Override
     public int realizarSorteo(Ronda ronda) {
-        //ArrayList<Integer> ultimos3numerosSorteados = ronda.;
-        Random nAleatorio = new Random();
-        int numero = nAleatorio.nextInt(37);
+        Random random = new Random();
         int numeroAleatorio;
-          do {
-            numero = new Random().nextInt(37);
-        } while (ultimos3numerosSorteados.contains(numero));
-        return numero;
+        do {
+            numeroAleatorio = random.nextInt(37); // Genera un número entre 0 y 36
+        } while (numerosSorteados.contains(numeroAleatorio));
+
+        numerosSorteados.add(numeroAleatorio);
+        if (numerosSorteados.size() > 3) {
+            numerosSorteados.poll(); // Elimina el elemento más antiguo si hay más de 3 números
+        }
+
+        return numeroAleatorio;
     }
     
 }

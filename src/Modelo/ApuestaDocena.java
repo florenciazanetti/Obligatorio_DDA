@@ -9,10 +9,11 @@ package Modelo;
  * @author sabrina
  */
 public class  ApuestaDocena  extends TipoApuesta{
-    
-    public ApuestaDocena(String nombre, int ratioPago) {
-        super(nombre, ratioPago);
+
+    public ApuestaDocena(String nombre, String nombreCodigo, int casillero) {
+        super(nombre, nombreCodigo, casillero);
     }
+    
 
     @Override
     public int calcularFactorPago(int monto) {
@@ -26,7 +27,6 @@ public class  ApuestaDocena  extends TipoApuesta{
     }
 
      private boolean esNumeroEnDocenaCorrecta(int numero, int docenaUCC) {
-        // Determinar las docenas basadas en los códigos UCC
         // Asumiendo que 40, 41, 42 son los códigos UCC para las tres docenas
         int docenaInicio = (docenaUCC - 40) * 12 + 1;
         int docenaFin = docenaInicio + 11;

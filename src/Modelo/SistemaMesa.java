@@ -106,5 +106,13 @@ public class SistemaMesa {
         }
         return rondasDeJugador;
     }
+
+    public void agregarTipoApuesta(TipoApuesta tipo) {
+        tiposDeApuestas.add(tipo);
+    }
+
+    public ArrayList<EfectoSorteo> agregarEfectoSorteo(EfectoSorteo efecto) {
+        return efectosSorteo;
+    }
    
 }

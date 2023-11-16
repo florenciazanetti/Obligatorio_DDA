@@ -88,12 +88,14 @@ public class ControladorOperarCerrarMesa implements Observador {
         mesa.prepararParaNuevaRonda();
         vista.reanudarRuleta();
 }
-    
+    boolean pagar = true;
     public int determinarNumeroGanador(String efectoSorteoNombre, Mesa mesa) {
         EfectoSorteo efectoSorteo;
+        if (pagar){
         switch (efectoSorteoNombre) {
             case "Aleatorio Completo":
                 efectoSorteo = new ModoAleatorioCompleto(efectoSorteoNombre);
+                int numGanador = efectoSorteo.realizarSorteo(ronda);
                 break;
             case "Aleatorio Parcial":
                 efectoSorteo = new ModoAleatorioParcial(efectoSorteoNombre);
@@ -105,6 +107,11 @@ public class ControladorOperarCerrarMesa implements Observador {
                 throw new IllegalArgumentException("Efecto de sorteo desconocido: " + efectoSorteoNombre);
         }
         return efectoSorteo.realizarSorteo(ronda);
+        } else {
+            ronda = new Ronda();
+            mesa.agregarRonda(ronda);
+            vista.reanudarRuleta();
+        }
     }
     
     private void recogerApuestasPerdedoras(int numeroGanador) {
@@ -153,10 +160,24 @@ public class ControladorOperarCerrarMesa implements Observador {
        vista.mostrarDatosMesa(saldo, rondaId, mesaId, efectos);
     }
     
+      public void montoApostadoRonda() {
+        Ronda ultimaRonda = mesa.getRondaActual();
+        this.vista.mostrarMontoApostado(ultimaRonda.getMontoTotalApostado());
+    }
+      
+    public void obtenerCdadApuestasPorRonda() {
+        Ronda ultimaRonda = mesa.getRondaActual();
+        this.vista.obtenerCdadApuestasPorRonda(ultimaRonda.getMontoTotalApostado());
+    }
+
+    
     @Override
-    public void actualizar(Object evento, Observable origen) {
+    public void actualizar(Observable origen, Object evento) {
         if( Eventos.NUEVA_RONDA.equals(evento)){
             getDatosDeMesa();
+        } else if( Eventos.NUEVA_APUESTA.equals(evento)){
+            montoApostadoRonda();
+            obtenerCdadApuestasPorRonda();
         }
     }
 }

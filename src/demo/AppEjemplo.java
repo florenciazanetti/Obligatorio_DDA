@@ -4,6 +4,8 @@
  */
 package demo;
 
+import componente.DatosPrueba;
+
 /**
  *
  * @author digregor
