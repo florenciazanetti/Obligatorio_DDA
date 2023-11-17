@@ -40,7 +40,7 @@ public class Fachada extends Observable {
     }
     
     public Crupier loginCrupier(String cedula, String password) throws AccesoException{
-        return sAcceso.loginCroupier(cedula, password);
+        return sAcceso.loginCrupier(cedula, password);
     }
     
     public ArrayList<Usuario> getUsuariosConectados(){
@@ -63,7 +63,7 @@ public class Fachada extends Observable {
         return sistemaCrupier.getCrupiers();
     }
 
-    public void agregarMesa(Mesa mesa) throws MesaRuletaException {
+    public void agregarMesa(Mesa mesa) {
         sistemaMesa.agregarMesa(mesa);
         avisar(Eventos.MESA_AGREGADA);   
     }
@@ -71,14 +71,13 @@ public class Fachada extends Observable {
     public void iniciarMesa(Crupier crupier, ArrayList<TipoApuesta> tiposApuestaSeleccionados) {
         Mesa mesa = crupier.getMesa();
         if (mesa == null) {
-            mesa = new Mesa(); // Crear una nueva mesa si el crupier no tiene una asignada
-            crupier.setMesa(mesa); // Asegúrate de que el crupier tenga la mesa asignada
+            mesa = new Mesa(); //sino la tiene asignada
+            crupier.setMesa(mesa); 
         }
         crupier.configurarMesa(tiposApuestaSeleccionados); // Configura la mesa con los tipos de apuesta seleccionados
         mesa.iniciarMesa(); // Cambia el estado de la mesa a activa o inicia la mesa
         sistemaMesa.agregarMesa(mesa);
 }
-
 
     public ArrayList<EfectoSorteo> getEfectosSorteo() {
         return sistemaMesa.getEfectosSorteo();
@@ -92,8 +91,8 @@ public class Fachada extends Observable {
         return sistemaMesa.listarMesasAbiertas();
     }
 
-    public Mesa getMesaPorId(int mesaId) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Mesa getMesaPorId(int mesaId) throws MesaRuletaException {
+        return sistemaMesa.findMesaById(mesaId);
     }
 
     public List<Ronda> getRondasJugador(Jugador jugador) {

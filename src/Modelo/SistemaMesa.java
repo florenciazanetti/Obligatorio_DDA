@@ -46,21 +46,18 @@ public class SistemaMesa {
     }
      
     public void cerrarMesa(int mesaId) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
     
-     public Mesa getMesaById(int id) {
-        // Aquí puedes agregar la lógica para buscar una mesa por su ID
-        return null;
-    }
 
     public ArrayList<Mesa> listarMesasAbiertas() {
+        ArrayList<Mesa> mesasAbiertas = new ArrayList();
         for (Mesa mesa: mesas){
             if(mesa.estaDisponibleParaNuevoJugador()){
-                mesas.add(mesa);
+                mesasAbiertas.add(mesa);
             }
         }
-        return mesas;
+        return mesasAbiertas;
     }
 
 

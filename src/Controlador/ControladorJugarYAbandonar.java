@@ -49,13 +49,10 @@ public class ControladorJugarYAbandonar implements Observador {
     
     
     public void getDatosIniciales() {
-        String nombreJugador = jugador.getNombreCompleto();
-        vista.mostrarNombreJugador(nombreJugador);
-        int saldo = jugador.getSaldo();
-        vista.mostrarSaldoJugador();
+         List<Ronda> rondasParticipadas = Fachada.getInstancia().getRondasJugador(jugador);
+        jugador.getNombreCompleto();
+        jugador.getSaldo();
         Ronda rondaQueSeUne = mesa.getRondaActual();
-        List<Ronda> rondasParticipadas = Fachada.getInstancia().getRondasJugador(jugador);
-        vista.mostrarRondasParticipadas(rondasParticipadas);
     }
     
     public void numeroGanador(Ronda ronda){
@@ -65,14 +62,7 @@ public class ControladorJugarYAbandonar implements Observador {
 
       public void abandonarMesa() {
         mesa.eliminarJugador(jugador);
-        vista.actualizarVistaPostAbandono();
-        // Puedes disparar un evento para notificar que el jugador ha abandonado la mesa
     }
-      
-    /* public void mostrarTiposDeApuesta(int idMesa) {
-        Mesa mesa = Fachada.getInstancia().getMesaPorId(idMesa);
-        vista.mostrarTiposDeApuesta (mesa.getTiposApuesta());
-    }*/
       
 
     public TipoApuesta buscarTipoApuesta(int codigoCasillero) {

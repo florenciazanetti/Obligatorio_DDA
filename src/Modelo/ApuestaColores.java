@@ -21,7 +21,6 @@ public class ApuestaColores extends TipoApuesta{
     
     @Override
     public boolean esGanadora(int numeroGanador, int casillero) {
-        // Supongamos que tienes un método que determina el color del número
         String colorGanador = obtenerColor(numeroGanador);
         return ((colorGanador.equals("Rojo") && casillero == 43) ||
                 (colorGanador.equals("Negro") && casillero == 44));

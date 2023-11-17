@@ -27,7 +27,6 @@ public class ModoSimulador extends EfectoSorteo {
         numerosConApuestaDirecta.add(0); // Añadir el número cero
 
         if (numerosConApuestaDirecta.isEmpty()) {
-            // No hay apuestas directas; puedes decidir qué hacer en este caso
             return new Random().nextInt(37); // Número aleatorio entre 0 y 36
         }
 

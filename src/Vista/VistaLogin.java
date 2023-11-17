@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
 package Vista;
-
 import Modelo.Usuario;
 
 /**
@@ -11,7 +10,9 @@ import Modelo.Usuario;
  * @author sabrina
  */
 public interface VistaLogin {
-    public Usuario loginUsuario(String cedula, String password);
+    void ejecutarCasoInicial(Usuario u);
    
-   public void mostrarMensajeError(String mensaje);
+    void mostrarMensajeError(String mensaje);
+
+    void salir();
 }

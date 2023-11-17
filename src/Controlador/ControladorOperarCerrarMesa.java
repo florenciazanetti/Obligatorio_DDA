@@ -10,7 +10,6 @@ import Common.Observable;
 import Common.Observador;
 import Modelo.Crupier;
 import Modelo.Mesa;
-import Modelo.TipoApuesta;
 import java.util.ArrayList;
 import Modelo.Apuesta;
 import Modelo.EfectoSorteo;
@@ -25,8 +24,7 @@ import Modelo.ModoSimulador;
 import Modelo.Ronda;
 import Vista.VistaOperarCerrarMesa;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
  *
@@ -44,6 +42,7 @@ public class ControladorOperarCerrarMesa implements Observador {
         this.crupier = crupier;
         this.mesa = crupier.getMesa();
         this.vista = vista;  
+        mesa.agregar(this);
     }
     
     
@@ -56,15 +55,15 @@ public class ControladorOperarCerrarMesa implements Observador {
         this.vista.mostrarDatosMesa(balance, rondaId, numeroMesa, efectos);
                 }
 
-    public void cerrarMesa(int mesaId) {
+    public void cerrarMesa(int mesaId) throws MesaRuletaException {
         Fachada fachada = Fachada.getInstancia();
         Mesa mesaACerrar = fachada.getMesaPorId(mesaId);
         if (mesaACerrar != null && mesaACerrar.getEstado() == EstadoMesa.ACTIVA && mesaACerrar.estaBloqueada()) {
-            mesaACerrar.realizarLiquidacion();
             mesaACerrar.expulsarJugadores();
+            crupier.setConectado(false);
             mesa.cerrarMesa();
             mesaACerrar.setEstado(EstadoMesa.CERRADA);
-            fachada.logout(mesa.getCrupier());
+            //fachada.logout(mesa.getCrupier());
             //vista.notificarCierreMesa();
         } 
 }
@@ -73,8 +72,8 @@ public class ControladorOperarCerrarMesa implements Observador {
     /// Lanzar
         vista.pausarRuleta();
         mesa.bloquearApuestas(); // Bloquea nuevas apuestas
-        int numeroGanador = determinarNumeroGanador(efectoSorteoNombre, mesa); // Método para determinar el número ganador
-        vista.ultimoNumeroSorteado(numeroGanador); // Mostrar el número ganador en la vista
+        int numeroGanador = determinarNumeroGanador(efectoSorteoNombre, mesa); // determinar el número ganador
+        vista.ultimoNumeroSorteado(numeroGanador); // número ganador en la vista
         actualizarUltimosLanzamientos(numeroGanador); // Actualizar la lista de últimos lanzamientos
 
         // Pagar
@@ -83,44 +82,45 @@ public class ControladorOperarCerrarMesa implements Observador {
         mesa.desbloquearApuestas(); // Desbloquear la mesa para nuevas apuestas
 //        vista.ocultarNumeroSorteado(); // Ocultar el último número ganador en la vista
         actualizarListaRondas(numeroGanador); // Actualizar la lista de rondas
-
-        // Preparación para la siguiente ronda
         mesa.prepararParaNuevaRonda();
         vista.reanudarRuleta();
 }
     boolean pagar = true;
-    public int determinarNumeroGanador(String efectoSorteoNombre, Mesa mesa) {
-        EfectoSorteo efectoSorteo;
-        if (pagar){
+  public int determinarNumeroGanador(String efectoSorteoNombre, Mesa mesa) {
+    EfectoSorteo efectoSorteo;
+    int numGanador = -1; // Inicializa con un valor por defecto
+
+    if (pagar) {
         switch (efectoSorteoNombre) {
             case "Aleatorio Completo":
                 efectoSorteo = new ModoAleatorioCompleto(efectoSorteoNombre);
-                int numGanador = efectoSorteo.realizarSorteo(ronda);
+                numGanador = efectoSorteo.realizarSorteo(ronda);
                 break;
             case "Aleatorio Parcial":
                 efectoSorteo = new ModoAleatorioParcial(efectoSorteoNombre);
+                numGanador = efectoSorteo.realizarSorteo(ronda);
                 break;
             case "Simulador":
                 efectoSorteo = new ModoSimulador(efectoSorteoNombre);
+                numGanador = efectoSorteo.realizarSorteo(ronda);
                 break;
             default:
                 throw new IllegalArgumentException("Efecto de sorteo desconocido: " + efectoSorteoNombre);
         }
-        return efectoSorteo.realizarSorteo(ronda);
-        } else {
-            ronda = new Ronda();
-            mesa.agregarRonda(ronda);
-            vista.reanudarRuleta();
-        }
+        return numGanador;
+    } else {
+        ronda = new Ronda();
+        mesa.agregarRonda(ronda);
+        vista.reanudarRuleta();
+        return -1;
     }
+}
     
     private void recogerApuestasPerdedoras(int numeroGanador) {
-    // Obtener las apuestas de la ronda actual
         ArrayList<Apuesta> apuestas = mesa.getApuestas();
-
         // Itera sobre las apuestas y determinar cuáles son perdedoras
         for (Apuesta apuesta : apuestas) {
-            if (!apuesta.esGanadora(numeroGanador)) { // asumiendo que la apuesta sabe si es ganadora
+            if (!apuesta.esGanadora(numeroGanador)) { 
                 mesa.retirarApuesta(apuesta); // Actualiza el balance de la mesa
             }
         }
@@ -145,7 +145,6 @@ public class ControladorOperarCerrarMesa implements Observador {
     
     private void actualizarUltimosLanzamientos(int numeroGanador) {
         List<Integer> ultimosLanzamientos = mesa.getUltimosLanzamientos();
-
         // Agregar el nuevo número ganador al inicio de la lista
         ultimosLanzamientos.add(0, numeroGanador);
         vista.mostrarListaUltimosLanzamientos(ultimosLanzamientos);

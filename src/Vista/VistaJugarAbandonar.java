@@ -19,14 +19,13 @@ import java.util.List;
 public interface VistaJugarAbandonar {
     
      void mostrarTiposDeApuesta(ArrayList<TipoApuesta> listarTiposApuestaSeleccionados);
-    
-     void mostrarSaldoJugador();
-    
-     void mostrarNombreJugador(String jugador);
-    
-     void mostrarRondasParticipadas(List <Ronda> rondasParticipadas);
+         
+     void mostrarDatosRonda(Ronda ronda);
+        
 
      void mostrarMensajeError(String mensaje);
+
+     void mostrarInfoParaTabla(ArrayList<Ronda> rondasQueParticipoJugador);
 
      void mostrarNumeroSorteado(int numeroGanador);
 }

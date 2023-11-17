@@ -144,9 +144,7 @@ public class Mesa extends Observable{
   //----------------------------------------//
     public void iniciarMesa() {
         if (!this.tiposApuesta.isEmpty()) {
-            // Lógica para iniciar la mesa
             this.estadoMesa = EstadoMesa.ACTIVA;
-            // Otros procesos de inicialización...
         }
     }
     
@@ -178,13 +176,6 @@ public class Mesa extends Observable{
         return ultimosNumeros;
     }
 
-    //Calcula y distribuye los pagos a los jugadores según el resultado del sorteo
-    public void liquidarRonda(int numeroGanador) {
-        if (rondaActual != null) {
-            rondaActual.procesarSorteo(numeroGanador);
-            actualizarBalancePostRonda();
-        }
-    }
     
     //marca el fin de una ronda de apuestas y prepara la mesa para la siguiente ronda  
     public void finalizarRonda(int numeroSorteado) {
@@ -192,7 +183,7 @@ public class Mesa extends Observable{
         if (rondaActual != null) {
             rondaActual.setNumeroGanador(numeroSorteado);
             rondas.add(rondaActual); // Añade la ronda actual al historial
-            iniciarNuevaRonda(); // Método que inicia una nueva ronda
+            iniciarNuevaRonda(); // inicia una nueva ronda
         }
 
         // Cambiar estadoMesa según la presencia de jugadores
@@ -201,6 +192,7 @@ public class Mesa extends Observable{
         } else {
             setEstado(EstadoMesa.INACTIVA);
         }
+        avisar(Eventos.LIQUIDACION);
 }
 
     
@@ -213,7 +205,7 @@ public class Mesa extends Observable{
         
     }
 
-    public void actualizarBalancePostRonda() {
+    public int actualizarBalancePostRonda() {
         rondaActual = getRondaActual();
         if (rondaActual != null) {
             // Obtener los montos ganados y perdidos de la ronda actual.
@@ -222,6 +214,7 @@ public class Mesa extends Observable{
             // Actualizar el balance de la mesa.
             this.balance += (montoTotalPerdido - montoTotalGanado);
         }
+        return this.balance;
 }
 
   
@@ -269,16 +262,6 @@ public class Mesa extends Observable{
         return rondaActual.getCantidadApuestas();
     }
 
-    public int lanzarBola() {
-        Random random = new Random();
-        int numeroGanador = random.nextInt(37); // Genera un número entre 0 y 36
-        if (rondaActual != null) {
-            rondaActual.setNumeroGanador(numeroGanador);
-            // Aquí podrías avisar a los observadores sobre el nuevo número ganador
-            avisar(Eventos.SORTEO_REALIZADO);
-        }
-        return numeroGanador;
-    }
     
     public void bloquearMesa() {
         this.estadoMesa = EstadoMesa.BLOQUEADA;
@@ -313,19 +296,13 @@ public class Mesa extends Observable{
     }
     avisar(Eventos.RECOLECCION);
 }
+    
    public void pagarApuestasGanadoras() {
         if (rondaActual != null) {
             rondaActual.pagarGanadoras();
         }
 }
 
-
-    public void realizarLiquidacion() {
-         if (rondaActual != null) {
-            rondaActual.liquidarRonda();
-        }
-         avisar(Eventos.LIQUIDACION);
-    }
 
     public void expulsarJugadores() {
          jugadores.clear(); // Elimina todos los jugadores de la lista
@@ -337,7 +314,7 @@ public class Mesa extends Observable{
     }
 
     public void retirarApuesta(Apuesta apuesta) {
-         this.balance += apuesta.getMontoApostado(); // Asumiendo que getMonto devuelve el monto apostado
+         this.balance += apuesta.getMontoApostado(); 
          // Eliminar la apuesta de la lista de apuestas actuales
         this.apuestas.remove(apuesta);
     }
@@ -346,7 +323,6 @@ public class Mesa extends Observable{
         if (!disponible) {
             return false;
         }
-        // Verifica el estado de la mesa
         if (estadoMesa == EstadoMesa.BLOQUEADA || estadoMesa == EstadoMesa.CERRADA) {
             return false;
         }

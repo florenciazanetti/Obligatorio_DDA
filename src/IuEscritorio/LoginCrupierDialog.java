@@ -7,35 +7,36 @@ package IuEscritorio;
 import Modelo.AccesoException;
 import Modelo.Crupier;
 import Modelo.Fachada;
+import Modelo.MesaRuletaException;
 import Modelo.Usuario;
 import java.awt.Frame;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author sabrina
  */
-public class LoginCrupierDialog extends LoginDialog {
+public class LoginCrupierDialog extends LoginGenericoDialog {
     
     public LoginCrupierDialog(Frame parent, boolean modal) {
         super(parent, modal);
-        this.setTitle("aplicacion para Crupiers");
+        this.setTitle("Aplicacion para Crupiers");
     }
 
     @Override
-    protected Usuario loginUsuario(String cedula, String password) {
-        try {
-            return Fachada.getInstancia().loginCrupier(cedula, password);
-        } catch (AccesoException ex) {
-            Logger.getLogger(LoginCrupierDialog.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+    public void ejecutarCasoInicial(Usuario u) {
+       new IniciarMesaDialog((java.awt.Frame) this.getParent(), false, (Crupier) u).setVisible(true);
     }
 
     @Override
-    protected void ejecutarCasoUsoInicial(Usuario usuario) {
-        new IniciarMesaDialog((java.awt.Frame) this.getParent(), false, (Crupier) usuario).setVisible(true);
+    public void mostrarMensajeError(String mensaje) {
+       JOptionPane.showMessageDialog(this, mensaje, "No se puede realizar login", JOptionPane.ERROR_MESSAGE);        
     }
-    
+
+    @Override
+    public void salir() {
+        this.dispose();
+    }    
 }

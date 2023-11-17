@@ -99,20 +99,6 @@ public class Ronda extends Observable {
             avisar(Eventos.NUEVA_APUESTA);
     }
 
-    public void procesarSorteo(int numeroGanador) {
-         montoTotalGanado = 0;
-        montoTotalPerdido = 0;
-
-        for (Apuesta apuesta : apuestas) {
-            if (apuesta.esGanadora(numeroGanador)) {
-                int montoGanado = apuesta.calcularMontoGanado();
-                montoTotalGanado += montoGanado;
-            } else {
-                montoTotalPerdido += apuesta.getMontoApostado();
-            }
-        }
-         balancePosterior = balanceAnterior + (montoTotalPerdido - montoTotalGanado);
-    }
     
     public int getMontoTotalPerdido() {
         return montoTotalPerdido;
@@ -150,23 +136,24 @@ public class Ronda extends Observable {
         }
 }
 
-
-    public void liquidarRonda() {
-        int montoTotalGanado = 0;
-        int montoTotalPerdido = 0;
+    public void procesarYLiquidarSorteo(int numeroGanador) {
+        montoTotalGanado = 0;
+        montoTotalPerdido = 0;
 
         for (Apuesta apuesta : apuestas) {
             if (apuesta.esGanadora(numeroGanador)) {
-                montoTotalGanado += apuesta.calcularMontoGanado();
+                int montoGanado = apuesta.calcularMontoGanado();
+                montoTotalGanado += montoGanado;
+                apuesta.getJugador().actualizarSaldo(montoGanado); // Actualiza el saldo del jugador si la apuesta es ganadora
             } else {
                 montoTotalPerdido += apuesta.getMontoApostado();
             }
-        }
+    }
+    balancePosterior = balanceAnterior + (montoTotalPerdido - montoTotalGanado);
+    montoTotalPagado = montoTotalGanado;
 
-        // Aquí actualizas los montos relevantes
-        montoTotalPagado = montoTotalGanado;
-    // Puedes agregar más lógica si es necesario
-}
+    }
+    
 
     public void pagarGanadoras() {
         for (Apuesta apuesta : apuestas) {

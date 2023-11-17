@@ -30,6 +30,15 @@ public abstract class TipoApuesta {
         this.nombre = nombre;
     }
 
+    public String getNombreCodigo() {
+        return nombreCodigo;
+    }
+
+    public void setNombreCodigo(String nombreCodigo) {
+        this.nombreCodigo = nombreCodigo;
+    }
+
+    
 
     public int getCasillero() {
         return casillero;

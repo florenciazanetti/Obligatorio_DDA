@@ -9,6 +9,7 @@ import Vista.VistaIniciarMesa;
 import Controlador.ControladorIniciarMesa;
 import java.util.ArrayList;
 import Modelo.Crupier;
+import Modelo.Fachada;
 import Modelo.Mesa;
 import Modelo.MesaRuletaException;
 import Modelo.TipoApuesta;
@@ -16,6 +17,7 @@ import Modelo.Usuario;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 /**
  *
@@ -25,6 +27,7 @@ import javax.swing.table.DefaultTableModel;
     
     private ControladorIniciarMesa controlador;
     private Mesa mesa;
+    private Crupier crupier;
     private DefaultTableModel modeloTabla;
 
     public IniciarMesaDialog(java.awt.Frame parent, boolean modal, Crupier crupier) {
@@ -33,75 +36,15 @@ import javax.swing.table.DefaultTableModel;
         controlador = new ControladorIniciarMesa(crupier, this);
         setTitle("Aplicación Crupier - Iniciar Mesa");
         setLocationRelativeTo(null);
-      JTable listaTablaTipoApuestas = new JTable();
+        controlador.mostrarListadoTipoApuestas();
 
-
-        // Crear un modelo de tabla personalizado
-        modeloTabla = new DefaultTableModel(new Object[]{"Tipo de Apuesta", "Seleccionado"}, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                // Hacer que la celda de "Apuesta Directa" no sea editable
-                if (column == 1 && getValueAt(row, 0).equals("Apuesta Directa")) {
-                    return false;
-                }
-                return super.isCellEditable(row, column);
-            }
-        };
-        listaTablaTipoApuestas.setModel(modeloTabla);
     }
-
-
-
-// En tu método para iniciar la mesa
-    private void iniciarMesa() {
-        Map<String, TipoApuesta> nombreATipoMap = new HashMap<>();
-        ArrayList<TipoApuesta> tiposSeleccionados = new ArrayList<>();
-        for (int i = 0; i < modeloTabla.getRowCount(); i++) {
-            if ((Boolean) modeloTabla.getValueAt(i, 1)) {
-                String nombreTipoApuesta = (String) modeloTabla.getValueAt(i, 0);
-                TipoApuesta tipo = nombreATipoMap.get(nombreTipoApuesta);
-                if (tipo != null) {
-                    tiposSeleccionados.add(tipo);
-                }
-            }
-        }
-        controlador.iniciarMesaConSeleccion(tiposSeleccionados);
-}
-    
-    @Override
-    public ArrayList<TipoApuesta> obtenerTiposApuestaSeleccionados() {
-        ArrayList<TipoApuesta> tiposSeleccionados = new ArrayList<>();
-        for (int i = 0; i < modeloTabla.getRowCount(); i++) {
-            if ((Boolean) modeloTabla.getValueAt(i, 1)) {
-                String nombreTipoApuesta = (String) modeloTabla.getValueAt(i, 0);
-                TipoApuesta tipo = controlador.getTipoApuestaPorNombre(nombreTipoApuesta);
-                if (tipo != null) {
-                    tiposSeleccionados.add(tipo);
-                }
-            }
-        }
-        return tiposSeleccionados;
-}
-
 
     @Override
     public void cerrarVentana() {
+        controlador.cerrarVentana();
         setVisible(false);
         dispose();
-    }
-
-    @Override
-    public void cerrarPantallaConfiguracion() {
-        setVisible(false);
-        dispose();
-        // Otras acciones necesarias para cerrar la configuración
-    }
-
-    @Override
-    public void volverALaPantallaDeLogin() {
-        setVisible(false);
-        dispose();
-        // Implementar la lógica para volver al login
     }
 
     @Override
@@ -109,25 +52,47 @@ import javax.swing.table.DefaultTableModel;
         JOptionPane.showMessageDialog(this, mensaje);
     }
 
-    private void cancel() {
-        controlador.volverALaPantallaDeLogin();
-    }
 
     @Override
     public void ejecutarSiguienteCasoUso(Crupier crupier, TipoApuesta[] tiposApuesta, Mesa mesa) {
-       new OperarCerrar(crupier, tiposApuesta, mesa).setVisible(true);
+       new OperarCerrarPanelCrupier(crupier, tiposApuesta, mesa).setVisible(true);
+    }
+    
+      private void iniciarMesa() {
+        int[] selectedRows = listaTablaTipoApuestas.getSelectedRows();
+        TipoApuesta[] tiposApuesta = new TipoApuesta[selectedRows.length];
+
+        for (int row = 0; row < selectedRows.length; row++) {
+            tiposApuesta[row] = (TipoApuesta) listaTablaTipoApuestas.getValueAt(selectedRows[row], 0);
+        }
+       ejecutarSiguienteCasoUso(crupier, tiposApuesta,  mesa);
+        dispose();
+        
 
     }
     
     @Override
-    public void mostrarTiposDeApuestas(ArrayList<TipoApuesta> tiposApuestas, String apuestaDirecta) {
-        modeloTabla.setRowCount(0); // Limpiar la tabla antes de añadir nuevos datos
-        for (TipoApuesta tipo : tiposApuestas) {
-            boolean seleccionado = tipo.getNombre().equals(apuestaDirecta); // Seleccionar siempre "Apuesta Directa"
-            modeloTabla.addRow(new Object[]{tipo.getNombre(), seleccionado});
+    public void mostrarTiposDeApuestas(ArrayList<TipoApuesta> tiposApuestas) {
+       ArrayList<TipoApuesta> tiposApuesta = Fachada.getInstancia().getTiposApuesta();
+        DefaultTableModel modeloDefault = new DefaultTableModel();
+
+        for (TipoApuesta tipo : tiposApuesta) {
+            modeloDefault.addRow(new Object[]{tipo, tipo.getCasillero(), tipo.getNombreCodigo()});
         }
-    // Opcional: Hacer que la fila de "Apuesta Directa" sea no editable si lo deseas
+        listaTablaTipoApuestas.setModel(modeloDefault);
+         renderTablaTipoApuesta();
 }
+    
+      private void renderTablaTipoApuesta() {
+        listaTablaTipoApuestas.getColumnModel().getColumn(0).setCellRenderer(new DefaultTableCellRenderer() {
+            @Override
+            public void setValue(Object value) {
+                String nombre = ((TipoApuesta) value).getNombre();
+                setText(nombre);
+            }
+        }
+        );
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -195,20 +160,20 @@ import javax.swing.table.DefaultTableModel;
                         .addGap(188, 188, 188)
                         .addComponent(btnIniciarMesa1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(83, 83, 83)
+                        .addGap(78, 78, 78)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(120, Short.MAX_VALUE))
+                .addContainerGap(125, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(67, 67, 67)
+                .addGap(28, 28, 28)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(34, 34, 34)
                 .addComponent(btnIniciarMesa1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(282, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         pack();
@@ -229,6 +194,7 @@ import javax.swing.table.DefaultTableModel;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable listaTablaTipoApuestas;
     // End of variables declaration//GEN-END:variables
+
 
 
 

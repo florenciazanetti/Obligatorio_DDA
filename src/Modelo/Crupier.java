@@ -12,6 +12,7 @@ import java.util.ArrayList;
  */
 public class Crupier extends Usuario {
     private Mesa mesa;
+    private boolean conectado;
 
     public Crupier(String cedula, String password, String nombreCompleto) {
         super(cedula, password, nombreCompleto);
@@ -29,6 +30,14 @@ public class Crupier extends Usuario {
 
     public void setMesa(Mesa mesa) {
         this.mesa = mesa;
+    }
+    
+       public boolean isConectado() {
+        return conectado;
+    }
+
+    public void setConectado(boolean conectado) {
+        this.conectado = conectado;
     }
        
        

@@ -22,7 +22,7 @@ public class Jugador extends Usuario {
     private Ronda rondaActual;
     private ArrayList<Apuesta> apuestas;
     private ArrayList<Ronda> rondasPariticipadas;
-    private boolean estaConectado;
+    private boolean conectado;
      
     
     public Jugador(String cedula, String password, String nombreCompleto, int saldo){
@@ -72,14 +72,13 @@ public class Jugador extends Usuario {
         this.apuestas = apuestas;
     }
 
-    public void isEstaConectado(boolean estaConectado) {
-         this.estaConectado = estaConectado;
+    public boolean isConectado() {
+        return conectado;
     }
 
-    public void setEstaConectado(boolean estaConectado) {
-        this.estaConectado = estaConectado;
+    public void setConectado(boolean conectado) {
+        this.conectado = conectado;
     }
-    
     
       public ArrayList<Ronda> getRondasParticipadas() {
         return rondasPariticipadas;

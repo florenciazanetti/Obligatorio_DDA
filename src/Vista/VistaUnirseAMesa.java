@@ -15,4 +15,5 @@ public interface VistaUnirseAMesa {
     void mostrarMesasAbiertas(ArrayList<Mesa> mesasAbiertas);
     void mostrarMensajeError(String mensaje);
     void logOut();
+    
 }

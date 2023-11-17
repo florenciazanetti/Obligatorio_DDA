@@ -24,23 +24,13 @@ public class ControladorUnirseAMesa implements Observador {
         this.vista = vista;
         this.fachada = fachada;
         this.jugador = jugador;
-        fachada.agregar(this);
     }
  
     
     public void logOut(){
         Fachada.getInstancia().logout(jugador);
+        jugador.setConectado(false);
         vista.logOut();
-    }
-    
-     public void unirseAMesa(Mesa mesa, Jugador jugador) {
-        try {
-            Fachada.getInstancia().agregarJugadorAUnaMesa(jugador, mesa);
-            // Lanza el caso de uso "Jugar"
-            //iniciarJuego(mesa);
-        } catch (MesaRuletaException e) {
-            vista.mostrarMensajeError(e.getMessage());
-        }
     }
     
     
@@ -49,26 +39,23 @@ public class ControladorUnirseAMesa implements Observador {
         vista.mostrarMesasAbiertas(mesasAbiertas);
     }
 
-    
-    /*private void iniciarJuego(Mesa mesa) {
-    // Verificar si la mesa está en un estado que permita comenzar un nuevo juego
-    if (mesa.puedeIniciarRonda()) {
-        // Preparar la mesa para una nueva ronda
-        mesa.prepararParaNuevaRonda();
-
-        // Habilitar apuestas
-        mesa.habilitarApuestas();
-*/
-
-    public ArrayList<Mesa> getMesasDisponibles() {
-        return fachada.getMesasAbiertas();
-    }
 
     @Override
     public void actualizar(Observable origen, Object evento) {
         if (Eventos.MESA_AGREGADA.equals(evento) || Eventos.MESA_INICIADA.equals(evento)) {
             vista.mostrarMesasAbiertas(Fachada.getInstancia().getMesasAbiertas());
         }
+    }
+
+    public boolean unirJugadorAMesa(Mesa mesaSeleccionada, Jugador jugador) {
+        boolean puedeUnirse;
+        try {
+            puedeUnirse = Fachada.getInstancia().agregarJugadorAUnaMesa(jugador,mesaSeleccionada);
+            return true;
+        } catch(MesaRuletaException e) {
+            this.vista.mostrarMensajeError(e.getMessage());
+        }
+        return false;
     }
 }
 

@@ -50,32 +50,26 @@ public class SistemaAcceso {
         return usuariosConectados.contains(u);
     }
     
-    
-    public Crupier loginCroupier(String cedula, String password) throws AccesoException{
-        Usuario u = login(cedula, password, croupiers);
-        if(croupierYaConectado(u) == true){
-            throw new AccesoException("Acceso denegado. El usuario ya tiene una sesión activa");
-        }
-        usuariosConectados.add(u);
-        return (Crupier)u;
-    }
-    
     public Jugador loginJugador(String cedula, String password) throws AccesoException{
-        Usuario u = login(cedula, password, jugadores);
-        if(jugadorYaConectado(u) == true){
-            throw new AccesoException("Acceso denegado. El usuario ya tiene una sesión activa");
+        for (Jugador jugador : jugadores) {
+            if(jugadorYaConectado(jugador) == true){
+                throw new AccesoException("Acceso denegado. El usuario ya tiene una sesión activa");
+            }
+            jugador.setConectado(true);
+            usuariosConectados.add(jugador);
+            return jugador;
         }
-        usuariosConectados.add(u);
-        return (Jugador)u;
+        return null;
     }
     
-    private Usuario login(String cedula,String password,ArrayList usuarios){
-        Usuario u;
-        for(Object o:usuarios){
-            u = (Usuario)o;
-            if(u.getCedula().equals(cedula) && u.getPassword().equals(password)){
-                return u;
+    public Crupier loginCrupier(String cedula,String password){
+         for(Crupier crupier : croupiers){
+            if(crupier.getCedula().equals(cedula) && crupier.getPassword().equals(password)){
+                return crupier;
             }
+            crupier.setConectado(true);
+            usuariosConectados.add(crupier);
+            return crupier;
         }
         return null;
     } 

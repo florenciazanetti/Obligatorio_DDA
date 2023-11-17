@@ -27,9 +27,7 @@ public class SistemaCrupier {
         return crupieres;
     }
     
-    // Método para obtener un crupier específico por ID o algún otro identificador
     public Crupier getCrupierById(int id) {
-        // Aquí puedes agregar la lógica para buscar un crupier por su ID
         return null;
     }
 

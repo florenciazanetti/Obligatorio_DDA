@@ -4,37 +4,35 @@
  */
 package IuEscritorio;
 
-import Modelo.AccesoException;
-import Modelo.Fachada;
+import Controlador.ControladorLoginJugador;
 import Modelo.Jugador;
 import Modelo.Usuario;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.awt.Frame;
+import javax.swing.JOptionPane;
 /**
  *
  * @author sabrina
  */
-public class LoginJugadorDialog extends LoginDialog{
+public class LoginJugadorDialog extends LoginGenericoDialog {
 
     public LoginJugadorDialog(Frame parent, boolean modal) {
         super(parent, modal);
         this.setTitle("Aplicación para Jugadores");
+        super.usarControlador(new ControladorLoginJugador(this));
     }
 
     @Override
-    protected Usuario loginUsuario(String cedula, String password) {
-        try {
-            return Fachada.getInstancia().loginJugador(cedula, password );
-        } catch (AccesoException ex) {
-            Logger.getLogger(LoginJugadorDialog.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+    public void ejecutarCasoInicial(Usuario u) {
+        new UnirseAMesaDialog((java.awt.Frame) this.getParent(), false, (Jugador) u).setVisible(true);
     }
 
     @Override
-    protected void ejecutarCasoUsoInicial(Usuario usuario) {
-        new UnirseAMesaDialog((java.awt.Frame) this.getParent(),false,(Jugador) usuario).setVisible(true);
+    public void mostrarMensajeError(String mensaje) {
+        JOptionPane.showMessageDialog(this, mensaje, "No se puede realizar el login", JOptionPane.ERROR_MESSAGE);        
     }
-    
+
+    @Override
+    public void salir() {
+        this.dispose();
+    } 
 }

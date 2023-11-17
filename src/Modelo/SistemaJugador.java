@@ -27,12 +27,6 @@ public class SistemaJugador {
         return jugadores;
     }
     
-    // Método para obtener un jugador específico por ID o algún otro identificador
-    public Jugador getJugadorById(int id) {
-        // Aquí puedes agregar la lógica para buscar un jugador por su ID
-        return null;
-    }
-    
     public ArrayList<Jugador> getJugadores() {
         return jugadores;
     }
